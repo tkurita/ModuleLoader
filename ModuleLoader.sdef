@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="ModuleLoader Terminology">
+	<suite name="ModuleLoader Suite" code="Molo" description="loding script module">
+		<command name="load module" code="MololoMo" description="load module">
+			<direct-parameter description="URL" type="text"/>
+			<parameter name="in directory" code="inDr" description="specify script module location" type="file" optional="yes"/>
+			<result description="script object" type="any"/>
+		</command>
+		<command name="add module path" code="MoloadMp" description="add module path">
+			<direct-parameter description="the directory including script modules" type="file"/>
+			<result description="if success return true" type="boolean"/>
+		</command>
+		<command name="module paths" code="MologtPH" description="list module pathes">
+			<result description="list of directory">
+				<type type="file" list="yes"/>
+			</result>
+		</command>
+		<command name="find module" code="MolofdMo" description="find module">
+			<direct-parameter description="A module name" type="text"/>
+			<result type="file"/>
+		</command>
+	</suite>
+</dictionary>
