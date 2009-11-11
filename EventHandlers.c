@@ -5,27 +5,28 @@
 
 
 static ComponentInstance scriptingComponent = NULL;
+static OSAID LOADER_ID = kOSANullScript;
 
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err;
-	if (!scriptingComponent)
-		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
-	CFBundleRef	bundle = CFBundleGetBundleWithIdentifier( CFSTR("Scriptfactory.ModuleLoaderOSAX") );
-	CFURLRef loader_url = CFBundleCopyResourceURL(bundle, CFSTR("loader"), CFSTR("scpt"), CFSTR("Scripts"));
-	FSRef loader_ref;
-	CFURLGetFSRef(loader_url, &loader_ref);
-	CFRelease(loader_url);
-	OSAID script_id;
-	err = OSALoadFile(scriptingComponent, &loader_ref, NULL, kOSAModeNull, &script_id);
-	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
-		goto bail;
+	if (LOADER_ID == kOSANullScript) {
+		if (!scriptingComponent)
+			scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+		CFBundleRef	bundle = CFBundleGetBundleWithIdentifier( CFSTR("Scriptfactory.ModuleLoaderOSAX") );
+		CFURLRef loader_url = CFBundleCopyResourceURL(bundle, CFSTR("loader"), CFSTR("scpt"), CFSTR("Scripts"));
+		FSRef loader_ref;
+		CFURLGetFSRef(loader_url, &loader_ref);
+		CFRelease(loader_url);
+		err = OSALoadFile(scriptingComponent, &loader_ref, NULL, kOSAModeNull, &LOADER_ID);
+		if (err != noErr) {
+			putStringToEvent(reply, keyErrorString, 
+							 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+			goto bail;
+		}
 	}
-	
 	AEDesc result;
-	err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &result);
+	err = OSACoerceToDesc(scriptingComponent, LOADER_ID, typeWildCard,kOSAModeNull, &result);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);

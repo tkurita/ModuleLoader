@@ -140,6 +140,10 @@ on require(a_name)
 	end if
 end require
 
+on load module a_name
+	return load(a_name)
+end load module
+
 on load(a_name)
 	do_log("start load for " & quoted form of a_name)
 	if a_name is in {":", "", "/", "."} then
@@ -154,7 +158,7 @@ on load(a_name)
 	if has_exported then
 		return a_script
 	end if
-	
+	(*
 	try
 		set a_path to find_module(a_name)
 	on error errmsg number errnum
@@ -164,7 +168,8 @@ on load(a_name)
 			error errmsg number errnum
 		end if
 	end try
-	
+	*)
+	set a_path to find module a_name
 	try
 		set a_script to my _setuped_scripts's value_for_key(a_path)
 		set no_setuped to false
@@ -173,7 +178,8 @@ on load(a_name)
 	end try
 	if no_setuped then
 		do_log("did not hit in script chache")
-		set a_script to load script (POSIX file a_path)
+		--set a_script to load script (POSIX file a_path)
+		set a_script to load script a_path
 		my _setuped_scripts's set_value(a_path, a_script)
 		my _exported_modules's set_value(a_name, a_script)
 		if not my _loadonly then
@@ -188,10 +194,12 @@ end load
 
 on set_autocollect(a_flag)
 	set my _autocollect to a_flag
+	return me
 end set_autocollect
 
 on set_loadonly(a_flat)
 	set my _loadonly to a_flag
+	return me
 end set_loadonly
 
 on set_logging(a_flag, loader_name)
@@ -200,6 +208,8 @@ on set_logging(a_flag, loader_name)
 	else
 		set my _logger to missing value
 	end if
+	
+	return a reference to me
 end set_logging
 
 on debug {}

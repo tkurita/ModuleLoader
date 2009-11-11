@@ -32,6 +32,8 @@
 			<string>findModuleHandler</string>
 			<key>MololoMo</key>
 			<string>loadModuleHandler</string>
+			<key>MoloMKlo</key>
+			<string>makeLoaderHandler</string>
 		</dict>
 	</dict>
 </dict>
