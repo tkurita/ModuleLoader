@@ -3,11 +3,21 @@
 
 #define useLog 1
 
-extern const int kEventHandlerCount;
-extern AEEventHandlerInfo gEventInfo[];
-
 UInt32			gAdditionReferenceCount = 0;
 CFBundleRef		gAdditionBundle;
+
+
+struct AEEventHandlerInfo {
+	FourCharCode			evClass, evID;
+	AEEventHandlerProcPtr	proc;
+};
+
+typedef struct AEEventHandlerInfo AEEventHandlerInfo;
+
+#define kModuleLoaderSuite  'Molo'
+#define kLoadModuleEvent	'loMo'
+#define kFindModuleEvent 'fdMo'
+#define kMakeLoaderEvent 'MKlo'
 
 static AEEventHandlerUPP *gEventUPPs;
 
@@ -16,6 +26,20 @@ static AEEventHandlerUPP *gEventUPPs;
 
 static OSErr InstallMyEventHandlers();
 static void RemoveMyEventHandlers();
+
+const AEEventHandlerInfo gEventInfo[] = {
+{ kModuleLoaderSuite, kLoadModuleEvent, loadModuleHandler },
+{ kModuleLoaderSuite, kFindModuleEvent, findModuleHandler},
+{ kModuleLoaderSuite, kMakeLoaderEvent, makeLoaderHandler}
+// Add more suite/event/handler triplets here if you define more than one command.
+};
+
+const int kEventHandlerCount = (sizeof(gEventInfo) / sizeof(AEEventHandlerInfo));
+
+int countEventHandlers()
+{
+	return sizeof(gEventInfo)/sizeof(AEEventHandlerInfo);
+}
 
 OSErr SAInitialize(CFBundleRef theBundle)
 {

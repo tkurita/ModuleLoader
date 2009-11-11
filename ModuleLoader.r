@@ -39,8 +39,8 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				singleItem, notEnumerated, Reserved13
 			},
 
-			"add module path",
-			"add module path",
+			"set additional module pathes",
+			"prepend module search pathes to default pathes",
 			'Molo', 'adMp',
 			'bool',
 			"if success return true",
@@ -53,7 +53,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 
 			},
 
-			"module paths",
+			"module pathes",
 			"list module pathes",
 			'Molo', 'gtPH',
 			'file',
@@ -74,6 +74,17 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			"A module name",
 			directParamRequired,
 			singleItem, notEnumerated, Reserved13,
+			{
+
+			},
+
+			"make loader",
+			"Obtain a loader script",
+			'Molo', 'MKlo',
+			'****',
+			"",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			dp_none__,
 			{
 
 			}

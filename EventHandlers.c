@@ -3,17 +3,37 @@
 #include "findModule.h"
 #include "ModuleCache.h"
 
-const AEEventHandlerInfo gEventInfo[] = {
-{ kModuleLoaderSuite, kLoadModuleEvent, loadModuleHandler },
-{ kModuleLoaderSuite, kFindModuleEvent, findModuleHandler}
-// Add more suite/event/handler triplets here if you define more than one command.
-};
 
-const int kEventHandlerCount = (sizeof(gEventInfo) / sizeof(AEEventHandlerInfo));
+static ComponentInstance scriptingComponent = NULL;
 
-int countEventHandlers()
+OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
-	return sizeof(gEventInfo)/sizeof(AEEventHandlerInfo);
+	OSErr err;
+	if (!scriptingComponent)
+		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+	CFBundleRef	bundle = CFBundleGetBundleWithIdentifier( CFSTR("Scriptfactory.ModuleLoaderOSAX") );
+	CFURLRef loader_url = CFBundleCopyResourceURL(bundle, CFSTR("loader"), CFSTR("scpt"), CFSTR("Scripts"));
+	FSRef loader_ref;
+	CFURLGetFSRef(loader_url, &loader_ref);
+	CFRelease(loader_url);
+	OSAID script_id;
+	err = OSALoadFile(scriptingComponent, &loader_ref, NULL, kOSAModeNull, &script_id);
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	
+	AEDesc result;
+	err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &result);
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	err = AEPutParamDesc(reply, keyAEResult, &result);
+bail:
+	return err;
 }
 
 OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
@@ -39,8 +59,6 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 bail:
 	return err;
 }
-
-static ComponentInstance scriptingComponent = NULL;
 
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
