@@ -1,16 +1,7 @@
 #include "findModule.h"
+#include "AEUtils.h"
 
 #define useLog 1
-
-#pragma mark for debug
-
-
-void safeRelease(CFTypeRef theObj)
-{
-	if (theObj != NULL) {
-		CFRelease(theObj);
-	}
-}
 
 Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 {
@@ -55,6 +46,7 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 	FSCatalogInfo cat_info;
 	ItemCount ict;
 	FSRef fsref;
+	
 	err = FSOpenIterator(container_ref, kFSIterateFlat, &itor);
 	if (err != noErr) {
 		fprintf(stderr, "Failed to FSOpenIterator with error : %d\n", err);
@@ -101,7 +93,7 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 		urlref = CFURLCreateFromFSRef(NULL, &fsref);
 		basename = CFURLCopyLastPathComponent(
 									CFURLCreateCopyDeletingPathExtension(NULL, urlref));
-		
+		CFShow(urlref);
 		if (kCFCompareEqualTo == CFStringCompare(basename, module_name, kCFCompareCaseInsensitive)) {
 			*outRef = fsref;
 			goto found;
@@ -116,14 +108,20 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 		CFRelease(basename); basename = NULL;
 	}
 	
-	if (!searchSubFolders) goto bail;
+	if (!searchSubFolders) {
+		err = kModuleIsNotFound;
+		goto bail;
+	}
 	
 	for (int n =0; n < CFArrayGetCount(folder_array); n++) {
 		CFDataRef data = CFArrayGetValueAtIndex(folder_array, n);
 		FSRef *dir_ref = (FSRef *)CFDataGetBytePtr(data);
 		err = scanFolder(dir_ref, module_name, outRef, searchSubFolders);
-		if (FSIsFSRefValid(outRef)) goto bail;
+		if ((err != noErr) && FSIsFSRefValid(outRef)) goto bail;
 	}
+	
+	err = kModuleIsNotFound;
+	goto bail;
 found:
 	safeRelease(urlref);
 	safeRelease(basename);
@@ -172,7 +170,7 @@ OSErr findModuleWithSubPath(FSRef *container_ref, CFTypeRef path_components, FSR
 	if (is_exists) {
 		return scanFolder(container_ref, CFArrayGetValueAtIndex(path_comps, n), module_ref ,false);
 	}
-	return noErr;
+	return kModuleIsNotFound;
 }
 
 OSErr findModule(CFStringRef moduleName, FSRef *moduleRef)
@@ -194,13 +192,16 @@ OSErr findModule(CFStringRef moduleName, FSRef *moduleRef)
 	FSRef modules_folder;
 	int domains[3] = {kUserDomain, kLocalDomain, kNetworkDomain};
 	for (int n=0; n < 3; n++) {
-		err = FSFindFolder (domains[n], kScriptsFolderType, false, &scripts_folder);
+		err = FSFindFolder(domains[n], kScriptsFolderType, false, &scripts_folder);
 		if (noErr != err) continue;
 		err = FSMakeFSRefChild(&scripts_folder, CFSTR("Modules"), &modules_folder);
 		if (noErr != err) continue;
 		err = findModuleAtFolder(&modules_folder, module_spec, moduleRef);
-		if (FSIsFSRefValid(moduleRef)) {
+		//if ((err != noErr) && FSIsFSRefValid(moduleRef)) {
+		if (err == noErr) {
+#if useLog
 			fprintf(stderr, "Module Found\n");
+#endif
 			break;
 		}
 	}

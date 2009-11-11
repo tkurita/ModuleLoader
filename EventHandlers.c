@@ -1,4 +1,6 @@
 #include "EventHandlers.h"
+#include "AEUtils.h"
+#include "findModule.h"
 
 const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kLoadModuleEvent, loadModuleHandler },
@@ -8,72 +10,6 @@ const AEEventHandlerInfo gEventInfo[] = {
 
 const int kEventHandlerCount = (sizeof(gEventInfo) / sizeof(AEEventHandlerInfo));
 
-
-void showAEDesc(const AppleEvent *ev)
-{
-	Handle result;
-	OSStatus resultStatus;
-	resultStatus = AEPrintDescToHandle(ev,&result);
-	printf("%s\n",*result);
-	DisposeHandle(result);
-}
-
-OSErr getStringValue(const AppleEvent *ev, AEKeyword theKey, CFStringRef *outStr)
-{
-#if useLog
-	printf("start getStringValue\n");
-#endif
-	OSErr err;
-	DescType typeCode;
-	DescType returnedType;
-    Size actualSize;
-	Size dataSize;
-	CFStringEncoding encodeKey;
-	
-	err = AESizeOfParam(ev, theKey, &typeCode, &dataSize);
-	if (dataSize == 0) goto bail;
-	
-	switch (typeCode) {
-		case typeChar:
-			encodeKey = CFStringGetSystemEncoding();
-			break;
-		case typeUTF8Text:
-			encodeKey = kCFStringEncodingUTF8;
-			break;
-		default :
-			typeCode = typeUnicodeText;
-			encodeKey = kCFStringEncodingUnicode;
-	}
-	
-	UInt8 *dataPtr = malloc(dataSize);
-	err = AEGetParamPtr (ev, theKey, typeCode, &returnedType, dataPtr, dataSize, &actualSize);
-	if (actualSize > dataSize) {
-#if useLog
-		printf("buffere size is allocated. data:%i actual:%i\n", dataSize, actualSize);
-#endif	
-		dataSize = actualSize;
-		dataPtr = (UInt8 *)realloc(dataPtr, dataSize);
-		if (dataPtr == NULL) {
-			printf("fail to reallocate memory\n");
-			goto bail;
-		}
-		err = AEGetParamPtr (ev, theKey, typeCode, &returnedType, dataPtr, dataSize, &actualSize);
-	}
-	
-	if (err != noErr) {
-		free(dataPtr);
-		goto bail;
-	}
-	
-	*outStr = CFStringCreateWithBytes(NULL, dataPtr, dataSize, encodeKey, false);
-	free(dataPtr);
-bail:
-#if useLog		
-	printf("end getStringValue\n");
-#endif
-	return err;
-}
-
 int countEventHandlers()
 {
 	return sizeof(gEventInfo)/sizeof(AEEventHandlerInfo);
@@ -82,7 +18,25 @@ int countEventHandlers()
 OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err = noErr;
-	
+	CFStringRef module_name = NULL;
+	err = getStringValue(ev, keyDirectObject, &module_name);
+	if ((err != noErr) || (module_name == NULL)) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	FSRef module_ref;
+	err = findModule(module_name, &module_ref);
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("A module is not found."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	AliasHandle an_alias;
+	err = FSNewAlias(NULL, &module_ref, &an_alias);
+	err = putAliasToReply(an_alias, reply);
+bail:
+	return err;
 }
 
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
@@ -93,40 +47,32 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 #endif
 	CFStringRef module_name = NULL;
 	err = getStringValue(ev, keyDirectObject, &module_name);
-	if (module_name == NULL) goto bail;
+	if ((err != noErr) || (module_name == NULL)) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
+		goto bail;
+	}
 	
 	CFStringRef additional_dir = NULL;
 	err = getStringValue(ev, kInDirectoryParam, &additional_dir);
-	/*
-	 CFStringRef script_path = CFSTR("/Users/tkurita/Library/Scripts/Modules/DateObject.scpt");
-	 CFURLRef script_url = CFURLCreateWithFileSystemPath(NULL, script_path, kCFURLPOSIXPathStyle, false);
-	 FSRef ref;
-	 CFURLGetFSRef(script_url, &ref);
-	 */
-	
-	CFStringRef container_path = CFSTR("/Users/tkurita/Library/Scripts/Modules");
-	CFURLRef container_url = CFURLCreateWithFileSystemPath(NULL, container_path, kCFURLPOSIXPathStyle, true);
-	FSRef container_ref;
-	CFURLGetFSRef(container_url, &container_ref);
-	/*
-	err = FSIterateContainer(&container_ref, 0, kFSCatInfoContentMod,
-							 false, true, (IterateContainerFilterProcPtr)iterateFilter, &filterArg);
-	*/
-	
-	goto bail;
+	FSRef module_ref;
+	err = findModule(module_name, &module_ref);
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("A module is not found."), kCFStringEncodingUTF8);
+		goto bail;
+	}
 	ComponentInstance scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 	OSAID script_id;
 	OSAError osa_err;
-	//osa_err = OSALoadFile(scriptingComponent, &(filterArg.targetRef), NULL, kOSAModeNull, &script_id);
+	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeNull, &script_id);
 	
 	AEDesc result;
 	osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &result);
 	
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	
-bail:	
-	//--gAdditionReferenceCount;  // don't forget to decrement the reference count when you leave!
-	//safeRelease(script_url);
+bail:
 	
 	return err;
 }
