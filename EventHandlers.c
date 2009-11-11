@@ -1,6 +1,7 @@
 #include "EventHandlers.h"
 #include "AEUtils.h"
 #include "findModule.h"
+#include "ModuleCache.h"
 
 const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kLoadModuleEvent, loadModuleHandler },
@@ -39,12 +40,15 @@ bail:
 	return err;
 }
 
+static ComponentInstance scriptingComponent = NULL;
+
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err = noErr;
 #if useLog	
 	showAEDesc(ev);
 #endif
+	initializeCache();
 	CFStringRef module_name = NULL;
 	err = getStringValue(ev, keyDirectObject, &module_name);
 	if ((err != noErr) || (module_name == NULL)) {
@@ -52,24 +56,44 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
 		goto bail;
 	}
-	
-	CFStringRef additional_dir = NULL;
-	err = getStringValue(ev, kInDirectoryParam, &additional_dir);
-	FSRef module_ref;
-	err = findModule(module_name, &module_ref);
-	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("A module is not found."), kCFStringEncodingUTF8);
-		goto bail;
-	}
-	ComponentInstance scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+
 	OSAID script_id;
 	OSAError osa_err;
-	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeNull, &script_id);
+
+	 //ComponentInstance scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+	if (!scriptingComponent)
+		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+	
+	script_id = findModuleInCache(module_name);
+	if (script_id == kOSANullScript) {
+		CFStringRef additional_dir = NULL;
+		err = getStringValue(ev, kInDirectoryParam, &additional_dir);
+		FSRef module_ref;
+		err = findModule(module_name, &module_ref);
+		if (err != noErr) {
+			putStringToEvent(reply, keyErrorString, 
+							 CFSTR("A module is not found."), kCFStringEncodingUTF8);
+			goto bail;
+		}
+		osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeNull, &script_id);
+		if (osa_err != noErr) {
+			err = osa_err;
+			putStringToEvent(reply, keyErrorString, 
+							 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+			goto bail;
+		}
+		storeModuleInCache(module_name, script_id);
+	}
+	
 	
 	AEDesc result;
 	osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &result);
-	
+	if (osa_err != noErr) {
+		err = osa_err;
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
+		goto bail;
+	}
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	
 bail:

@@ -13,14 +13,26 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>osax</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>ascr</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
+	<key>OSAScriptingDefinition</key>
+	<string>${PRODUCT_NAME}.sdef</string>
+	<key>OSAXHandlers</key>
+	<dict>
+		<key>Events</key>
+		<dict>
+			<key>MolofdMo</key>
+			<string>findModuleHandler</string>
+			<key>MololoMo</key>
+			<string>loadModuleHandler</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
