@@ -3,9 +3,45 @@
 #include "findModule.h"
 #include "ModuleCache.h"
 
+#define useModuleCache 0
+#define useLog 0
 
 static ComponentInstance scriptingComponent = NULL;
 static OSAID LOADER_ID = kOSANullScript;
+
+OSErr modulePathesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	OSErr err;
+	
+	CFMutableArrayRef all_pathes = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+	CFArrayRef additional_pathes = additionalModulePathes();
+	if (additional_pathes) {
+		CFArrayAppendArray(all_pathes, additional_pathes, 
+						   CFRangeMake(0, CFArrayGetCount(additional_pathes)));
+	}
+	
+	CFArrayRef default_pathes = copyDefaultModulePathes();
+	if (default_pathes) {
+		CFArrayAppendArray(all_pathes, default_pathes, 
+						   CFRangeMake(0, CFArrayGetCount(default_pathes)));
+		CFRelease(default_pathes);
+	}
+	
+	err = putStringListToEvent(reply, keyAEResult, all_pathes, kCFStringEncodingUTF8);
+	
+	return noErr;
+}
+
+OSErr setAdditionalModulePathesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	OSErr err;
+	CFMutableArrayRef module_pathes;	
+	err = getCFURLArray(ev, keyDirectObject, &module_pathes);
+	if (err != noErr) goto bail;
+	setAdditionalModulePathes(module_pathes);
+bail:
+	return err;
+}
 
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
@@ -67,7 +103,9 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 #if useLog	
 	showAEDesc(ev);
 #endif
+#if useModuleCache	
 	initializeCache();
+#endif
 	CFStringRef module_name = NULL;
 	err = getStringValue(ev, keyDirectObject, &module_name);
 	if ((err != noErr) || (module_name == NULL)) {
@@ -76,15 +114,16 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 		goto bail;
 	}
 
-	OSAID script_id;
-	OSAError osa_err;
+	OSAID script_id = kOSANullScript;
+	OSAError osa_err = noErr;
 
-	 //ComponentInstance scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
-	
+
+#if useModuleCache	
 	script_id = findModuleInCache(module_name);
 	if (script_id == kOSANullScript) {
+#endif
 		CFStringRef additional_dir = NULL;
 		err = getStringValue(ev, kInDirectoryParam, &additional_dir);
 		FSRef module_ref;
@@ -101,9 +140,10 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 							 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
 			goto bail;
 		}
+#if useModuleCache		
 		storeModuleInCache(module_name, script_id);
 	}
-	
+#endif	
 	
 	AEDesc result;
 	osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &result);
@@ -111,9 +151,11 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 		err = osa_err;
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
-		goto bail;
+	} else {
+		err = AEPutParamDesc(reply, keyAEResult, &result);
 	}
-	err = AEPutParamDesc(reply, keyAEResult, &result);
+	
+	err = OSADispose(scriptingComponent,script_id);
 	
 bail:
 	

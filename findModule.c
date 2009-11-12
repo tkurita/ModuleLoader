@@ -1,7 +1,55 @@
 #include "findModule.h"
 #include "AEUtils.h"
 
-#define useLog 1
+#define useLog 0
+
+#define MODULE_PATHES_KEY CFSTR("AdditionalModulePathes")
+#define PREFS_ID CFSTR("Scriptfactory.ModuleLoaderOSAX")
+
+static CFArrayRef MODULE_PATHES = NULL;
+
+void setAdditionalModulePathes(CFArrayRef array)
+{
+	if (MODULE_PATHES) 
+		CFRelease(MODULE_PATHES);
+
+	MODULE_PATHES = array;
+
+	CFPreferencesSetAppValue(MODULE_PATHES_KEY, 
+							MODULE_PATHES,
+							PREFS_ID);
+	CFPreferencesAppSynchronize(PREFS_ID);
+}
+
+CFArrayRef additionalModulePathes()
+{
+	if (MODULE_PATHES) goto bail;
+	MODULE_PATHES = CFPreferencesCopyAppValue(MODULE_PATHES_KEY, PREFS_ID);
+	CFShow(MODULE_PATHES);
+bail:
+	return MODULE_PATHES;
+}
+
+CFArrayRef copyDefaultModulePathes()
+{
+	OSErr err;
+	CFMutableArrayRef pathes = CFArrayCreateMutable(NULL, 3, &kCFTypeArrayCallBacks);
+	FSRef scripts_folder;
+	FSRef modules_folder;
+	int domains[3] = {kUserDomain, kLocalDomain, kNetworkDomain};
+	for (int n=0; n < 3; n++) {
+		err = FSFindFolder(domains[n], kScriptsFolderType, false, &scripts_folder);
+		if (noErr != err) continue;
+		err = FSMakeFSRefChild(&scripts_folder, CFSTR("Modules"), &modules_folder);
+		if (noErr != err) continue;
+		CFURLRef url = CFURLCreateFromFSRef(NULL, &modules_folder);
+		CFStringRef path = CFURLCopyFileSystemPath (url, kCFURLPOSIXPathStyle);
+		CFArrayAppendValue(pathes, path);
+		CFRelease(url);
+		CFRelease(path);
+	}
+	return pathes;
+}
 
 Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 {
@@ -19,8 +67,10 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 			goto bail;
 		} 
 		if ((iteminfo.flags & kLSItemInfoIsApplication) ) {
+#if useLog
 			CFStringRef creator = UTCreateStringForOSType(iteminfo.creator);
 			CFShow(creator);
+#endif
 			result = ((iteminfo.creator == 'aplt') || (iteminfo.creator == 'dplt'));
 			goto bail;
 		}
@@ -72,7 +122,9 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 				continue;
 			}
 			urlref = CFURLCreateFromFSRef(NULL, &fsref);
+#if useLog
 			CFShow(urlref);
+#endif
 			err = FSGetCatalogInfo(&fsref, kFSCatInfoFinderInfo|kFSCatInfoNodeFlags, &cat_info, NULL, NULL, NULL);
 			if (err != noErr) {
 				fprintf(stderr, "Failed to FSGetCatalogInfo with error : %d\n", err);
@@ -88,12 +140,15 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 			}
 			continue;
 		}
-		
+#if useLog		
 		fprintf(stderr, "is script \n");
+#endif
 		urlref = CFURLCreateFromFSRef(NULL, &fsref);
 		basename = CFURLCopyLastPathComponent(
 									CFURLCreateCopyDeletingPathExtension(NULL, urlref));
+#if useLog
 		CFShow(urlref);
+#endif
 		if (kCFCompareEqualTo == CFStringCompare(basename, module_name, kCFCompareCaseInsensitive)) {
 			*outRef = fsref;
 			goto found;
