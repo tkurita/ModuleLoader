@@ -228,7 +228,7 @@ OSErr findModuleWithSubPath(FSRef *container_ref, CFTypeRef path_components, FSR
 	return kModuleIsNotFound;
 }
 
-OSErr findModule(CFStringRef moduleName, FSRef *moduleRef)
+OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ingoreDefaultPaths, FSRef *moduleRef)
 {
 	OSErr err = noErr;
 	CFRange colon_range  = CFStringFind(moduleName, CFSTR(":"), 0);
@@ -245,6 +245,38 @@ OSErr findModule(CFStringRef moduleName, FSRef *moduleRef)
 	
 	FSRef scripts_folder;
 	FSRef modules_folder;
+	CFMutableArrayRef path_list = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+	if (additionalPaths) {
+		CFArrayAppendArray(path_list, additionalPaths, 
+						   CFRangeMake(0, CFArrayGetCount(additionalPaths)));		
+	}
+	
+	if (!ingoreDefaultPaths) {
+		CFArrayRef tmp_pathlist = additionalModulePaths();
+		if (tmp_pathlist) {
+			CFArrayAppendArray(path_list, tmp_pathlist, 
+							   CFRangeMake(0, CFArrayGetCount(tmp_pathlist)));
+		}
+	}
+	
+	for (int n=0; n < CFArrayGetCount(path_list); n++) {
+		CFStringRef cf_path = CFArrayGetValueAtIndex(path_list, n);
+		CFIndex buff_size = CFStringGetMaximumSizeOfFileSystemRepresentation(cf_path);
+		char *buffer = malloc(buff_size);
+		CFStringGetFileSystemRepresentation (cf_path, buffer, buff_size);		
+		Boolean isDirectory;
+		err = FSPathMakeRef((const UInt8 *)buffer, &modules_folder, &isDirectory);
+		if (err == noErr) {
+			err = findModuleAtFolder(&modules_folder, module_spec, moduleRef);
+		}
+		free(buffer);
+		if (err == noErr) {
+			goto bail;
+		}
+	}
+	
+	if (ingoreDefaultPaths) goto bail;
+	
 	int domains[3] = {kUserDomain, kLocalDomain, kNetworkDomain};
 	for (int n=0; n < 3; n++) {
 		err = FSFindFolder(domains[n], kScriptsFolderType, false, &scripts_folder);
@@ -260,5 +292,6 @@ OSErr findModule(CFStringRef moduleName, FSRef *moduleRef)
 			break;
 		}
 	}
+bail:	
 	return err;
 }

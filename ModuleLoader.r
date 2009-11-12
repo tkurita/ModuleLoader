@@ -33,8 +33,12 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			directParamRequired,
 			singleItem, notEnumerated, Reserved13,
 			{
-				"in directory", 'inDr', 'file',
-				"specify script module location",
+				"additional paths", 'inDr', 'file',
+				"Additional locations to search modules.",
+				optional,
+				listOfItems, notEnumerated, Reserved13,
+				"other paths", 'ohPh', 'bool',
+				"If tue is passed,  module search paths are restricted to  paths given in 'additional paths'.",
 				optional,
 				singleItem, notEnumerated, Reserved13
 			},
@@ -75,7 +79,14 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			directParamRequired,
 			singleItem, notEnumerated, Reserved13,
 			{
-
+				"additional paths", 'inDr', 'file',
+				"Additional locations to search modules.",
+				optional,
+				listOfItems, notEnumerated, Reserved13,
+				"other paths", 'ohPh', 'bool',
+				"If tue is passed,  module search paths are restricted to  paths given in 'additional paths'.",
+				optional,
+				singleItem, notEnumerated, Reserved13
 			},
 
 			"make loader",

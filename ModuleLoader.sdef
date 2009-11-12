@@ -4,7 +4,10 @@
 	<suite name="ModuleLoader Suite" code="Molo" description="loding script module">
 		<command name="load module" code="MololoMo" description="load module">
 			<direct-parameter description="URL" type="text"/>
-			<parameter name="in directory" code="inDr" description="specify script module location" type="file" optional="yes"/>
+			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
+				<type type="file" list="yes"/>
+			</parameter>
+			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<result description="script object" type="any"/>
 		</command>
 		<command name="set additional module paths" code="MoloadMp" description="prepend module search paths to default paths">
@@ -18,6 +21,10 @@
 		</command>
 		<command name="find module" code="MolofdMo" description="find module">
 			<direct-parameter description="A module name" type="text"/>
+			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
+				<type type="file" list="yes"/>
+			</parameter>
+			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<result type="file"/>
 		</command>
 		<command name="make loader" code="MoloMKlo" description="Obtain a loader script">

@@ -36,7 +36,7 @@ OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, l
 {
 	OSErr err;
 	CFMutableArrayRef module_paths;	
-	err = getCFURLArray(ev, keyDirectObject, &module_paths);
+	err = getPOSIXPathArray(ev, keyDirectObject, &module_paths);
 	if (err != noErr) goto bail;
 	setAdditionalModulePaths(module_paths);
 bail:
@@ -83,8 +83,14 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
 		goto bail;
 	}
+	CFMutableArrayRef path_array = NULL;
+	err = getPOSIXPathArray(ev, kInDirectoryParam, &path_array);
+	
+	Boolean with_other_paths = true;
+	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
+	
 	FSRef module_ref;
-	err = findModule(module_name, &module_ref);
+	err = findModule(module_name, (CFArrayRef)path_array, !with_other_paths, &module_ref);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("A module is not found."), kCFStringEncodingUTF8);
@@ -114,6 +120,12 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 		goto bail;
 	}
 
+	CFMutableArrayRef path_array = NULL;
+	err = getPOSIXPathArray(ev, kInDirectoryParam, &path_array);
+	
+	Boolean with_other_paths = true;
+	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
+	
 	OSAID script_id = kOSANullScript;
 	OSAError osa_err = noErr;
 
@@ -127,7 +139,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 		CFStringRef additional_dir = NULL;
 		err = getStringValue(ev, kInDirectoryParam, &additional_dir);
 		FSRef module_ref;
-		err = findModule(module_name, &module_ref);
+		err = findModule(module_name, path_array, !with_other_paths, &module_ref);
 		if (err != noErr) {
 			putStringToEvent(reply, keyErrorString, 
 							 CFSTR("A module is not found."), kCFStringEncodingUTF8);
