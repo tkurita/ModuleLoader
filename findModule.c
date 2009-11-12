@@ -3,37 +3,37 @@
 
 #define useLog 0
 
-#define MODULE_PATHES_KEY CFSTR("AdditionalModulePathes")
+#define MODULE_PATHS_KEY CFSTR("AdditionalModulePaths")
 #define PREFS_ID CFSTR("Scriptfactory.ModuleLoaderOSAX")
 
-static CFArrayRef MODULE_PATHES = NULL;
+static CFArrayRef MODULE_PATHS = NULL;
 
-void setAdditionalModulePathes(CFArrayRef array)
+void setAdditionalModulePaths(CFArrayRef array)
 {
-	if (MODULE_PATHES) 
-		CFRelease(MODULE_PATHES);
+	if (MODULE_PATHS) 
+		CFRelease(MODULE_PATHS);
 
-	MODULE_PATHES = array;
+	MODULE_PATHS = array;
 
-	CFPreferencesSetAppValue(MODULE_PATHES_KEY, 
-							MODULE_PATHES,
+	CFPreferencesSetAppValue(MODULE_PATHS_KEY, 
+							MODULE_PATHS,
 							PREFS_ID);
 	CFPreferencesAppSynchronize(PREFS_ID);
 }
 
-CFArrayRef additionalModulePathes()
+CFArrayRef additionalModulePaths()
 {
-	if (MODULE_PATHES) goto bail;
-	MODULE_PATHES = CFPreferencesCopyAppValue(MODULE_PATHES_KEY, PREFS_ID);
-	CFShow(MODULE_PATHES);
+	if (MODULE_PATHS) goto bail;
+	MODULE_PATHS = CFPreferencesCopyAppValue(MODULE_PATHS_KEY, PREFS_ID);
+	CFShow(MODULE_PATHS);
 bail:
-	return MODULE_PATHES;
+	return MODULE_PATHS;
 }
 
-CFArrayRef copyDefaultModulePathes()
+CFArrayRef copyDefaultModulePaths()
 {
 	OSErr err;
-	CFMutableArrayRef pathes = CFArrayCreateMutable(NULL, 3, &kCFTypeArrayCallBacks);
+	CFMutableArrayRef paths = CFArrayCreateMutable(NULL, 3, &kCFTypeArrayCallBacks);
 	FSRef scripts_folder;
 	FSRef modules_folder;
 	int domains[3] = {kUserDomain, kLocalDomain, kNetworkDomain};
@@ -44,11 +44,11 @@ CFArrayRef copyDefaultModulePathes()
 		if (noErr != err) continue;
 		CFURLRef url = CFURLCreateFromFSRef(NULL, &modules_folder);
 		CFStringRef path = CFURLCopyFileSystemPath (url, kCFURLPOSIXPathStyle);
-		CFArrayAppendValue(pathes, path);
+		CFArrayAppendValue(paths, path);
 		CFRelease(url);
 		CFRelease(path);
 	}
-	return pathes;
+	return paths;
 }
 
 Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)

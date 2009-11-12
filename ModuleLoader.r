@@ -39,8 +39,8 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				singleItem, notEnumerated, Reserved13
 			},
 
-			"set additional module pathes",
-			"prepend module search pathes to default pathes",
+			"set additional module paths",
+			"prepend module search paths to default paths",
 			'Molo', 'adMp',
 			'bool',
 			"if success return true",
@@ -53,8 +53,8 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 
 			},
 
-			"module pathes",
-			"list module pathes",
+			"module paths",
+			"list module paths",
 			'Molo', 'gtPH',
 			'file',
 			"list of directory",

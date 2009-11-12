@@ -9,36 +9,36 @@
 static ComponentInstance scriptingComponent = NULL;
 static OSAID LOADER_ID = kOSANullScript;
 
-OSErr modulePathesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err;
 	
-	CFMutableArrayRef all_pathes = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-	CFArrayRef additional_pathes = additionalModulePathes();
-	if (additional_pathes) {
-		CFArrayAppendArray(all_pathes, additional_pathes, 
-						   CFRangeMake(0, CFArrayGetCount(additional_pathes)));
+	CFMutableArrayRef all_paths = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+	CFArrayRef additional_paths = additionalModulePaths();
+	if (additional_paths) {
+		CFArrayAppendArray(all_paths, additional_paths, 
+						   CFRangeMake(0, CFArrayGetCount(additional_paths)));
 	}
 	
-	CFArrayRef default_pathes = copyDefaultModulePathes();
-	if (default_pathes) {
-		CFArrayAppendArray(all_pathes, default_pathes, 
-						   CFRangeMake(0, CFArrayGetCount(default_pathes)));
-		CFRelease(default_pathes);
+	CFArrayRef default_paths = copyDefaultModulePaths();
+	if (default_paths) {
+		CFArrayAppendArray(all_paths, default_paths, 
+						   CFRangeMake(0, CFArrayGetCount(default_paths)));
+		CFRelease(default_paths);
 	}
 	
-	err = putStringListToEvent(reply, keyAEResult, all_pathes, kCFStringEncodingUTF8);
+	err = putStringListToEvent(reply, keyAEResult, all_paths, kCFStringEncodingUTF8);
 	
 	return noErr;
 }
 
-OSErr setAdditionalModulePathesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err;
-	CFMutableArrayRef module_pathes;	
-	err = getCFURLArray(ev, keyDirectObject, &module_pathes);
+	CFMutableArrayRef module_paths;	
+	err = getCFURLArray(ev, keyDirectObject, &module_paths);
 	if (err != noErr) goto bail;
-	setAdditionalModulePathes(module_pathes);
+	setAdditionalModulePaths(module_paths);
 bail:
 	return err;
 }

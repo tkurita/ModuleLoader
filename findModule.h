@@ -1,6 +1,6 @@
-void setAdditionalModulePathes(CFArrayRef array);
-CFArrayRef additionalModulePathes();
-CFArrayRef copyDefaultModulePathes();
+void setAdditionalModulePaths(CFArrayRef array);
+CFArrayRef additionalModulePaths();
+CFArrayRef copyDefaultModulePaths();
 OSErr findModuleWithName(FSRef *container_ref, CFTypeRef module_name, FSRef* moudle_ref);
 OSErr findModuleWithSubPath(FSRef *container_ref, CFTypeRef path_components, FSRef* module_ref);
 OSErr FSMakeFSRefChild(FSRef *parentRef, CFStringRef childName, FSRef *newRef);

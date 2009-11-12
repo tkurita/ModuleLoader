@@ -18,8 +18,8 @@ typedef struct AEEventHandlerInfo AEEventHandlerInfo;
 #define kLoadModuleEvent	'loMo'
 #define kFindModuleEvent 'fdMo'
 #define kMakeLoaderEvent 'MKlo'
-#define kSetAdditionalModulePathesEvent 'adMp'
-#define kModulePathesEvent 'gtPH'
+#define kSetAdditionalModulePathsEvent 'adMp'
+#define kModulePathsEvent 'gtPH'
 
 static AEEventHandlerUPP *gEventUPPs;
 
@@ -33,8 +33,8 @@ const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kLoadModuleEvent, loadModuleHandler },
 { kModuleLoaderSuite, kFindModuleEvent, findModuleHandler},
 { kModuleLoaderSuite, kMakeLoaderEvent, makeLoaderHandler},
-{ kModuleLoaderSuite, kSetAdditionalModulePathesEvent, setAdditionalModulePathesHandler},
-{ kModuleLoaderSuite, kModulePathesEvent, modulePathesHandler}
+{ kModuleLoaderSuite, kSetAdditionalModulePathsEvent, setAdditionalModulePathsHandler},
+{ kModuleLoaderSuite, kModulePathsEvent, modulePathsHandler}
 // Add more suite/event/handler triplets here if you define more than one command.
 };
 
@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) // for debugging
 	CFMutableArrayRef array = CFArrayCreateMutable(NULL, 1, &kCFTypeArrayCallBacks);
 	//CFArrayAppendValue(array, url);
 	CFArrayAppendValue(array, CFSTR("/Users/tkurita/Downloads/CFPreferences/"));
-	setAdditionalModulePathes(array);
+	setAdditionalModulePaths(array);
 	 */
 	gEventUPPs = malloc(sizeof(AEEventHandlerUPP)*kEventHandlerCount);
 	InstallMyEventHandlers();

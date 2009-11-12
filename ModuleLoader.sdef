@@ -7,11 +7,11 @@
 			<parameter name="in directory" code="inDr" description="specify script module location" type="file" optional="yes"/>
 			<result description="script object" type="any"/>
 		</command>
-		<command name="set additional module pathes" code="MoloadMp" description="prepend module search pathes to default pathes">
+		<command name="set additional module paths" code="MoloadMp" description="prepend module search paths to default paths">
 			<direct-parameter description="the directory including script modules" type="file"/>
 			<result description="if success return true" type="boolean"/>
 		</command>
-		<command name="module pathes" code="MologtPH" description="list module pathes">
+		<command name="module paths" code="MologtPH" description="list module paths">
 			<result description="list of directory">
 				<type type="file" list="yes"/>
 			</result>
