@@ -24,7 +24,9 @@ CFArrayRef additionalModulePaths()
 {
 	if (MODULE_PATHS) goto bail;
 	MODULE_PATHS = CFPreferencesCopyAppValue(MODULE_PATHS_KEY, BUNDLE_ID);
+#if useLog	
 	CFShow(MODULE_PATHS);
+#endif
 bail:
 	return MODULE_PATHS;
 }
@@ -42,7 +44,7 @@ CFArrayRef copyDefaultModulePaths()
 		err = FSMakeFSRefChild(&scripts_folder, CFSTR("Modules"), &modules_folder);
 		if (noErr != err) continue;
 		CFURLRef url = CFURLCreateFromFSRef(NULL, &modules_folder);
-		CFStringRef path = CFURLCopyFileSystemPath (url, kCFURLPOSIXPathStyle);
+		CFStringRef path = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
 		CFArrayAppendValue(paths, path);
 		CFRelease(url);
 		CFRelease(path);
@@ -55,8 +57,10 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 	Boolean result = false;
 	OSStatus err;
 	LSItemInfoRecord iteminfo;
+	iteminfo.extension = NULL;
 	if (0 != (cat_info->nodeFlags & kFSNodeIsDirectoryMask)) { // is directory
-		err = LSCopyItemInfoForRef(fsref, kLSRequestAllInfo, &iteminfo);
+		err = LSCopyItemInfoForRef(fsref, kLSRequestAllInfo & ~kLSRequestIconAndKind, 
+								   &iteminfo);
 		if (err != noErr) {
 			fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", err);
 			goto bail;
@@ -84,7 +88,8 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 		result = true;
 	}
 	
-bail:	
+bail:
+	safeRelease(iteminfo.extension);
 	return result;
 }
 
@@ -108,10 +113,6 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 	
 	while (!FSGetCatalogInfoBulk(itor, 1, &ict, NULL, kFSCatInfoFinderInfo|kFSCatInfoNodeFlags, 
 								 &cat_info, &fsref, NULL, NULL)) {
-		/*
-		urlref = CFURLCreateFromFSRef(NULL, &fsref);
-		CFShow(urlref);
-		*/
 		if (kIsAlias & ((FileInfo *)(&cat_info.finderInfo))->finderFlags) {
 			Boolean targetIsFolder;
 			Boolean wasAliased;
@@ -120,10 +121,7 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 				fprintf(stderr, "Failed to FSResolveAliasFile with error : %d\n", err);
 				continue;
 			}
-			urlref = CFURLCreateFromFSRef(NULL, &fsref);
-#if useLog
-			CFShow(urlref);
-#endif
+
 			err = FSGetCatalogInfo(&fsref, kFSCatInfoFinderInfo|kFSCatInfoNodeFlags, &cat_info, NULL, NULL, NULL);
 			if (err != noErr) {
 				fprintf(stderr, "Failed to FSGetCatalogInfo with error : %d\n", err);
@@ -143,8 +141,9 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 		fprintf(stderr, "is script \n");
 #endif
 		urlref = CFURLCreateFromFSRef(NULL, &fsref);
-		basename = CFURLCopyLastPathComponent(
-									CFURLCreateCopyDeletingPathExtension(NULL, urlref));
+		CFURLRef nosuffix_path = CFURLCreateCopyDeletingPathExtension(NULL, urlref);
+		basename = CFURLCopyLastPathComponent(nosuffix_path);
+		CFRelease(nosuffix_path);
 #if useLog
 		CFShow(urlref);
 #endif
@@ -152,7 +151,7 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 			*outRef = fsref;
 			goto found;
 		}
-		CFRelease(basename);
+		CFRelease(basename); basename = NULL;
 		basename = CFURLCopyLastPathComponent(urlref);
 		if (kCFCompareEqualTo == CFStringCompare(basename, module_name, kCFCompareCaseInsensitive)) {
 			*outRef = fsref;
@@ -264,7 +263,7 @@ OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ing
 		CFStringRef cf_path = CFArrayGetValueAtIndex(path_list, n);
 		CFIndex buff_size = CFStringGetMaximumSizeOfFileSystemRepresentation(cf_path);
 		char *buffer = malloc(buff_size);
-		CFStringGetFileSystemRepresentation (cf_path, buffer, buff_size);		
+		CFStringGetFileSystemRepresentation(cf_path, buffer, buff_size);
 		Boolean isDirectory;
 		err = FSPathMakeRef((const UInt8 *)buffer, &modules_folder, &isDirectory);
 		if (err == noErr) {

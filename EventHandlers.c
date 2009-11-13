@@ -175,6 +175,7 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 		goto bail;
 	}
 bail:
+	safeRelease(module_name);
 	safeRelease(path_array);
 	safeRelease(searched_paths);
 	return err;
@@ -222,8 +223,8 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	} else {
 		err = AEPutParamDesc(reply, keyAEResult, &result);
 	}
-	
-	err = OSADispose(scriptingComponent,script_id);
+	AEDisposeDesc(&result);
+	OSADispose(scriptingComponent,script_id);
 	
 bail:
 	
