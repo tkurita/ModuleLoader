@@ -35,11 +35,20 @@ OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err;
-	CFMutableArrayRef module_paths;	
-	err = getPOSIXPathArray(ev, keyDirectObject, &module_paths);
+	CFMutableArrayRef module_paths = NULL;
+	Boolean ismsg;
+	err = isMissingValue(ev, keyDirectObject, &ismsg);
+	if (!ismsg) {
+		err = getPOSIXPathArray(ev, keyDirectObject, &module_paths);
+	}
 	if (err != noErr) goto bail;
-	setAdditionalModulePaths(module_paths);
+	if (CFArrayGetCount(module_paths)) {
+		setAdditionalModulePaths(module_paths);
+	} else {
+		setAdditionalModulePaths(NULL);
+	}
 bail:
+	safeRelease(module_paths);
 	return err;
 }
 

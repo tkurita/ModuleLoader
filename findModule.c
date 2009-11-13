@@ -12,8 +12,7 @@ void setAdditionalModulePaths(CFArrayRef array)
 	if (MODULE_PATHS) 
 		CFRelease(MODULE_PATHS);
 
-	MODULE_PATHS = array;
-
+	MODULE_PATHS = array;	
 	CFPreferencesSetAppValue(MODULE_PATHS_KEY, 
 							MODULE_PATHS,
 							BUNDLE_ID);

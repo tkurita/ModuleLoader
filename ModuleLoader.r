@@ -43,7 +43,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				singleItem, notEnumerated, Reserved13
 			},
 
-			"set additional module paths",
+			"set additional module paths to",
 			"prepend module search paths to default paths",
 			'Molo', 'adMp',
 			'bool',

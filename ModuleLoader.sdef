@@ -10,7 +10,7 @@
 			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<result description="script object" type="any"/>
 		</command>
-		<command name="set additional module paths" code="MoloadMp" description="prepend module search paths to default paths">
+		<command name="set additional module paths to" code="MoloadMp" description="prepend module search paths to default paths">
 			<direct-parameter description="the directory including script modules" type="file"/>
 			<result description="if success return true" type="boolean"/>
 		</command>
