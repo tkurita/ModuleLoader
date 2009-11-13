@@ -134,8 +134,7 @@
 				2C813C770B4CD75C000FF2FE /* ModuleLoaderTestApp-Info.plist */,
 				2C24C07B10AAEB31007144CD /* loader.applescript */,
 				2C706CAC10AD0AA800208505 /* LocalLoader.applescript */,
-				2C706D6110AD336100208505 /* LocalLoader.scpt */,
-				2C706D6210AD336100208505 /* loader.scpt */,
+				2CEBDE1510AD4EF400B7F6BB /* compiled scripts */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -173,6 +172,15 @@
 				2CB99C4010AA6364002C5D32 /* AEUtils.h */,
 			);
 			path = AEUtils;
+			sourceTree = "<group>";
+		};
+		2CEBDE1510AD4EF400B7F6BB /* compiled scripts */ = {
+			isa = PBXGroup;
+			children = (
+				2C706D6110AD336100208505 /* LocalLoader.scpt */,
+				2C706D6210AD336100208505 /* loader.scpt */,
+			);
+			name = "compiled scripts";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

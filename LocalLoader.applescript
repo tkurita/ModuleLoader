@@ -1,7 +1,9 @@
+property name : "LocalLoader"
 property _idleTime : 0
 property _idleInterval : 60 * 5
 property _waitTime : _idleInterval
 property _loaderCore : missing value
+property _only_local : false
 
 on setup()
 	set my _loaderCore to continue make loader
@@ -20,7 +22,8 @@ end make loader
 on proxy()
 	copy my _loaderCore to local_loader
 	local_loader's set_local(true)
-	local_loader's set_additional_paths(current_location())
+	local_loader's set_only_local(my _only_local)
+	local_loader's set_additional_paths({local_loader's current_location()})
 	return local_loader
 end proxy
 

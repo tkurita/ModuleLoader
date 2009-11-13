@@ -59,8 +59,8 @@ on setup_script(a_script)
 	--return a_script
 end setup_script
 
-on raise_error(a_name)
-	set folder_path to quoted form of (my _location as Unicode text)
+on raise_error(a_name, a_location)
+	set folder_path to quoted form of (a_location as Unicode text)
 	error a_name & " is not found in " & folder_path number 1800
 end raise_error
 
@@ -71,10 +71,10 @@ on do_log(msg)
 end do_log
 
 on find_module(a_name, a_location)
-	set loc_path to quoted form of POSIX path of my a_location
+	set loc_path to quoted form of POSIX path of a_location
 	set a_result to do shell script "module_name=`echo '" & a_name & "'|/usr/bin/iconv -f UTF-8 -t UTF-8-MAC`; find -E " & loc_path & " -regex " & quote & "(.*/)*$module_name($|.scpt|.scptd|.app)$" & quote
 	if a_result is "" then
-		raise_error(a_name)
+		raise_error(a_name, a_location)
 	end if
 	set a_path to (POSIX file (paragraph 1 of a_result)) as alias
 	return a_path
@@ -141,17 +141,7 @@ on load(a_name)
 	if has_exported then
 		return a_script
 	end if
-	(*
-	try
-		set a_path to find_module(a_name)
-	on error errmsg number errnum
-		if (not my _from_original) and (my _autocollect) then
-			set a_path to try_collect(a_name)
-		else
-			error errmsg number errnum
-		end if
-	end try
-	*)
+	
 	set adpaths to my _additional_paths
 	if (my _is_local and (length of adpaths is 0)) then
 		set adpaths to {current_location()}
@@ -162,7 +152,7 @@ on load(a_name)
 			set a_path to find_module(a_name, item 1 of adpaths)
 		on error msg number errno
 			if my _collecting then
-				set a_path to try_collect(a_name)
+				set a_path to try_collect(a_name, item 1 of adpaths)
 			else
 				error msg number errno
 			end if
@@ -220,14 +210,14 @@ on set_only_local(a_flag)
 end set_only_local
 
 on collecting_modules(a_flag)
-	set my _collecting_mode to a_flag
+	set my _collecting to a_flag
 	return me
 end collecting_modules
 
 on current_location()
 	set a_path to path to me
 	tell application "Finder"
-		set a_folder to folder of a_name as alias
+		set a_folder to folder of a_path as alias
 	end tell
 	return a_folder
 end current_location
@@ -241,12 +231,12 @@ on set_local(a_flag)
 	return me
 end set_local
 
-on try_collect(a_name)
+on try_collect(a_name, a_location)
 	--set original_loader to proxy() of application (my _original_name)
 	--set a_path to original_loader's find_module(a_name)
-	set a_path to continue find module a_name
+	set a_path to find module a_name
 	tell application "Finder"
-		set new_alias to make alias file at my _location to a_path -- with properties {name:name of path_rec}
+		set new_alias to make alias file at a_location to a_path -- with properties {name:name of path_rec}
 	end tell
 	return new_alias as alias
 end try_collect
