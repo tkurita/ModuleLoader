@@ -234,14 +234,14 @@ OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ing
 	OSErr err = noErr;
 	CFRange colon_range  = CFStringFind(moduleName, CFSTR(":"), 0);
 	OSErr (*findModuleAtFolder)(FSRef *container_ref, CFTypeRef module_spec, FSRef* moduleRef);
-	CFTypeRef module_spec;
+	CFTypeRef module_spec = NULL;
 	if (colon_range.location == kCFNotFound) {
 		findModuleAtFolder = findModuleWithName;
 		module_spec = moduleName;
+		CFRetain(module_spec);
 	} else {
 		findModuleAtFolder = findModuleWithSubPath;
-		CFArrayRef path_comps = CFStringCreateArrayBySeparatingStrings(NULL, moduleName, CFSTR(":"));
-		module_spec = path_comps;
+		module_spec = CFStringCreateArrayBySeparatingStrings(NULL, moduleName, CFSTR(":"));
 	}
 	
 	FSRef scripts_folder;
@@ -301,6 +301,7 @@ OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ing
 		}
 		
 	}
-bail:	
+bail:
+	safeRelease(module_spec);
 	return err;
 }

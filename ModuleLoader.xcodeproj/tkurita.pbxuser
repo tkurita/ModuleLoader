@@ -12,16 +12,16 @@
 			2C813EF80B4CEE39000FF2FE /* main.c:21 */,
 			2CB99AC610A9A350002C5D32 /* findModuleMain.c:7 */,
 			2CB99B4210AA36B3002C5D32 /* findModuleMain.c:7 */,
-			2CB99CC010AA757B002C5D32 /* EventHandlers.c:190 */,
-			2C24C0F610AB0F63007144CD /* EventHandlers.c:127 */,
-			2C24C18310AB93B9007144CD /* EventHandlers.c:199 */,
+			2CB99CC010AA757B002C5D32 /* EventHandlers.c:189 */,
+			2C24C0F610AB0F63007144CD /* EventHandlers.c:126 */,
+			2C24C18310AB93B9007144CD /* EventHandlers.c:198 */,
 			2C24C1CB10ABA582007144CD /* findModule.c:6 */,
 			2C24C21F10ABADFD007144CD /* findModule.c:6 */,
-			2C24C25B10ABAF89007144CD /* EventHandlers.c:18 */,
+			2C24C25B10ABAF89007144CD /* EventHandlers.c:17 */,
 			2C24C2A210ABB78A007144CD /* findModule.c:6 */,
 			2C2B96B710AC5B60007C570A /* AEUtils.c:434 */,
-			2C706CFE10AD21F400208505 /* EventHandlers.c:103 */,
-			2C706D4E10AD287500208505 /* EventHandlers.c:78 */,
+			2C706CFE10AD21F400208505 /* EventHandlers.c:102 */,
+			2C706D4E10AD287500208505 /* EventHandlers.c:77 */,
 		);
 		codeSenseManager = 2C813B690B4CA59F000FF2FE /* Code sense */;
 		executables = (
@@ -270,6 +270,9 @@
 			2CEBDF3410ADAB7000B7F6BB /* PBXTextBookmark */ = 2CEBDF3410ADAB7000B7F6BB /* PBXTextBookmark */;
 			2CEBDF3510ADAB7000B7F6BB /* PBXTextBookmark */ = 2CEBDF3510ADAB7000B7F6BB /* PBXTextBookmark */;
 			2CEBDF3810ADAB8600B7F6BB /* PBXTextBookmark */ = 2CEBDF3810ADAB8600B7F6BB /* PBXTextBookmark */;
+			2CEBDF3D10ADAD2400B7F6BB /* PBXTextBookmark */ = 2CEBDF3D10ADAD2400B7F6BB /* PBXTextBookmark */;
+			2CEBDF3E10ADAD2400B7F6BB /* PBXTextBookmark */ = 2CEBDF3E10ADAD2400B7F6BB /* PBXTextBookmark */;
+			2CEBDF3F10ADAD2400B7F6BB /* PBXTextBookmark */ = 2CEBDF3F10ADAD2400B7F6BB /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2C813B680B4CA59F000FF2FE /* Source Control */;
 		userBuildSettings = {
@@ -394,7 +397,7 @@
 			sepNavWindowFrame = "{{15, 119}, {801, 754}}";
 		};
 	};
-	2C24C0F610AB0F63007144CD /* EventHandlers.c:127 */ = {
+	2C24C0F610AB0F63007144CD /* EventHandlers.c:126 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -406,7 +409,7 @@
 		functionName = "makeLoaderHandler()";
 		hitCount = 1;
 		ignoreCount = 0;
-		lineNumber = 127;
+		lineNumber = 126;
 		location = ModuleLoaderTestApp;
 		modificationTime = 279789826.194281;
 		state = 1;
@@ -463,7 +466,7 @@
 		vrLen = 1365;
 		vrLoc = 1879;
 	};
-	2C24C18310AB93B9007144CD /* EventHandlers.c:199 */ = {
+	2C24C18310AB93B9007144CD /* EventHandlers.c:198 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -475,7 +478,7 @@
 		functionName = "loadModuleHandler()";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 199;
+		lineNumber = 198;
 		location = ModuleLoaderTestApp;
 		modificationTime = 279789826.194304;
 		state = 1;
@@ -524,7 +527,7 @@
 		vrLen = 757;
 		vrLoc = 2307;
 	};
-	2C24C25B10ABAF89007144CD /* EventHandlers.c:18 */ = {
+	2C24C25B10ABAF89007144CD /* EventHandlers.c:17 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -536,7 +539,7 @@
 		functionName = "setAdditionalModulePathesHandler()";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 18;
+		lineNumber = 17;
 		location = ModuleLoaderTestApp;
 		modificationTime = 279789826.19423;
 		state = 1;
@@ -583,7 +586,7 @@
 		fRef = 2C813B830B4CAC4F000FF2FE /* findModule.c */;
 		name = "findModule.c: 272";
 		rLen = 0;
-		rLoc = 8210;
+		rLoc = 8204;
 		rType = 0;
 		vrLen = 1516;
 		vrLoc = 7203;
@@ -720,7 +723,7 @@
 			sepNavVisRange = "{0, 166}";
 		};
 	};
-	2C706CFE10AD21F400208505 /* EventHandlers.c:103 */ = {
+	2C706CFE10AD21F400208505 /* EventHandlers.c:102 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -732,7 +735,7 @@
 		functionName = "makeLocalLoaderHandler()";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 103;
+		lineNumber = 102;
 		location = ModuleLoaderTestApp;
 		modificationTime = 279789826.194276;
 		state = 1;
@@ -797,7 +800,7 @@
 		vrLen = 739;
 		vrLoc = 0;
 	};
-	2C706D4E10AD287500208505 /* EventHandlers.c:78 */ = {
+	2C706D4E10AD287500208505 /* EventHandlers.c:77 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -809,7 +812,7 @@
 		functionName = "makeLocalLoaderHandler()";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 78;
+		lineNumber = 77;
 		location = ModuleLoaderTestApp;
 		modificationTime = 279789826.194247;
 		state = 1;
@@ -819,7 +822,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 127";
 		rLen = 0;
-		rLoc = 3406;
+		rLoc = 3381;
 		rType = 0;
 		vrLen = 1525;
 		vrLoc = 2911;
@@ -883,7 +886,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 57";
 		rLen = 0;
-		rLoc = 1635;
+		rLoc = 1610;
 		rType = 0;
 		vrLen = 739;
 		vrLoc = 1259;
@@ -893,7 +896,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 57";
 		rLen = 0;
-		rLoc = 1635;
+		rLoc = 1610;
 		rType = 0;
 		vrLen = 739;
 		vrLoc = 1259;
@@ -1158,8 +1161,8 @@
 	2CB99B8110AA4801002C5D32 /* EventHandlers.c */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {717, 3192}}";
-			sepNavSelRange = "{5410, 0}";
-			sepNavVisRange = "{4184, 1062}";
+			sepNavSelRange = "{5385, 0}";
+			sepNavVisRange = "{4159, 1062}";
 			sepNavWindowFrame = "{{38, 189}, {669, 663}}";
 		};
 	};
@@ -1242,7 +1245,7 @@
 		vrLen = 187;
 		vrLoc = 0;
 	};
-	2CB99CC010AA757B002C5D32 /* EventHandlers.c:190 */ = {
+	2CB99CC010AA757B002C5D32 /* EventHandlers.c:189 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1254,7 +1257,7 @@
 		functionName = "findModuleHandler()";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 190;
+		lineNumber = 189;
 		location = ModuleLoaderTestApp;
 		modificationTime = 279789826.19424;
 		state = 1;
@@ -1437,7 +1440,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 115";
 		rLen = 0;
-		rLoc = 3406;
+		rLoc = 3381;
 		rType = 0;
 		vrLen = 883;
 		vrLoc = 2707;
@@ -1465,7 +1468,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 115";
 		rLen = 0;
-		rLoc = 3406;
+		rLoc = 3381;
 		rType = 0;
 		vrLen = 883;
 		vrLoc = 2707;
@@ -1510,7 +1513,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 115";
 		rLen = 0;
-		rLoc = 3406;
+		rLoc = 3381;
 		rType = 0;
 		vrLen = 883;
 		vrLoc = 2707;
@@ -1592,7 +1595,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 115";
 		rLen = 0;
-		rLoc = 3406;
+		rLoc = 3381;
 		rType = 0;
 		vrLen = 955;
 		vrLoc = 1429;
@@ -1629,7 +1632,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 115";
 		rLen = 0;
-		rLoc = 3406;
+		rLoc = 3381;
 		rType = 0;
 		vrLen = 955;
 		vrLoc = 1429;
@@ -1669,7 +1672,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 60";
 		rLen = 0;
-		rLoc = 1718;
+		rLoc = 1693;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 1212;
@@ -1726,7 +1729,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 60";
 		rLen = 0;
-		rLoc = 1718;
+		rLoc = 1693;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 6111;
@@ -1746,7 +1749,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 60";
 		rLen = 0;
-		rLoc = 1718;
+		rLoc = 1693;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 1212;
@@ -1786,7 +1789,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 60";
 		rLen = 0;
-		rLoc = 1718;
+		rLoc = 1693;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 6111;
@@ -2493,7 +2496,7 @@
 		fRef = 2C813B830B4CAC4F000FF2FE /* findModule.c */;
 		name = "findModule.c: 262";
 		rLen = 0;
-		rLoc = 7659;
+		rLoc = 7653;
 		rType = 0;
 		vrLen = 1261;
 		vrLoc = 7192;
@@ -2513,7 +2516,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 210";
 		rLen = 0;
-		rLoc = 6259;
+		rLoc = 6234;
 		rType = 0;
 		vrLen = 285;
 		vrLoc = 5940;
@@ -2533,7 +2536,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 186";
 		rLen = 0;
-		rLoc = 5612;
+		rLoc = 5587;
 		rType = 0;
 		vrLen = 1358;
 		vrLoc = 4120;
@@ -2543,7 +2546,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 189";
 		rLen = 0;
-		rLoc = 5462;
+		rLoc = 5437;
 		rType = 0;
 		vrLen = 1171;
 		vrLoc = 4972;
@@ -2553,7 +2556,7 @@
 		fRef = 2C813B830B4CAC4F000FF2FE /* findModule.c */;
 		name = "findModule.c: 291";
 		rLen = 0;
-		rLoc = 8836;
+		rLoc = 8830;
 		rType = 0;
 		vrLen = 873;
 		vrLoc = 8211;
@@ -2563,7 +2566,7 @@
 		comments = "warning: implicit declaration of function ‘CFASTR’";
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		rLen = 1;
-		rLoc = 170;
+		rLoc = 169;
 		rType = 1;
 	};
 	2CEBDF2710ADA73900B7F6BB /* PBXTextBookmark */ = {
@@ -2571,7 +2574,7 @@
 		fRef = 2C813B830B4CAC4F000FF2FE /* findModule.c */;
 		name = "findModule.c: 291";
 		rLen = 0;
-		rLoc = 8836;
+		rLoc = 8830;
 		rType = 0;
 		vrLen = 873;
 		vrLoc = 8211;
@@ -2581,7 +2584,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 172";
 		rLen = 0;
-		rLoc = 5012;
+		rLoc = 4987;
 		rType = 0;
 		vrLen = 739;
 		vrLoc = 4578;
@@ -2611,7 +2614,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 171";
 		rLen = 0;
-		rLoc = 5492;
+		rLoc = 5467;
 		rType = 0;
 		vrLen = 880;
 		vrLoc = 4486;
@@ -2641,7 +2644,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 188";
 		rLen = 0;
-		rLoc = 5410;
+		rLoc = 5385;
 		rType = 0;
 		vrLen = 1124;
 		vrLoc = 4121;
@@ -2651,7 +2654,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 171";
 		rLen = 0;
-		rLoc = 4949;
+		rLoc = 4924;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 4743;
@@ -2661,7 +2664,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 188";
 		rLen = 0;
-		rLoc = 5410;
+		rLoc = 5385;
 		rType = 0;
 		vrLen = 1124;
 		vrLoc = 4121;
@@ -2671,7 +2674,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 269";
 		rLen = 0;
-		rLoc = 6259;
+		rLoc = 6234;
 		rType = 0;
 		vrLen = 1304;
 		vrLoc = 6971;
@@ -2681,7 +2684,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 171";
 		rLen = 0;
-		rLoc = 4949;
+		rLoc = 4924;
 		rType = 0;
 		vrLen = 745;
 		vrLoc = 4743;
@@ -2691,7 +2694,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 188";
 		rLen = 0;
-		rLoc = 5410;
+		rLoc = 5385;
 		rType = 0;
 		vrLen = 1118;
 		vrLoc = 4121;
@@ -2701,10 +2704,38 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 6";
 		rLen = 0;
-		rLoc = 98;
+		rLoc = 73;
 		rType = 0;
 		vrLen = 1228;
 		vrLoc = 0;
+	};
+	2CEBDF3D10ADAD2400B7F6BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: ModuleCache.h: No such file or directory";
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		rLen = 0;
+		rLoc = 2;
+		rType = 1;
+	};
+	2CEBDF3E10ADAD2400B7F6BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		name = "EventHandlers.c: 3";
+		rLen = 0;
+		rLoc = 71;
+		rType = 0;
+		vrLen = 736;
+		vrLoc = 0;
+	};
+	2CEBDF3F10ADAD2400B7F6BB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		name = "EventHandlers.c: 186";
+		rLen = 0;
+		rLoc = 5385;
+		rType = 0;
+		vrLen = 1062;
+		vrLoc = 4159;
 	};
 	32BAE0B30371A71500C91783 /* ModuleLoader_Prefix.pch */ = {
 		uiCtxt = {

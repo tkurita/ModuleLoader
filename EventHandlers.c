@@ -1,7 +1,6 @@
 #include "EventHandlers.h"
 #include "AEUtils.h"
 #include "findModule.h"
-#include "ModuleCache.h"
 
 #define useLog 0
 
