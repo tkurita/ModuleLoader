@@ -3,7 +3,6 @@
 #include "findModule.h"
 #include "ModuleCache.h"
 
-#define useModuleCache 0
 #define useLog 0
 
 
@@ -145,29 +144,49 @@ bail:
 	return err;
 }
 
-OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* moduleRefPtr)
 {
 	OSErr err = noErr;
 	CFStringRef module_name = NULL;
+	CFMutableArrayRef searched_paths = NULL;
+	CFMutableArrayRef path_array = NULL;
+	
 	err = getStringValue(ev, keyDirectObject, &module_name);
 	if ((err != noErr) || (module_name == NULL)) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
 		goto bail;
 	}
-	CFMutableArrayRef path_array = NULL;
+	
 	err = getPOSIXPathArray(ev, kInDirectoryParam, &path_array);
 	
 	Boolean with_other_paths = true;
 	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
 	
-	FSRef module_ref;
-	err = findModule(module_name, (CFArrayRef)path_array, !with_other_paths, &module_ref);
+	err = findModule(module_name, (CFArrayRef)path_array, !with_other_paths, 
+					 moduleRefPtr, &searched_paths);
 	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("A module is not found."), kCFStringEncodingUTF8);
+		CFStringRef pathlist = CFStringCreateByCombiningStrings(NULL, searched_paths, CFSTR(":"));
+		
+		CFStringRef msg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@\" can not be found in %@"),
+												   module_name, pathlist);
+		putStringToEvent(reply, keyErrorString, msg, kCFStringEncodingUTF8);
+		CFRelease(pathlist);
+		CFRelease(msg);
 		goto bail;
 	}
+bail:
+	safeRelease(path_array);
+	safeRelease(searched_paths);
+	return err;
+}
+
+OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	OSErr err = noErr;
+	FSRef module_ref;
+	err = findModuleWithEvent(ev, reply, &module_ref);
+	if (err != noErr) goto bail;
 	AliasHandle an_alias;
 	err = FSNewAlias(NULL, &module_ref, &an_alias);
 	err = putAliasToReply(an_alias, reply);
@@ -178,57 +197,23 @@ bail:
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err = noErr;
-#if useLog	
-	showAEDesc(ev);
-#endif
-#if useModuleCache	
-	initializeCache();
-#endif
-	CFStringRef module_name = NULL;
-	err = getStringValue(ev, keyDirectObject, &module_name);
-	if ((err != noErr) || (module_name == NULL)) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
-		goto bail;
-	}
-
-	CFMutableArrayRef path_array = NULL;
-	err = getPOSIXPathArray(ev, kInDirectoryParam, &path_array);
-	
-	Boolean with_other_paths = true;
-	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
+	FSRef module_ref;
+	err = findModuleWithEvent(ev, reply, &module_ref);
+	if (err != noErr) goto bail;
 	
 	OSAID script_id = kOSANullScript;
 	OSAError osa_err = noErr;
-
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 
-#if useModuleCache	
-	script_id = findModuleInCache(module_name);
-	if (script_id == kOSANullScript) {
-#endif
-		CFStringRef additional_dir = NULL;
-		err = getStringValue(ev, kInDirectoryParam, &additional_dir);
-		FSRef module_ref;
-		err = findModule(module_name, path_array, !with_other_paths, &module_ref);
-		if (err != noErr) {
-			putStringToEvent(reply, keyErrorString, 
-							 CFSTR("A module is not found."), kCFStringEncodingUTF8);
-			goto bail;
-		}
-		osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeNull, &script_id);
-		if (osa_err != noErr) {
-			err = osa_err;
-			putStringToEvent(reply, keyErrorString, 
-							 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
-			goto bail;
-		}
-#if useModuleCache		
-		storeModuleInCache(module_name, script_id);
+	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeNull, &script_id);
+	if (osa_err != noErr) {
+		err = osa_err;
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+		goto bail;
 	}
-#endif	
-	
+
 	AEDesc result;
 	osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &result);
 	if (osa_err != noErr) {

@@ -227,7 +227,9 @@ OSErr findModuleWithSubPath(FSRef *container_ref, CFTypeRef path_components, FSR
 	return kModuleIsNotFound;
 }
 
-OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ingoreDefaultPaths, FSRef *moduleRef)
+
+OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ingoreDefaultPaths,
+				 FSRef *moduleRef, CFMutableArrayRef* searcedPaths)
 {
 	OSErr err = noErr;
 	CFRange colon_range  = CFStringFind(moduleName, CFSTR(":"), 0);
@@ -257,7 +259,7 @@ OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ing
 							   CFRangeMake(0, CFArrayGetCount(tmp_pathlist)));
 		}
 	}
-	
+
 	for (int n=0; n < CFArrayGetCount(path_list); n++) {
 		CFStringRef cf_path = CFArrayGetValueAtIndex(path_list, n);
 		CFIndex buff_size = CFStringGetMaximumSizeOfFileSystemRepresentation(cf_path);
@@ -274,6 +276,8 @@ OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ing
 		}
 	}
 	
+	*searcedPaths = path_list;
+	
 	if (ingoreDefaultPaths) goto bail;
 	
 	int domains[3] = {kUserDomain, kLocalDomain, kNetworkDomain};
@@ -283,6 +287,11 @@ OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ing
 		err = FSMakeFSRefChild(&scripts_folder, CFSTR("Modules"), &modules_folder);
 		if (noErr != err) continue;
 		err = findModuleAtFolder(&modules_folder, module_spec, moduleRef);
+		CFURLRef modulefolder_url = CFURLCreateFromFSRef(NULL, &modules_folder);
+		CFStringRef modulefolder_path = CFURLCopyFileSystemPath(modulefolder_url, kCFURLPOSIXPathStyle);
+		CFArrayAppendValue(*searcedPaths, modulefolder_path);
+		CFRelease(modulefolder_url);
+		CFRelease(modulefolder_path);
 		//if ((err != noErr) && FSIsFSRefValid(moduleRef)) {
 		if (err == noErr) {
 #if useLog
@@ -290,6 +299,7 @@ OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ing
 #endif
 			break;
 		}
+		
 	}
 bail:	
 	return err;

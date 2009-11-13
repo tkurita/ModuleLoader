@@ -6,6 +6,7 @@ property _loaderCore : missing value
 property _only_local : false
 
 on setup()
+	--display dialog (path to me as text)
 	set my _loaderCore to continue make loader
 	my _loaderCore's set_local(true)
 end setup
