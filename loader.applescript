@@ -27,10 +27,8 @@ property _logger : missing value
 --property _from_original : true
 property _is_local : false
 property _additional_paths : {}
-property _idleTime : 0
-property _idleInterval : 60 * 5
-property _waitTime : _idleInterval
 property _collecting : false
+property _only_local : false
 
 on setup_script(a_script)
 	do_log("start setup_script")
@@ -215,6 +213,12 @@ on set_logging(a_flag, loader_name)
 end set_logging
 
 (** Handlers for local loader **)
+
+on set_only_local(a_flag)
+	set my _only_local to a_flag
+	return me
+end set_only_local
+
 on collecting_modules(a_flag)
 	set my _collecting_mode to a_flag
 	return me
@@ -237,13 +241,6 @@ on set_local(a_flag)
 	return me
 end set_local
 
-on make loader
-	copy me to local_loader
-	local_loader's set_local(true)
-	local_loader's set_additional_paths(current_location())
-	return local_loader
-end make loader
-
 on try_collect(a_name)
 	--set original_loader to proxy() of application (my _original_name)
 	--set a_path to original_loader's find_module(a_name)
@@ -253,23 +250,6 @@ on try_collect(a_name)
 	end tell
 	return new_alias as alias
 end try_collect
-
-on idle
-	--ConsoleLog's do("start idle")
-	if _idleTime is greater than or equal to _waitTime then
-		--ConsoleLog's do("will quit")
-		quit
-		return 1
-	end if
-	set _idleTime to _idleTime + _idleInterval
-	return _idleInterval
-end idle
-
-on quit
-	--ConsoleLog's do("start quit")
-	continue quit
-	--ConsoleLog's do("did quit")
-end quit
 
 (*
 on start_log()

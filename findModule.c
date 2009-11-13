@@ -4,7 +4,6 @@
 #define useLog 0
 
 #define MODULE_PATHS_KEY CFSTR("AdditionalModulePaths")
-#define PREFS_ID CFSTR("Scriptfactory.ModuleLoaderOSAX")
 
 static CFArrayRef MODULE_PATHS = NULL;
 
@@ -17,14 +16,14 @@ void setAdditionalModulePaths(CFArrayRef array)
 
 	CFPreferencesSetAppValue(MODULE_PATHS_KEY, 
 							MODULE_PATHS,
-							PREFS_ID);
-	CFPreferencesAppSynchronize(PREFS_ID);
+							BUNDLE_ID);
+	CFPreferencesAppSynchronize(BUNDLE_ID);
 }
 
 CFArrayRef additionalModulePaths()
 {
 	if (MODULE_PATHS) goto bail;
-	MODULE_PATHS = CFPreferencesCopyAppValue(MODULE_PATHS_KEY, PREFS_ID);
+	MODULE_PATHS = CFPreferencesCopyAppValue(MODULE_PATHS_KEY, BUNDLE_ID);
 	CFShow(MODULE_PATHS);
 bail:
 	return MODULE_PATHS;

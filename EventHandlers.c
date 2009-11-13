@@ -6,8 +6,10 @@
 #define useModuleCache 0
 #define useLog 0
 
+
 static ComponentInstance scriptingComponent = NULL;
 static OSAID LOADER_ID = kOSANullScript;
+static OSAID LOCAL_LOADER_ID = kOSANullScript;
 
 OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
@@ -43,34 +45,93 @@ bail:
 	return err;
 }
 
+
+OSErr loadBundleScript(CFStringRef name, OSAID *newIDPtr)
+{
+	OSErr err = noErr;
+	if (*newIDPtr != kOSANullScript) goto bail;
+	
+	if (!scriptingComponent)
+		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+	CFBundleRef	bundle = CFBundleGetBundleWithIdentifier(BUNDLE_ID);
+	CFURLRef script_url = CFBundleCopyResourceURL(bundle, name, CFSTR("scpt"), NULL);
+	if (!script_url) {
+		fprintf(stderr, "Fail to load a script.\n");
+		err = 1802;
+		goto bail;
+	}
+	FSRef script_ref;
+	CFURLGetFSRef(script_url, &script_ref);
+	CFRelease(script_url);
+	err = OSALoadFile(scriptingComponent, &script_ref, NULL, kOSAModeNull, newIDPtr);
+	if (err != noErr) {
+		goto bail;
+	}
+
+bail:	
+	return err;
+}
+
 OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err = noErr;
-
-	if (!scriptingComponent)
-		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 	
+	err = loadBundleScript(CFSTR("LocalLoader"), &LOCAL_LOADER_ID);
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	
+	AppleEvent setup_event;
+    ProcessSerialNumber PSN = {0, kCurrentProcess}; 
+	AEBuildError aeerr;
+	err = AEBuildAppleEvent( 
+							kASAppleScriptSuite, kASSubroutineEvent, 
+							typeProcessSerialNumber, (Ptr) &PSN, sizeof(PSN), 
+							kAutoGenerateReturnID, kAnyTransactionID, 
+							&setup_event, 
+							&aeerr, 
+							"'snam':TEXT(@)", 
+							"setup"); 
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to AEBuildAppleEvent."), kCFStringEncodingUTF8);	
+		goto bail;
+	}
+	
+	OSAID resultID = kOSANullScript;
+	err = OSAExecuteEvent(scriptingComponent, &setup_event,
+						  LOCAL_LOADER_ID, kOSAModeNull, &resultID);
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to setup a local loader."), kCFStringEncodingUTF8);
+		goto bail;		
+	}
+	
+	AEDesc result;
+	err = OSACoerceToDesc(scriptingComponent, LOCAL_LOADER_ID, typeWildCard,kOSAModeNull, &result);
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	err = AEPutParamDesc(reply, keyAEResult, &result);
+	AEDisposeDesc(&result);
+bail:
 	return err;
 }
 
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err;
-	if (LOADER_ID == kOSANullScript) {
-		if (!scriptingComponent)
-			scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
-		CFBundleRef	bundle = CFBundleGetBundleWithIdentifier( CFSTR("Scriptfactory.ModuleLoaderOSAX") );
-		CFURLRef loader_url = CFBundleCopyResourceURL(bundle, CFSTR("loader"), CFSTR("scpt"), CFSTR("Scripts"));
-		FSRef loader_ref;
-		CFURLGetFSRef(loader_url, &loader_ref);
-		CFRelease(loader_url);
-		err = OSALoadFile(scriptingComponent, &loader_ref, NULL, kOSAModeNull, &LOADER_ID);
-		if (err != noErr) {
-			putStringToEvent(reply, keyErrorString, 
-							 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
-			goto bail;
-		}
+	err = loadBundleScript(CFSTR("loader"), &LOADER_ID);
+	if (err != noErr) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+		goto bail;
 	}
+	
 	AEDesc result;
 	err = OSACoerceToDesc(scriptingComponent, LOADER_ID, typeWildCard,kOSAModeNull, &result);
 	if (err != noErr) {
@@ -79,6 +140,7 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 		goto bail;
 	}
 	err = AEPutParamDesc(reply, keyAEResult, &result);
+	AEDisposeDesc(&result);
 bail:
 	return err;
 }

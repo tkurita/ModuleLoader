@@ -3,6 +3,7 @@
 #define kInDirectoryParam 'inDr'
 #define kOtherPathsParam 'ohPh'
 
+OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
 OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
 OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
