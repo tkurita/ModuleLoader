@@ -30,5 +30,8 @@
 		<command name="make loader" code="MoloMKlo" description="Obtain a loader script">
 			<result type="any"/>
 		</command>
+		<command name="make local loader" code="MoloMkLl" description="Make a local loder.">
+			<result type="any"/>
+		</command>
 	</suite>
 </dictionary>

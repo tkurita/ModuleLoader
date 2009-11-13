@@ -43,6 +43,16 @@ bail:
 	return err;
 }
 
+OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	OSErr err = noErr;
+
+	if (!scriptingComponent)
+		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+	
+	return err;
+}
+
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err;

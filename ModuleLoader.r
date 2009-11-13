@@ -98,6 +98,17 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			dp_none__,
 			{
 
+			},
+
+			"make local loader",
+			"Make a local loder.",
+			'Molo', 'MkLl',
+			'****',
+			"",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			dp_none__,
+			{
+
 			}
 		},
 		{

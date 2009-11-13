@@ -20,9 +20,17 @@ property _setuped_scripts : make XDict
 property _path_cache : make XDict
 property _exported_modules : make XDict
 property _global_accessors : make XDict
-property _original_name : name
+--property _original_name : name
 property _logger : missing value
-property _from_original : true
+
+(** Properties for local loader **)
+--property _from_original : true
+property _is_local : false
+property _additional_paths : {}
+property _idleTime : 0
+property _idleInterval : 60 * 5
+property _waitTime : _idleInterval
+property _collecting : false
 
 on setup_script(a_script)
 	do_log("start setup_script")
@@ -58,42 +66,19 @@ on raise_error(a_name)
 	error a_name & " is not found in " & folder_path number 1800
 end raise_error
 
-on try_collect(a_name)
-	set original_loader to proxy() of application (my _original_name)
-	set a_path to original_loader's find_module(a_name)
-	tell application "Finder"
-		set new_alias to make alias file at my _location to a_path -- with properties {name:name of path_rec}
-	end tell
-	return new_alias as Unicode text
-end try_collect
-
 on do_log(msg)
 	if my _logger is not missing value then
 		my _logger's do(msg)
 	end if
 end do_log
 
-on find_module(a_name)
-	try
-		set a_path to my _path_cache's value_for_key(a_name)
-		set no_cached to false
-	on error number 900
-		set no_cached to true
-	end try
-	if no_cached then
-		do_log("did not hit in path chache")
-		(*
-		set loc_path to quoted form of POSIX path of my _location
-		set a_result to do shell script "module_name=`echo '" & a_name & "'|/usr/bin/iconv -f UTF-8 -t UTF-8-MAC`; find -E " & loc_path & " -regex " & quote & "(.*/)*$module_name($|.scpt|.scptd|.app)$" & quote
-		*)
-		set a_result to find module a_name
-		set a_path to POSIX path of a_result
-		--set a_path to (POSIX file (paragraph 1 of a_result)) as Unicode text
-		my _path_cache's set_value(a_name, a_path)
-	else
-		do_log("hit in path chache")
+on find_module(a_name, a_location)
+	set loc_path to quoted form of POSIX path of my a_location
+	set a_result to do shell script "module_name=`echo '" & a_name & "'|/usr/bin/iconv -f UTF-8 -t UTF-8-MAC`; find -E " & loc_path & " -regex " & quote & "(.*/)*$module_name($|.scpt|.scptd|.app)$" & quote
+	if a_result is "" then
+		raise_error(a_name)
 	end if
-	
+	set a_path to (POSIX file (paragraph 1 of a_result)) as alias
 	return a_path
 end find_module
 
@@ -169,7 +154,25 @@ on load(a_name)
 		end if
 	end try
 	*)
-	set a_path to find module a_name
+	set adpaths to my _additional_paths
+	if (my _is_local and (length of adpaths is 0)) then
+		set adpaths to {current_location()}
+	end if
+	
+	if my _collecting or my _only_local then
+		try
+			set a_path to find_module(a_name, item 1 of adpaths)
+		on error msg number errno
+			if my _collecting then
+				set a_path to try_collect(a_name)
+			else
+				error msg number errno
+			end if
+		end try
+	else
+		set a_path to find module a_name additional paths my _additional_paths
+	end if
+	
 	try
 		set a_script to my _setuped_scripts's value_for_key(a_path)
 		set no_setuped to false
@@ -178,7 +181,6 @@ on load(a_name)
 	end try
 	if no_setuped then
 		do_log("did not hit in script chache")
-		--set a_script to load script (POSIX file a_path)
 		set a_script to load script a_path
 		my _setuped_scripts's set_value(a_path, a_script)
 		my _exported_modules's set_value(a_name, a_script)
@@ -212,13 +214,62 @@ on set_logging(a_flag, loader_name)
 	return a reference to me
 end set_logging
 
-on debug {}
-	global _isOriginal
-	set _isOriginal to false
-	set a_loader to make_for_location(path to scripts folder)
-	a_loader's load("XList")
-	--a_loader's load("Modules:FileObject.scptd")
-end debug
+(** Handlers for local loader **)
+on collecting_modules(a_flag)
+	set my _collecting_mode to a_flag
+	return me
+end collecting_modules
+
+on current_location()
+	set a_path to path to me
+	tell application "Finder"
+		set a_folder to folder of a_name as alias
+	end tell
+	return a_folder
+end current_location
+
+on set_additional_paths(a_list)
+	set my _additional_paths to a_list
+end set_additional_paths
+
+on set_local(a_flag)
+	set my _is_local to true
+	return me
+end set_local
+
+on make loader
+	copy me to local_loader
+	local_loader's set_local(true)
+	local_loader's set_additional_paths(current_location())
+	return local_loader
+end make loader
+
+on try_collect(a_name)
+	--set original_loader to proxy() of application (my _original_name)
+	--set a_path to original_loader's find_module(a_name)
+	set a_path to continue find module a_name
+	tell application "Finder"
+		set new_alias to make alias file at my _location to a_path -- with properties {name:name of path_rec}
+	end tell
+	return new_alias as alias
+end try_collect
+
+on idle
+	--ConsoleLog's do("start idle")
+	if _idleTime is greater than or equal to _waitTime then
+		--ConsoleLog's do("will quit")
+		quit
+		return 1
+	end if
+	set _idleTime to _idleTime + _idleInterval
+	return _idleInterval
+end idle
+
+on quit
+	--ConsoleLog's do("start quit")
+	continue quit
+	--ConsoleLog's do("did quit")
+end quit
 
 (*
 on start_log()
