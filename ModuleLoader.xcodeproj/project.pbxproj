@@ -23,8 +23,6 @@
 		2CB99BCB10AA56AF002C5D32 /* ModuleLoader.r in Rez */ = {isa = PBXBuildFile; fileRef = 2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */; };
 		2CB99C4110AA6364002C5D32 /* AEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB99C3F10AA6364002C5D32 /* AEUtils.c */; };
 		2CB99C4210AA6364002C5D32 /* AEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB99C3F10AA6364002C5D32 /* AEUtils.c */; };
-		2CB99D5410AA86B0002C5D32 /* ModuleCache.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB99D5310AA86B0002C5D32 /* ModuleCache.c */; };
-		2CB99D5510AA86B0002C5D32 /* ModuleCache.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB99D5310AA86B0002C5D32 /* ModuleCache.c */; };
 		2CB99DC310AA958A002C5D32 /* ModuleLoader.r in Rez */ = {isa = PBXBuildFile; fileRef = 2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */; };
 		2CB99DCD10AA9625002C5D32 /* ModuleLoader.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */; };
 		8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
@@ -67,8 +65,6 @@
 		2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = ModuleLoader.r; sourceTree = "<group>"; };
 		2CB99C3F10AA6364002C5D32 /* AEUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AEUtils.c; sourceTree = "<group>"; };
 		2CB99C4010AA6364002C5D32 /* AEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEUtils.h; sourceTree = "<group>"; };
-		2CB99D5210AA86B0002C5D32 /* ModuleCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleCache.h; sourceTree = "<group>"; };
-		2CB99D5310AA86B0002C5D32 /* ModuleCache.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ModuleCache.c; sourceTree = "<group>"; };
 		32BAE0B30371A71500C91783 /* ModuleLoader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleLoader_Prefix.pch; sourceTree = "<group>"; };
 		8D01CCD10486CAD60068D4B7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D01CCD20486CAD60068D4B7 /* ModuleLoader.osax */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModuleLoader.osax; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,8 +145,6 @@
 				2C003D7810A8F7C7003C3066 /* findModuleMain.c */,
 				2CB99B8010AA4801002C5D32 /* EventHandlers.h */,
 				2CB99B8110AA4801002C5D32 /* EventHandlers.c */,
-				2CB99D5210AA86B0002C5D32 /* ModuleCache.h */,
-				2CB99D5310AA86B0002C5D32 /* ModuleCache.c */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -362,7 +356,6 @@
 				2C813D130B4CD782000FF2FE /* findModule.c in Sources */,
 				2CB99B8210AA4801002C5D32 /* EventHandlers.c in Sources */,
 				2CB99C4110AA6364002C5D32 /* AEUtils.c in Sources */,
-				2CB99D5410AA86B0002C5D32 /* ModuleCache.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +366,6 @@
 				2C813B840B4CAC4F000FF2FE /* findModule.c in Sources */,
 				2CB99B8310AA4801002C5D32 /* EventHandlers.c in Sources */,
 				2CB99C4210AA6364002C5D32 /* AEUtils.c in Sources */,
-				2CB99D5510AA86B0002C5D32 /* ModuleCache.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

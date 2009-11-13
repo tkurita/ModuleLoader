@@ -1157,9 +1157,9 @@
 	};
 	2CB99B8110AA4801002C5D32 /* EventHandlers.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {624, 3262}}";
-			sepNavSelRange = "{98, 0}";
-			sepNavVisRange = "{0, 1228}";
+			sepNavIntBoundsRect = "{{0, 0}, {717, 3192}}";
+			sepNavSelRange = "{5410, 0}";
+			sepNavVisRange = "{4184, 1062}";
 			sepNavWindowFrame = "{{38, 189}, {669, 663}}";
 		};
 	};
@@ -1260,6 +1260,12 @@
 		state = 1;
 	};
 	2CB99D5210AA86B0002C5D32 /* ModuleCache.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = ModuleCache.h;
+		path = "/Users/tkurita/Dev/Projects/ModuleLoader OSAX/trunk/ModuleCache.h";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {700, 555}}";
 			sepNavSelRange = "{152, 0}";
@@ -1267,8 +1273,14 @@
 		};
 	};
 	2CB99D5310AA86B0002C5D32 /* ModuleCache.c */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.c;
+		name = ModuleCache.c;
+		path = "/Users/tkurita/Dev/Projects/ModuleLoader OSAX/trunk/ModuleCache.c";
+		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {720, 579}}";
+			sepNavIntBoundsRect = "{{0, 0}, {720, 607}}";
 			sepNavSelRange = "{469, 0}";
 			sepNavVisRange = "{0, 697}";
 		};
