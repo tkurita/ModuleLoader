@@ -28,7 +28,7 @@ OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	}
 	
 	err = putStringListToEvent(reply, keyAEResult, all_paths, kCFStringEncodingUTF8);
-	
+	CFRelease(all_paths);
 	return noErr;
 }
 
@@ -42,7 +42,7 @@ OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, l
 		err = getPOSIXPathArray(ev, keyDirectObject, &module_paths);
 	}
 	if (err != noErr) goto bail;
-	if (CFArrayGetCount(module_paths)) {
+	if (module_paths && CFArrayGetCount(module_paths)) {
 		setAdditionalModulePaths(module_paths);
 	} else {
 		setAdditionalModulePaths(NULL);

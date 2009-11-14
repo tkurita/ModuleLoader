@@ -17,6 +17,7 @@ void setAdditionalModulePaths(CFArrayRef array)
 							MODULE_PATHS,
 							BUNDLE_ID);
 	CFPreferencesAppSynchronize(BUNDLE_ID);
+	if (MODULE_PATHS) CFRetain(MODULE_PATHS);
 }
 
 CFArrayRef additionalModulePaths()
