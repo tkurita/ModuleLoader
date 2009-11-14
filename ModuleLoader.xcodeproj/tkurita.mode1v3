@@ -225,7 +225,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2CEBE09410AF11A100B7F6BB</string>
+						<string>2CEBE0A810AF17A200B7F6BB</string>
 						<key>history</key>
 						<array>
 							<string>2CEBE08B10AF0D9900B7F6BB</string>
@@ -333,8 +333,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>10</integer>
-									<integer>3</integer>
+									<integer>12</integer>
+									<integer>11</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -388,7 +388,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2CEBE08F10AF11A100B7F6BB</string>
+										<string>2CEBE0A310AF17A200B7F6BB</string>
 										<key>history</key>
 										<array>
 											<string>2C003EB710A93057003C3066</string>
@@ -465,7 +465,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>EventHandlers.c</string>
+								<string>AEUtils.c</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -473,11 +473,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>EventHandlers.c</string>
+										<string>AEUtils.c</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2CEBE09310AF11A100B7F6BB</string>
+										<string>2CEBE0A710AF17A200B7F6BB</string>
 										<key>history</key>
 										<array>
 											<string>2C003EB710A93057003C3066</string>
@@ -500,8 +500,8 @@
 											<string>2CEBDF4D10ADB31C00B7F6BB</string>
 											<string>2CEBDF5F10ADB6D000B7F6BB</string>
 											<string>2CEBE01B10ADD88900B7F6BB</string>
-											<string>2CEBE09010AF11A100B7F6BB</string>
-											<string>2CEBE09110AF11A100B7F6BB</string>
+											<string>2CEBE0A410AF17A200B7F6BB</string>
+											<string>2CEBE0A510AF17A200B7F6BB</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -526,6 +526,7 @@
 											<string>2CEBE07810AF0B1100B7F6BB</string>
 											<string>2CEBE07910AF0B1100B7F6BB</string>
 											<string>2CEBE09210AF11A100B7F6BB</string>
+											<string>2CEBE0A610AF17A200B7F6BB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -748,8 +749,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -772,6 +771,8 @@
 							<string>370pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXBuildLogShowsTranscriptDefaultKey</key>
@@ -966,14 +967,12 @@
 							<key>Dock</key>
 							<array>
 								<dict>
-									<key>BecomeActive</key>
-									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AEUtils.c</string>
+										<string>EventHandlers.c</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -994,6 +993,8 @@
 							<string>444pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
