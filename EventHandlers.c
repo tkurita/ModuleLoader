@@ -156,11 +156,11 @@ bail:
 OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* moduleRefPtr)
 {
 	OSErr err = noErr;
-	CFStringRef module_name = NULL;
 	CFMutableArrayRef searched_paths = NULL;
 	CFMutableArrayRef path_array = NULL;
 	
-	err = getStringValue(ev, keyDirectObject, &module_name);
+	//err = getStringValue(ev, keyDirectObject, &module_name);
+	CFStringRef module_name = CFStringCreateWithEvent(ev, keyDirectObject, &err);
 	if ((err != noErr) || (module_name == NULL)) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
