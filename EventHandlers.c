@@ -93,8 +93,7 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	AppleEvent setup_event;
     ProcessSerialNumber PSN = {0, kCurrentProcess}; 
 	AEBuildError aeerr;
-	err = AEBuildAppleEvent( 
-							kASAppleScriptSuite, kASSubroutineEvent, 
+	err = AEBuildAppleEvent(kASAppleScriptSuite, kASSubroutineEvent, 
 							typeProcessSerialNumber, (Ptr) &PSN, sizeof(PSN), 
 							kAutoGenerateReturnID, kAnyTransactionID, 
 							&setup_event, 
@@ -110,6 +109,7 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	OSAID resultID = kOSANullScript;
 	err = OSAExecuteEvent(scriptingComponent, &setup_event,
 						  LOCAL_LOADER_ID, kOSAModeNull, &resultID);
+	AEDisposeDesc(&setup_event);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Fail to setup a local loader."), kCFStringEncodingUTF8);
