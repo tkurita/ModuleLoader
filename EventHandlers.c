@@ -40,7 +40,6 @@ OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, l
 	err = isMissingValue(ev, keyDirectObject, &ismsg);
 	if (!ismsg) {
 		module_paths = CFMutableArrayCreatePOSIXPathsWithEvent(ev, keyDirectObject, &err);
-		//err = getPOSIXPathArray(ev, keyDirectObject, &module_paths);
 	}
 	if (err != noErr) goto bail;
 	if (module_paths && CFArrayGetCount(module_paths)) {
@@ -159,7 +158,6 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	CFMutableArrayRef searched_paths = NULL;
 	CFMutableArrayRef path_array = NULL;
 	
-	//err = getStringValue(ev, keyDirectObject, &module_name);
 	CFStringRef module_name = CFStringCreateWithEvent(ev, keyDirectObject, &err);
 	if ((err != noErr) || (module_name == NULL)) {
 		putStringToEvent(reply, keyErrorString, 
@@ -169,7 +167,6 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	
 	searched_paths = CFMutableArrayCreatePOSIXPathsWithEvent(
 															 ev, kInDirectoryParam, &err);
-	//err = getPOSIXPathArray(ev, kInDirectoryParam, &path_array);
 	
 	Boolean with_other_paths = true;
 	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
