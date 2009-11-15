@@ -49,6 +49,7 @@
 		08FB77B2FE8417CDC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		2C003D7410A8F7A1003C3066 /* findModule */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = findModule; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C003D7810A8F7C7003C3066 /* findModuleMain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = findModuleMain.c; sourceTree = "<group>"; };
+		2C1AD26310B04BBF004B9EDB /* ModuleLoaderConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleLoaderConstants.h; sourceTree = "<group>"; };
 		2C24C07B10AAEB31007144CD /* loader.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = loader.applescript; sourceTree = "<group>"; };
 		2C706CAC10AD0AA800208505 /* LocalLoader.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = LocalLoader.applescript; sourceTree = "<group>"; };
 		2C706CFC10AD216100208505 /* testscript.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = testscript.scpt; sourceTree = "<group>"; };
@@ -145,6 +146,7 @@
 				2C003D7810A8F7C7003C3066 /* findModuleMain.c */,
 				2CB99B8010AA4801002C5D32 /* EventHandlers.h */,
 				2CB99B8110AA4801002C5D32 /* EventHandlers.c */,
+				2C1AD26310B04BBF004B9EDB /* ModuleLoaderConstants.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";

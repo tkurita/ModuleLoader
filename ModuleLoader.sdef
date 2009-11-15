@@ -33,5 +33,8 @@
 		<command name="make local loader" code="MoloMkLl" description="Make a local loder.">
 			<result type="any"/>
 		</command>
+		<command name="ModuleLoader version" code="MoloVers" description="get version number of ModuleLoader">
+			<result description="version number" type="text"/>
+		</command>
 	</suite>
 </dictionary>

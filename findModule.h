@@ -7,5 +7,3 @@ OSErr FSMakeFSRefChild(FSRef *parentRef, CFStringRef childName, FSRef *newRef);
 OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ingoreDefaultPaths,
 				 FSRef *moduleRef, CFMutableArrayRef* searcedPaths);
 
-#define kModuleIsNotFound 1800
-#define BUNDLE_ID CFSTR("Scriptfactory.ModuleLoaderOSAX")

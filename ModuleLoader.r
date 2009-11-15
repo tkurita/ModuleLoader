@@ -109,6 +109,17 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			dp_none__,
 			{
 
+			},
+
+			"ModuleLoader version",
+			"get version number of ModuleLoader",
+			'Molo', 'Vers',
+			'TEXT',
+			"version number",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			dp_none__,
+			{
+
 			}
 		},
 		{

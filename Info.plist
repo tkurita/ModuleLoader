@@ -6,20 +6,24 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>ModuleLoader</string>
+	<key>CFBundleVersion</key>
+	<string>2</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>copyright 2006-2009, Tetsuro KURITA</string>
+	<key>CFBundleGetInfoString</key>
+	<string>2.0 copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>Scriptfactory.ModuleLoaderOSAX</string>
+	<string>Scriptfactory.ModuleLoader</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>osax</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>ascr</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>OSAScriptingDefinition</key>
@@ -40,6 +44,8 @@
 			<string>setAdditionalModulePathsHandler</string>
 			<key>MoloMkLl</key>
 			<string>makeLocalLoaderHandler</string>
+			<key>MoloVers</key>
+			<string>versionHandler</string>
 		</dict>
 	</dict>
 </dict>

@@ -1,9 +1,8 @@
 #include "findModule.h"
 #include "AEUtils.h"
+#include "ModuleLoaderConstants.h"
 
 #define useLog 0
-
-#define MODULE_PATHS_KEY CFSTR("AdditionalModulePaths")
 
 static CFArrayRef MODULE_PATHS = NULL;
 
@@ -199,7 +198,7 @@ OSErr FSMakeFSRefChild(FSRef *parentRef, CFStringRef childName, FSRef *newRef)
         CFStringGetCharacters(childName, CFRangeMake(0, length), buffer);
         name = buffer;
 	}
-	OSErr err = FSMakeFSRefUnicode(parentRef, length, name, kTextEncodingUnicodeDefault, newRef);	
+	OSErr err = FSMakeFSRefUnicode(parentRef, length, name, kCFStringEncodingUnicode, newRef);	
 	if (buffer) free(buffer);
 	return err;
 }

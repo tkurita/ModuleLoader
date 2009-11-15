@@ -1,6 +1,7 @@
 #include "EventHandlers.h"
 #include "AEUtils.h"
 #include "findModule.h"
+#include "ModuleLoaderConstants.h"
 
 #define useLog 0
 
@@ -8,6 +9,18 @@
 static ComponentInstance scriptingComponent = NULL;
 static OSAID LOADER_ID = kOSANullScript;
 static OSAID LOCAL_LOADER_ID = kOSANullScript;
+
+OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	OSErr err;
+	CFBundleRef	bundle = CFBundleGetBundleWithIdentifier(BUNDLE_ID);
+	CFDictionaryRef info = CFBundleGetInfoDictionary(bundle);
+	
+	CFStringRef vers = CFDictionaryGetValue(info, CFSTR("CFBundleShortVersionString"));
+	err = putStringToEvent(reply, keyAEResult, vers, kCFStringEncodingUnicode);
+	//err = putStringToEvent(reply, keyAEResult, vers, kCFStringEncodingUTF8);
+	return err;
+}
 
 OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {

@@ -21,6 +21,7 @@ typedef struct AEEventHandlerInfo AEEventHandlerInfo;
 #define kSetAdditionalModulePathsEvent 'adMp'
 #define kModulePathsEvent 'gtPH'
 #define kMakeLocaLoaderEvent 'MkLl'
+#define kVersionEvent 'Vers'
 
 static AEEventHandlerUPP *gEventUPPs;
 
@@ -36,7 +37,8 @@ const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kMakeLoaderEvent, makeLoaderHandler},
 { kModuleLoaderSuite, kSetAdditionalModulePathsEvent, setAdditionalModulePathsHandler},
 { kModuleLoaderSuite, kModulePathsEvent, modulePathsHandler},
-{ kModuleLoaderSuite, kMakeLocaLoaderEvent, makeLocalLoaderHandler}
+{ kModuleLoaderSuite, kMakeLocaLoaderEvent, makeLocalLoaderHandler},
+{ kModuleLoaderSuite, kVersionEvent, versionHandler}
 // Add more suite/event/handler triplets here if you define more than one command.
 };
 
