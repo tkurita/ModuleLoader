@@ -145,9 +145,12 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 		CFRelease(nosuffix_path);
 #if useLog
 		CFShow(urlref);
+		CFShow(basename);
+		CFShow(module_name);
 #endif
 		if (kCFCompareEqualTo == CFStringCompare(basename, module_name, kCFCompareCaseInsensitive)) {
 			*outRef = fsref;
+			fprintf(stderr, "module should be found.\n");
 			goto found;
 		}
 		CFRelease(basename); basename = NULL;
@@ -169,7 +172,7 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 		CFDataRef data = CFArrayGetValueAtIndex(folder_array, n);
 		FSRef *dir_ref = (FSRef *)CFDataGetBytePtr(data);
 		err = scanFolder(dir_ref, module_name, outRef, searchSubFolders);
-		if ((err != noErr) && FSIsFSRefValid(outRef)) goto bail;
+		if (err == noErr) goto bail;
 	}
 	
 	err = kModuleIsNotFound;
@@ -180,6 +183,9 @@ found:
 bail:
 	CFRelease(folder_array);
 	FSCloseIterator(itor);
+#if useLog	
+	fprintf(stderr, "scanFolder will end with err :%d.\n", err);
+#endif
 	return err;
 }
 
@@ -290,7 +296,6 @@ OSErr findModule(CFStringRef moduleName, CFArrayRef additionalPaths, Boolean ing
 		CFArrayAppendValue(*searcedPaths, modulefolder_path);
 		CFRelease(modulefolder_url);
 		CFRelease(modulefolder_path);
-		//if ((err != noErr) && FSIsFSRefValid(moduleRef)) {
 		if (err == noErr) {
 #if useLog
 			fprintf(stderr, "Module Found\n");

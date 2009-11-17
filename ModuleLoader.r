@@ -23,13 +23,13 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			/* Events */
 
 			"load module",
-			"load module",
+			"Load a module from module paths. If specified module can not be forund, the error number 1800 will raise.",
 			'Molo', 'loMo',
 			'****',
-			"script object",
+			"A loaded module.",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			'TEXT',
-			"URL",
+			"A module name.",
 			directParamRequired,
 			singleItem, notEnumerated, Reserved13,
 			{
@@ -44,13 +44,13 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"set additional module paths to",
-			"prepend module search paths to default paths",
+			"Prepend module search paths.",
 			'Molo', 'adMp',
 			'bool',
-			"if success return true",
+			"If success return true",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			'file',
-			"the directory including script modules",
+			"Folders including script modules",
 			directParamRequired,
 			singleItem, notEnumerated, Reserved13,
 			{
@@ -58,10 +58,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"module paths",
-			"list module paths",
+			"List module paths. The default paths are ~/Library/Scritps/Modules and /Library/Scripts/Modules. Only existing folders are listed. Additional paths given by \"set additional paths to\" will be included in the result.",
 			'Molo', 'gtPH',
 			'file',
-			"list of directory",
+			"List of POSIX paths of folders.",
 			replyRequired, listOfItems, notEnumerated, Reserved13,
 			dp_none__,
 			{
@@ -69,10 +69,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"find module",
-			"find module",
+			"Find module from module paths. If specified module can not be forund, the error number 1800 will raise.",
 			'Molo', 'fdMo',
 			'file',
-			"",
+			"A reference to a module.",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			'TEXT',
 			"A module name",
@@ -93,7 +93,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			"Obtain a loader script",
 			'Molo', 'MKlo',
 			'****',
-			"",
+			"A loader script",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			dp_none__,
 			{
@@ -101,10 +101,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"make local loader",
-			"Make a local loder.",
+			"Obtain a local loader script. The Local loader search modules not only module paths but also \"path to me\" location.",
 			'Molo', 'MkLl',
 			'****',
-			"",
+			"A loader script",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			dp_none__,
 			{
@@ -116,6 +116,29 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			'Molo', 'Vers',
 			'TEXT',
 			"version number",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			dp_none__,
+			{
+
+			},
+
+			"will loaded",
+			"Sent by a loader script when a script is loaded.",
+			'Molo', 'wlLd',
+			reply_none__,
+			'****',
+			"A loader script",
+			directParamRequired,
+			singleItem, notEnumerated, Reserved13,
+			{
+
+			},
+
+			"construct",
+			"Sent by a loader script when a script is loaded. Return a script constucted in this event.",
+			'Molo', 'Csrt',
+			'****',
+			"A script constructed on loaded time.",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			dp_none__,
 			{

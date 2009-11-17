@@ -2,39 +2,45 @@
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
 <dictionary title="ModuleLoader Terminology">
 	<suite name="ModuleLoader Suite" code="Molo" description="loding script module">
-		<command name="load module" code="MololoMo" description="load module">
-			<direct-parameter description="URL" type="text"/>
+		<command name="load module" code="MololoMo" description="Load a module from module paths. If specified module can not be forund, the error number 1800 will raise.">
+			<direct-parameter description="A module name." type="text"/>
 			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
 				<type type="file" list="yes"/>
 			</parameter>
 			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
-			<result description="script object" type="any"/>
+			<result description="A loaded module." type="script"/>
 		</command>
-		<command name="set additional module paths to" code="MoloadMp" description="prepend module search paths to default paths">
-			<direct-parameter description="the directory including script modules" type="file"/>
-			<result description="if success return true" type="boolean"/>
+		<command name="set additional module paths to" code="MoloadMp" description="Prepend module search paths.">
+			<direct-parameter description="Folders including script modules" type="file"/>
+			<result description="If success return true" type="boolean"/>
 		</command>
-		<command name="module paths" code="MologtPH" description="list module paths">
-			<result description="list of directory">
+		<command name="module paths" code="MologtPH" description="List module paths. The default paths are ~/Library/Scritps/Modules and /Library/Scripts/Modules. Only existing folders are listed. Additional paths given by &quot;set additional paths to&quot; will be included in the result.">
+			<result description="List of POSIX paths of folders.">
 				<type type="file" list="yes"/>
 			</result>
 		</command>
-		<command name="find module" code="MolofdMo" description="find module">
+		<command name="find module" code="MolofdMo" description="Find module from module paths. If specified module can not be forund, the error number 1800 will raise.">
 			<direct-parameter description="A module name" type="text"/>
 			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
 				<type type="file" list="yes"/>
 			</parameter>
 			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
-			<result type="file"/>
+			<result description="A reference to a module." type="file"/>
 		</command>
 		<command name="make loader" code="MoloMKlo" description="Obtain a loader script">
-			<result type="any"/>
+			<result description="A loader script" type="script"/>
 		</command>
-		<command name="make local loader" code="MoloMkLl" description="Make a local loder.">
-			<result type="any"/>
+		<command name="make local loader" code="MoloMkLl" description="Obtain a local loader script. The Local loader search modules not only module paths but also &quot;path to me&quot; location.">
+			<result description="A loader script" type="script"/>
 		</command>
 		<command name="ModuleLoader version" code="MoloVers" description="get version number of ModuleLoader">
 			<result description="version number" type="text"/>
 		</command>
+		<event name="will loaded" code="MolowlLd" description="Sent by a loader script when a script is loaded.">
+			<direct-parameter description="A loader script" type="script"/>
+		</event>
+		<event name="construct" code="MoloCsrt" description="Sent by a loader script when a script is loaded. Return a script constucted in this event.">
+			<result description="A script constructed on loaded time." type="script"/>
+		</event>
 	</suite>
 </dictionary>

@@ -4,7 +4,7 @@ property ConsoleLog : missing value
 property XAccessor : missing value
 
 on __load__(loader)
-	do shell script "syslog -l 5 -s 'start __load__ in loader'"
+	--do shell script "syslog -l 5 -s 'start __load__ in loader'"
 	tell loader
 		set XDict to load("XDict")
 		set ConsoleLog to load("ConsoleLog")
@@ -32,23 +32,39 @@ property _only_local : false
 
 on setup_script(a_script)
 	do_log("start setup_script")
+	set sucess_setup to false
 	try
-		a_script's __load__(me)
+		tell a_script to will loaded me
+		set sucess_setup to true
 	on error msg number errno
-		do_log("error on calling __load__")
-		-- 1800 : the module is not found
-		-- -1708 : handelr __load__ is not implemented
 		if errno is not -1708 then
 			error msg number errno
 		end if
-		--display dialog msg & return & errno
 	end try
 	
+	if (not sucess_setup) then
+		-- for compatibility to ModuleLoader 1.x
+		try
+			a_script's __load__(me)
+		on error msg number errno
+			do_log("error on calling __load__")
+			-- 1800 : the module is not found
+			-- -1708 : handelr __load__ is not implemented
+			if errno is not -1708 then
+				error msg number errno
+			end if
+			--display dialog msg & return & errno
+		end try
+	end if
+	
+	set success_construct to false
+	
 	try
-		set a_buffer to a_script's __construct__()
+		set a_buffer to construct of a_script
 		set a_script to a_buffer
+		set success_construct to true
 	on error msg number errno
-		do_log("error on calling __construct__")
+		do_log("error on calling construct")
 		-- 1800 : the module is not found
 		-- -1708 : handelr __construct__ is not implemented
 		if errno is not -1708 then
@@ -56,6 +72,21 @@ on setup_script(a_script)
 		end if
 		--display dialog msg & return & errno
 	end try
+	if (not success_construct) then
+		-- for compatibility to ModuleLoader 1.x
+		try
+			set a_buffer to a_script's __construct__()
+			set a_script to a_buffer
+		on error msg number errno
+			do_log("error on calling __construct__")
+			-- 1800 : the module is not found
+			-- -1708 : handelr __construct__ is not implemented
+			if errno is not -1708 then
+				error msg number errno
+			end if
+			--display dialog msg & return & errno
+		end try
+	end if
 	--return a_script
 end setup_script
 
