@@ -14,7 +14,6 @@ end __load__
 
 property _ : __load__(proxy() of application (get "ModuleLoaderLib"))
 
-property _autocollect : false
 property _loadonly : false
 property _setuped_scripts : make XDict
 property _path_cache : make XDict
@@ -32,11 +31,14 @@ property _only_local : false
 
 on setup_script(a_script)
 	do_log("start setup_script")
+	set constructed_script to missing value
 	set sucess_setup to false
 	try
-		tell a_script to will loaded me
+		module loaded a_script by me
 		set sucess_setup to true
 	on error msg number errno
+		-- 1800 : the module is not found
+		-- -1708 : handelr "module loaded" is not implemented
 		if errno is not -1708 then
 			error msg number errno
 		end if
@@ -48,8 +50,6 @@ on setup_script(a_script)
 			a_script's __load__(me)
 		on error msg number errno
 			do_log("error on calling __load__")
-			-- 1800 : the module is not found
-			-- -1708 : handelr __load__ is not implemented
 			if errno is not -1708 then
 				error msg number errno
 			end if
@@ -58,25 +58,21 @@ on setup_script(a_script)
 	end if
 	
 	set success_construct to false
-	
 	try
-		set a_buffer to construct of a_script
-		set a_script to a_buffer
+		set constructed_script to construct module of a_script
 		set success_construct to true
 	on error msg number errno
 		do_log("error on calling construct")
 		-- 1800 : the module is not found
-		-- -1708 : handelr __construct__ is not implemented
+		-- -1708 : handelr "construct module" is not implemented
 		if errno is not -1708 then
 			error msg number errno
 		end if
-		--display dialog msg & return & errno
 	end try
 	if (not success_construct) then
 		-- for compatibility to ModuleLoader 1.x
 		try
-			set a_buffer to a_script's __construct__()
-			set a_script to a_buffer
+			set constructed_script to a_script's __construct__()
 		on error msg number errno
 			do_log("error on calling __construct__")
 			-- 1800 : the module is not found
@@ -84,10 +80,9 @@ on setup_script(a_script)
 			if errno is not -1708 then
 				error msg number errno
 			end if
-			--display dialog msg & return & errno
 		end try
 	end if
-	--return a_script
+	return constructed_script
 end setup_script
 
 on raise_error(a_name, a_location)
@@ -158,6 +153,10 @@ on load module a_name
 	return load(a_name)
 end load module
 
+on load_module(a_name)
+	return load(a_name)
+end load_module
+
 on load(a_name)
 	do_log("start load for " & quoted form of a_name)
 	if a_name is in {":", "", "/", "."} then
@@ -204,7 +203,12 @@ on load(a_name)
 		my _setuped_scripts's set_value(a_path, a_script)
 		my _exported_modules's set_value(a_name, a_script)
 		if not my _loadonly then
-			setup_script(a_script)
+			set constructed_script to setup_script(a_script)
+			if constructed_script is not missing value then
+				my _setuped_scripts's set_value(a_path, constructed_script)
+				my _exported_modules's set_value(a_name, constructed_script)
+				set a_script to constructed_script
+			end if
 		end if
 	else
 		do_log("hit in script chache")
@@ -212,11 +216,6 @@ on load(a_name)
 	
 	return a_script
 end load
-
-on set_autocollect(a_flag)
-	set my _autocollect to a_flag
-	return me
-end set_autocollect
 
 on set_loadonly(a_flat)
 	set my _loadonly to a_flag
@@ -235,10 +234,10 @@ end set_logging
 
 (** Handlers for local loader **)
 
-on set_only_local(a_flag)
+on set_localonly(a_flag)
 	set my _only_local to a_flag
 	return me
-end set_only_local
+end set_localonly
 
 on collecting_modules(a_flag)
 	set my _collecting to a_flag
@@ -263,8 +262,6 @@ on set_local(a_flag)
 end set_local
 
 on try_collect(a_name, a_location)
-	--set original_loader to proxy() of application (my _original_name)
-	--set a_path to original_loader's find_module(a_name)
 	set a_path to find module a_name
 	tell application "Finder"
 		set new_alias to make alias file at a_location to a_path -- with properties {name:name of path_rec}
