@@ -20,10 +20,14 @@ on make loader
 	return proxy()
 end make loader
 
+on make_loader()
+	return proxy()
+end make_loader
+
 on proxy()
 	copy my _loaderCore to local_loader
 	local_loader's set_local(true)
-	local_loader's set_only_local(my _only_local)
+	local_loader's set_localonly(my _only_local)
 	local_loader's set_additional_paths({local_loader's current_location()})
 	return local_loader
 end proxy

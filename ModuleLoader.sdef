@@ -2,23 +2,7 @@
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
 <dictionary title="ModuleLoader Terminology">
 	<suite name="ModuleLoader Suite" code="Molo" description="loding script module">
-		<command name="load module" code="MololoMo" description="Load a module from module paths. If specified module can not be forund, the error number 1800 will raise.">
-			<direct-parameter description="A module name." type="text"/>
-			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
-				<type type="file" list="yes"/>
-			</parameter>
-			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
-			<result description="A loaded module." type="script"/>
-		</command>
-		<command name="set additional module paths to" code="MoloadMp" description="Prepend module search paths.">
-			<direct-parameter description="Folders including script modules" type="file"/>
-			<result description="If success return true" type="boolean"/>
-		</command>
-		<command name="module paths" code="MologtPH" description="List module paths. The default paths are ~/Library/Scritps/Modules and /Library/Scripts/Modules. Only existing folders are listed. Additional paths given by &quot;set additional paths to&quot; will be included in the result.">
-			<result description="List of POSIX paths of folders.">
-				<type type="file" list="yes"/>
-			</result>
-		</command>
+		<value-type hidden="yes" name="script" code="scpt"/>
 		<command name="find module" code="MolofdMo" description="Find module from module paths. If specified module can not be forund, the error number 1800 will raise.">
 			<direct-parameter description="A module name" type="text"/>
 			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
@@ -27,20 +11,38 @@
 			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<result description="A reference to a module." type="file"/>
 		</command>
+		<command name="load module" code="MololoMo" description="Load a module from module paths. If specified module can not be forund, the error number 1800 will raise.">
+			<direct-parameter description="A module name." type="text"/>
+			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
+				<type type="file" list="yes"/>
+			</parameter>
+			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
+			<result description="A loaded module." type="script"/>
+		</command>
 		<command name="make loader" code="MoloMKlo" description="Obtain a loader script">
 			<result description="A loader script" type="script"/>
 		</command>
 		<command name="make local loader" code="MoloMkLl" description="Obtain a local loader script. The Local loader search modules not only module paths but also &quot;path to me&quot; location.">
 			<result description="A loader script" type="script"/>
 		</command>
+		<command name="module paths" code="MologtPH" description="List module paths. The default paths are ~/Library/Scritps/Modules and /Library/Scripts/Modules. Only existing folders are listed. Additional paths given by &quot;set additional paths to&quot; will be included in the result.">
+			<result description="List of POSIX paths of folders.">
+				<type type="file" list="yes"/>
+			</result>
+		</command>
+		<command name="set additional module paths to" code="MoloadMp" description="Prepend module search paths.">
+			<direct-parameter description="Folders including script modules" type="file"/>
+			<result description="If success return true" type="boolean"/>
+		</command>
 		<command name="ModuleLoader version" code="MoloVers" description="get version number of ModuleLoader">
 			<result description="version number" type="text"/>
 		</command>
-		<event name="will loaded" code="MolowlLd" description="Sent by a loader script when a script is loaded.">
-			<direct-parameter description="A loader script" type="script"/>
-		</event>
-		<event name="construct" code="MoloCsrt" description="Sent by a loader script when a script is loaded. Return a script constucted in this event.">
+		<event name="construct module" code="MoloCsrt" description="A handler for a module script to construct a script on loaded time. This event is sent by a loader script when a script is loaded. Return a script constucted in this event.">
+			<direct-parameter type="script"/>
 			<result description="A script constructed on loaded time." type="script"/>
+		</event>
+		<event name="module loaded" code="MolowlLd" description="A handler in which a module resolve dependencies. This event is sent by a loader script when a script is loaded. ">
+			<parameter name="by" code="whLD" description="A loader script" type="script"/>
 		</event>
 	</suite>
 </dictionary>

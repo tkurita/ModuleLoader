@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2C003D7910A8F7C7003C3066 /* findModuleMain.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C003D7810A8F7C7003C3066 /* findModuleMain.c */; };
-		2C003D8310A91F9F003C3066 /* findModule.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C813B830B4CAC4F000FF2FE /* findModule.c */; };
 		2C003D8510A91FAC003C3066 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
 		2C706D6B10AD3A1400208505 /* loader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6210AD336100208505 /* loader.scpt */; };
 		2C706D6C10AD3A1A00208505 /* LocalLoader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6110AD336100208505 /* LocalLoader.scpt */; };
@@ -186,6 +185,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C003D7A10A8F7C7003C3066 /* Build configuration list for PBXNativeTarget "findModule" */;
 			buildPhases = (
+				2C40269C10B562EA00BBF1B5 /* ShellScript */,
 				2C003D7110A8F7A1003C3066 /* Sources */,
 				2C003D7210A8F7A1003C3066 /* Frameworks */,
 			);
@@ -222,6 +222,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4FADC23308B4156C00ABE55E /* Build configuration list for PBXNativeTarget "ModuleLoader" */;
 			buildPhases = (
+				2C40269810B562B800BBF1B5 /* ShellScript */,
 				2CB99D6110AA933F002C5D32 /* ShellScript */,
 				8D01CCC90486CAD60068D4B7 /* Resources */,
 				8D01CCCB0486CAD60068D4B7 /* Sources */,
@@ -300,6 +301,32 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2C40269810B562B800BBF1B5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "osascript <<EOS\ntry\ntell application \"Finder\"\n        set theItem to POSIX file \"${INSTALL_DIR}/${PRODUCT_NAME}\"\n        delete (theItem as alias)\nend tell\nend try\nreturn\nEOS\n";
+		};
+		2C40269C10B562EA00BBF1B5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "osascript <<EOS\ntry\ntell application \"Finder\"\n        set theItem to POSIX file \"${INSTALL_DIR}/${PRODUCT_NAME}\"\n        delete (theItem as alias)\nend tell\nend try\nreturn\nEOS\n";
+		};
 		2CB99D6110AA933F002C5D32 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -345,7 +372,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C003D8310A91F9F003C3066 /* findModule.c in Sources */,
 				2C003D7910A8F7C7003C3066 /* findModuleMain.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,7 +507,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -504,7 +530,7 @@
 					ppc,
 					i386,
 				);
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

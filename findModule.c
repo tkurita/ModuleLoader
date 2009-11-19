@@ -150,7 +150,9 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 #endif
 		if (kCFCompareEqualTo == CFStringCompare(basename, module_name, kCFCompareCaseInsensitive)) {
 			*outRef = fsref;
+#if useLog
 			fprintf(stderr, "module should be found.\n");
+#endif			
 			goto found;
 		}
 		CFRelease(basename); basename = NULL;

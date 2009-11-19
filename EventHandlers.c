@@ -4,6 +4,7 @@
 #include "ModuleLoaderConstants.h"
 
 #define useLog 0
+#define CACHE_LOADER_SCRIPT 1
 
 
 static ComponentInstance scriptingComponent = NULL;
@@ -88,7 +89,7 @@ OSErr loadBundleScript(CFStringRef name, OSAID *newIDPtr)
 		goto bail;
 	}
 
-bail:	
+bail:
 	return err;
 }
 
@@ -139,6 +140,10 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	AEDisposeDesc(&result);
 bail:
+	if ((!CACHE_LOADER_SCRIPT) && (LOCAL_LOADER_ID != kOSANullScript)) {
+		OSADispose(scriptingComponent, LOCAL_LOADER_ID);
+		LOCAL_LOADER_ID = kOSANullScript;
+	}
 	return err;
 }
 
@@ -162,6 +167,10 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	AEDisposeDesc(&result);
 bail:
+	if ((!CACHE_LOADER_SCRIPT) && (LOADER_ID != kOSANullScript)) {
+		OSADispose(scriptingComponent, LOADER_ID);
+		LOADER_ID = kOSANullScript;
+	}
 	return err;
 }
 
@@ -178,8 +187,7 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 		goto bail;
 	}
 	
-	searched_paths = CFMutableArrayCreatePOSIXPathsWithEvent(
-															 ev, kInDirectoryParam, &err);
+	searched_paths = CFMutableArrayCreatePOSIXPathsWithEvent(ev, kInDirectoryParam, &err);
 	
 	Boolean with_other_paths = true;
 	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
