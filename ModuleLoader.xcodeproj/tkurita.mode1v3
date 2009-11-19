@@ -346,7 +346,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2C40273E10B58FF300BBF1B5</string>
+										<string>2C40275910B5922900BBF1B5</string>
 										<key>history</key>
 										<array>
 											<string>2C1AD2A110B055C8004B9EDB</string>
@@ -360,7 +360,7 @@
 											<string>2C4026EF10B56E0E00BBF1B5</string>
 											<string>2C40270D10B58C7F00BBF1B5</string>
 											<string>2C40273410B58E7000BBF1B5</string>
-											<string>2C40272C10B58E2800BBF1B5</string>
+											<string>2C40274110B590DD00BBF1B5</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -568,6 +568,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>2C40275210B5913100BBF1B5</string>
+		<string>2C40275310B5913100BBF1B5</string>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
+		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>2C003D8110A91F95003C3066</string>
 		<string>/Users/tkurita/Dev/Projects/ModuleLoader OSAX/trunk/ModuleLoader.xcodeproj</string>
 	</array>
@@ -695,8 +700,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {344, 326}}</string>
-											<string>{{344, 0}, {553, 326}}</string>
+											<string>{{0, 0}, {336, 238}}</string>
+											<string>{{336, 0}, {561, 238}}</string>
 										</array>
 									</dict>
 									<key>VerticalSplitView</key>
@@ -711,8 +716,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {897, 326}}</string>
-											<string>{{0, 326}, {897, 301}}</string>
+											<string>{{0, 0}, {897, 238}}</string>
+											<string>{{0, 238}, {897, 389}}</string>
 										</array>
 									</dict>
 								</dict>
@@ -738,16 +743,14 @@
 									<key>DebugVariablesTableConfiguration</key>
 									<array>
 										<string>Name</string>
-										<real>120</real>
+										<real>149</real>
 										<string>Value</string>
-										<real>93</real>
+										<real>122</real>
 										<string>Summary</string>
-										<real>228</real>
-										<string>Type</string>
-										<real>84</real>
+										<real>265</real>
 									</array>
 									<key>Frame</key>
-									<string>{{344, 0}, {553, 326}}</string>
+									<string>{{336, 0}, {561, 238}}</string>
 									<key>RubberWindowFrame</key>
 									<string>233 210 897 668 0 0 1440 878 </string>
 								</dict>
@@ -775,13 +778,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>2C4026FB10B5855C00BBF1B5</string>
+				<string>2C40274A10B5913100BBF1B5</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>2C4026FC10B5855C00BBF1B5</string>
-				<string>2C4026FD10B5855C00BBF1B5</string>
-				<string>2C4026FE10B5855C00BBF1B5</string>
-				<string>2C4026FF10B5855C00BBF1B5</string>
-				<string>2C40270010B5855C00BBF1B5</string>
+				<string>2C40274B10B5913100BBF1B5</string>
+				<string>2C40274C10B5913100BBF1B5</string>
+				<string>2C40274D10B5913100BBF1B5</string>
+				<string>2C40274E10B5913100BBF1B5</string>
+				<string>2C40274F10B5913100BBF1B5</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -808,12 +811,14 @@
 							<key>Dock</key>
 							<array>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AEUtils.c</string>
+										<string>EventHandlers.c</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -834,8 +839,6 @@
 							<string>400pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -871,8 +874,8 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>2C40265A10B43CFA00BBF1B5</string>
-				<string>2C40265B10B43CFA00BBF1B5</string>
+				<string>2C40274310B590DD00BBF1B5</string>
+				<string>2C40274410B590DD00BBF1B5</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>
@@ -937,7 +940,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>2C26B2FC10B2A3DA00C584C4</string>
+				<string>2C40275010B5913100BBF1B5</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
