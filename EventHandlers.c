@@ -16,7 +16,6 @@ OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	
 	CFStringRef vers = CFDictionaryGetValue(info, CFSTR("CFBundleShortVersionString"));
 	err = putStringToEvent(reply, keyAEResult, vers, kCFStringEncodingUnicode);
-	//err = putStringToEvent(reply, keyAEResult, vers, kCFStringEncodingUTF8);
 	return err;
 }
 

@@ -290,9 +290,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>10</integer>
-									<integer>3</integer>
-									<integer>0</integer>
+									<integer>31</integer>
+									<integer>30</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -317,7 +316,7 @@
 							<real>299</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>323 137 1028 706 0 0 1440 878 </string>
+						<string>232 157 1028 706 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -347,7 +346,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2C40273610B58E7000BBF1B5</string>
+										<string>2C40273E10B58FF300BBF1B5</string>
 										<key>history</key>
 										<array>
 											<string>2C1AD2A110B055C8004B9EDB</string>
@@ -391,7 +390,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {685, 550}}</string>
 								<key>RubberWindowFrame</key>
-								<string>323 137 1028 706 0 0 1440 878 </string>
+								<string>232 157 1028 706 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -411,7 +410,7 @@
 								<key>Frame</key>
 								<string>{{0, 555}, {685, 89}}</string>
 								<key>RubberWindowFrame</key>
-								<string>323 137 1028 706 0 0 1440 878 </string>
+								<string>232 157 1028 706 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -573,7 +572,7 @@
 		<string>/Users/tkurita/Dev/Projects/ModuleLoader OSAX/trunk/ModuleLoader.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>323 137 1028 706 0 0 1440 878 </string>
+	<string>232 157 1028 706 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
