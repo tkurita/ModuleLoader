@@ -6,10 +6,7 @@
 #define useLog 0
 #define CACHE_LOADER_SCRIPT 1
 
-
 static ComponentInstance scriptingComponent = NULL;
-static OSAID LOADER_ID = kOSANullScript;
-static OSAID LOCAL_LOADER_ID = kOSANullScript;
 
 OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
@@ -96,8 +93,8 @@ bail:
 OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err = noErr;
-	
-	err = loadBundleScript(CFSTR("LocalLoader"), &LOCAL_LOADER_ID);
+	OSAID loader_id = kOSANullScript;
+	err = loadBundleScript(CFSTR("LocalLoader"), &loader_id);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
@@ -122,7 +119,7 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	
 	OSAID resultID = kOSANullScript;
 	err = OSAExecuteEvent(scriptingComponent, &setup_event,
-						  LOCAL_LOADER_ID, kOSAModeNull, &resultID);
+						  loader_id, kOSAModeNull, &resultID);
 	AEDisposeDesc(&setup_event);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
@@ -131,7 +128,7 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	}
 	
 	AEDesc result;
-	err = OSACoerceToDesc(scriptingComponent, LOCAL_LOADER_ID, typeWildCard,kOSAModeNull, &result);
+	err = OSACoerceToDesc(scriptingComponent, loader_id, typeWildCard,kOSAModeNull, &result);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
@@ -140,17 +137,16 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	AEDisposeDesc(&result);
 bail:
-	if ((!CACHE_LOADER_SCRIPT) && (LOCAL_LOADER_ID != kOSANullScript)) {
-		OSADispose(scriptingComponent, LOCAL_LOADER_ID);
-		LOCAL_LOADER_ID = kOSANullScript;
-	}
+	if (loader_id != kOSANullScript) 
+		OSADispose(scriptingComponent, loader_id);
 	return err;
 }
 
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	OSErr err;
-	err = loadBundleScript(CFSTR("loader"), &LOADER_ID);
+	OSAID loader_id = kOSANullScript;
+	err = loadBundleScript(CFSTR("loader"), &loader_id);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
@@ -158,7 +154,7 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	}
 	
 	AEDesc result;
-	err = OSACoerceToDesc(scriptingComponent, LOADER_ID, typeWildCard,kOSAModeNull, &result);
+	err = OSACoerceToDesc(scriptingComponent, loader_id, typeWildCard, kOSAModeNull, &result);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
@@ -167,10 +163,8 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	AEDisposeDesc(&result);
 bail:
-	if ((!CACHE_LOADER_SCRIPT) && (LOADER_ID != kOSANullScript)) {
-		OSADispose(scriptingComponent, LOADER_ID);
-		LOADER_ID = kOSANullScript;
-	}
+	if (loader_id != kOSANullScript) 
+		OSADispose(scriptingComponent, loader_id);
 	return err;
 }
 
