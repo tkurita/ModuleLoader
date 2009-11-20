@@ -54,7 +54,6 @@
 		2C24C07B10AAEB31007144CD /* loader.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = loader.applescript; sourceTree = "<group>"; };
 		2C2DD85110B6D8E3007C5F8E /* History.rd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = History.rd; path = ../History.rd; sourceTree = SOURCE_ROOT; };
 		2C706CAC10AD0AA800208505 /* LocalLoader.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = LocalLoader.applescript; sourceTree = "<group>"; };
-		2C706CFC10AD216100208505 /* testscript.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = testscript.scpt; sourceTree = "<group>"; };
 		2C706D6110AD336100208505 /* LocalLoader.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = LocalLoader.scpt; sourceTree = "<group>"; };
 		2C706D6210AD336100208505 /* loader.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = loader.scpt; sourceTree = "<group>"; };
 		2C813B820B4CAC4F000FF2FE /* findModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = findModule.h; sourceTree = "<group>"; };
@@ -105,7 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				2C2DD85110B6D8E3007C5F8E /* History.rd */,
-				2C706CFC10AD216100208505 /* testscript.scpt */,
 				2C813BD00B4CC5E6000FF2FE /* History.rtf */,
 				08FB77ADFE841716C02AAC07 /* Source */,
 				2CB99C3E10AA6364002C5D32 /* AEUtils */,

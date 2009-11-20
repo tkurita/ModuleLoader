@@ -148,20 +148,6 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 
 			},
 
-			"construct module",
-			"A handler for a module script to construct a script on loaded time. This event is sent by a loader script when a script is loaded. Return a script constucted in this event.",
-			'Molo', 'Csrt',
-			'scpt',
-			"A script constructed on loaded time.",
-			replyRequired, singleItem, notEnumerated, Reserved13,
-			'scpt',
-			"",
-			directParamRequired,
-			singleItem, notEnumerated, Reserved13,
-			{
-
-			},
-
 			"module loaded",
 			"A handler in which a module resolve dependencies. This event is sent by a loader script when a script is loaded. ",
 			'Molo', 'wlLd',

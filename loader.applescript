@@ -12,8 +12,6 @@ end __load__
 property _ : __load__((proxy() of application (get "ModuleLoaderLib"))'s set_localonly(true))
 
 property _loadonly : false
---property _setuped_scripts : make XDict
---property _exported_modules : make XDict
 property _module_cache : make ModuleCache
 property _logger : missing value
 
@@ -77,7 +75,6 @@ on export(a_script) -- save myself to cache when load a module which load myself
 end export
 
 on export_to_cache(a_script)
-	--my _exported_modules's set_value(name of a_script, a_script)
 	my _module_cache's add_module(name of a_script, missing value, a_script)
 end export_to_cache
 
@@ -95,7 +92,6 @@ on load(a_name)
 		error (quoted form of a_name) & " is invald form to specify a module." number 1801
 	end if
 	try
-		--set a_script to my _exported_modules's value_for_key(a_name)
 		set a_script to my _module_cache's module_for_name(a_name)
 		set has_exported to true
 	on error number 900
@@ -125,7 +121,6 @@ on load(a_name)
 	end if
 	
 	try
-		--set a_script to my _setuped_scripts's value_for_key(a_path)
 		set a_script to my _setuped_scripts's module_for_path(a_path)
 		my _module_cache's add_module(a_name, a_path, a_script)
 		set need_setup to false
@@ -135,8 +130,6 @@ on load(a_name)
 	if need_setup then
 		do_log("did not hit in script chache")
 		set a_script to load script a_path
-		--my _setuped_scripts's set_value(a_path, a_script)
-		--my _exported_modules's set_value(a_name, a_script)
 		my _module_cache's add_module(a_name, a_path, a_script)
 		if not my _loadonly then
 			setup_script(a_script)
