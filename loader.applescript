@@ -4,7 +4,6 @@ property ConsoleLog : missing value
 property XAccessor : missing value
 
 on __load__(loader)
-	--do shell script "syslog -l 5 -s 'start __load__ in loader'"
 	tell loader
 		set XDict to load("XDict")
 		set ConsoleLog to load("ConsoleLog")
@@ -12,14 +11,13 @@ on __load__(loader)
 	end tell
 end __load__
 
-property _ : __load__(proxy() of application (get "ModuleLoaderLib"))
+property _ : __load__((proxy() of application (get "ModuleLoaderLib"))'s set_localonly(true))
 
 property _loadonly : false
 property _setuped_scripts : make XDict
 property _path_cache : make XDict
 property _exported_modules : make XDict
 property _global_accessors : make XDict
---property _original_name : name
 property _logger : missing value
 
 (** Properties for local loader **)
@@ -188,7 +186,7 @@ on load(a_name)
 			end if
 		end try
 	else
-		set a_path to find module a_name additional paths my _additional_paths
+		set a_path to find module a_name additional paths adpaths
 	end if
 	
 	try

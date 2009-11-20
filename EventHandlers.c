@@ -180,7 +180,7 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 		goto bail;
 	}
 	
-	searched_paths = CFMutableArrayCreatePOSIXPathsWithEvent(ev, kInDirectoryParam, &err);
+	path_array = CFMutableArrayCreatePOSIXPathsWithEvent(ev, kInDirectoryParam, &err);
 	
 	Boolean with_other_paths = true;
 	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
