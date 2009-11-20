@@ -1,10 +1,10 @@
 property name : "LoaderProxy"
-property XDict : missing value
+property ModuleCache : missing value
 property ConsoleLog : missing value
 
 on __load__(loader)
 	tell loader
-		set XDict to load("XDict")
+		set ModuleCache to load("ModuleCache")
 		set ConsoleLog to load("ConsoleLog")
 	end tell
 end __load__
@@ -12,8 +12,9 @@ end __load__
 property _ : __load__((proxy() of application (get "ModuleLoaderLib"))'s set_localonly(true))
 
 property _loadonly : false
-property _setuped_scripts : make XDict
-property _exported_modules : make XDict
+--property _setuped_scripts : make XDict
+--property _exported_modules : make XDict
+property _module_cache : make ModuleCache
 property _logger : missing value
 
 (** Properties for local loader **)
@@ -104,7 +105,8 @@ on export(a_script) -- save myself to cache when load a module which load myself
 end export
 
 on export_to_cache(a_script)
-	my _exported_modules's set_value(name of a_script, a_script)
+	--my _exported_modules's set_value(name of a_script, a_script)
+	my _module_cache's add_module(name of a_script, missing value, a_script)
 end export_to_cache
 
 on load module a_name
@@ -121,7 +123,8 @@ on load(a_name)
 		error (quoted form of a_name) & " is invald form to specify a module." number 1801
 	end if
 	try
-		set a_script to my _exported_modules's value_for_key(a_name)
+		--set a_script to my _exported_modules's value_for_key(a_name)
+		set a_script to my _module_cache's module_for_name(a_name)
 		set has_exported to true
 	on error number 900
 		set has_exported to false
@@ -150,23 +153,28 @@ on load(a_name)
 	end if
 	
 	try
-		set a_script to my _setuped_scripts's value_for_key(a_path)
-		set no_setuped to false
+		--set a_script to my _setuped_scripts's value_for_key(a_path)
+		set a_script to my _setuped_scripts's module_for_path(a_path)
+		my _module_cache's add_module(a_name, a_path, a_script)
+		set need_setup to false
 	on error number 900
-		set no_setuped to true
+		set need_setup to true
 	end try
-	if no_setuped then
+	if need_setup then
 		do_log("did not hit in script chache")
 		set a_script to load script a_path
-		my _setuped_scripts's set_value(a_path, a_script)
-		my _exported_modules's set_value(a_name, a_script)
+		--my _setuped_scripts's set_value(a_path, a_script)
+		--my _exported_modules's set_value(a_name, a_script)
+		my _module_cache's add_module(a_name, a_path, a_script)
 		if not my _loadonly then
 			set constructed_script to setup_script(a_script)
+			(*
 			if constructed_script is not missing value then
 				my _setuped_scripts's set_value(a_path, constructed_script)
 				my _exported_modules's set_value(a_name, constructed_script)
 				set a_script to constructed_script
 			end if
+			*)
 		end if
 	else
 		do_log("hit in script chache")
