@@ -21,7 +21,6 @@ property _global_accessors : make XDict
 property _logger : missing value
 
 (** Properties for local loader **)
---property _from_original : true
 property _is_local : false
 property _additional_paths : {}
 property _collecting : false
