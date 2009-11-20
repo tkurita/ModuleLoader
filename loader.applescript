@@ -121,7 +121,7 @@ on load(a_name)
 	end if
 	
 	try
-		set a_script to my _setuped_scripts's module_for_path(a_path)
+		set a_script to my _module_cache's module_for_path(a_path)
 		my _module_cache's add_module(a_name, a_path, a_script)
 		set need_setup to false
 	on error number 900
@@ -194,8 +194,7 @@ on try_collect(a_name, a_location)
 end try_collect
 
 on clear_cache()
-	set my _exported_modules to missing value
-	set my _setuped_scripts to missing value
+	set my _module_cache to missing value
 end clear_cache
 
 (*

@@ -228,7 +228,7 @@ OSErr findModuleWithSubPath(FSRef *container_ref, CFTypeRef path_components, FSR
 		parentdir_ref = subdir_ref;
 	}
 	if (is_exists) {
-		return scanFolder(container_ref, CFArrayGetValueAtIndex(path_comps, n), module_ref ,false);
+		return scanFolder(&parentdir_ref, CFArrayGetValueAtIndex(path_comps, n), module_ref ,false);
 	}
 	return kModuleIsNotFound;
 }
