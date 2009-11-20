@@ -25,7 +25,6 @@ property _only_local : false
 
 on setup_script(a_script)
 	do_log("start setup_script")
-	set constructed_script to missing value
 	set sucess_setup to false
 	try
 		module loaded a_script by me
@@ -50,33 +49,6 @@ on setup_script(a_script)
 			--display dialog msg & return & errno
 		end try
 	end if
-	
-	set success_construct to false
-	try
-		set constructed_script to construct module of a_script
-		set success_construct to true
-	on error msg number errno
-		do_log("error on calling construct")
-		-- 1800 : the module is not found
-		-- -1708 : handelr "construct module" is not implemented
-		if errno is not -1708 then
-			error msg number errno
-		end if
-	end try
-	if (not success_construct) then
-		-- for compatibility to ModuleLoader 1.x
-		try
-			set constructed_script to a_script's __construct__()
-		on error msg number errno
-			do_log("error on calling __construct__")
-			-- 1800 : the module is not found
-			-- -1708 : handelr __construct__ is not implemented
-			if errno is not -1708 then
-				error msg number errno
-			end if
-		end try
-	end if
-	return constructed_script
 end setup_script
 
 on raise_error(a_name, a_location)
@@ -167,14 +139,7 @@ on load(a_name)
 		--my _exported_modules's set_value(a_name, a_script)
 		my _module_cache's add_module(a_name, a_path, a_script)
 		if not my _loadonly then
-			set constructed_script to setup_script(a_script)
-			(*
-			if constructed_script is not missing value then
-				my _setuped_scripts's set_value(a_path, constructed_script)
-				my _exported_modules's set_value(a_name, constructed_script)
-				set a_script to constructed_script
-			end if
-			*)
+			setup_script(a_script)
 		end if
 	else
 		do_log("hit in script chache")

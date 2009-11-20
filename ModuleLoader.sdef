@@ -37,10 +37,6 @@
 		<command name="ModuleLoader version" code="MoloVers" description="get version number of ModuleLoader">
 			<result description="version number" type="text"/>
 		</command>
-		<event name="construct module" code="MoloCsrt" description="A handler for a module script to construct a script on loaded time. This event is sent by a loader script when a script is loaded. Return a script constucted in this event.">
-			<direct-parameter type="script"/>
-			<result description="A script constructed on loaded time." type="script"/>
-		</event>
 		<event name="module loaded" code="MolowlLd" description="A handler in which a module resolve dependencies. This event is sent by a loader script when a script is loaded. ">
 			<parameter name="by" code="whLD" description="A loader script" type="script"/>
 		</event>
