@@ -1,13 +1,11 @@
 property name : "LoaderProxy"
 property XDict : missing value
 property ConsoleLog : missing value
-property XAccessor : missing value
 
 on __load__(loader)
 	tell loader
 		set XDict to load("XDict")
 		set ConsoleLog to load("ConsoleLog")
-		set XAccessor to load("XAccessor")
 	end tell
 end __load__
 
@@ -15,9 +13,7 @@ property _ : __load__((proxy() of application (get "ModuleLoaderLib"))'s set_loc
 
 property _loadonly : false
 property _setuped_scripts : make XDict
-property _path_cache : make XDict
 property _exported_modules : make XDict
-property _global_accessors : make XDict
 property _logger : missing value
 
 (** Properties for local loader **)
@@ -107,44 +103,9 @@ on export(a_script) -- save myself to cache when load a module which load myself
 	export_to_cache(a_script)
 end export
 
-on global_accessor(a_name)
-	try
-		set an_accessor to my _global_accessors's value_for_key(a_name)
-		set no_accessor to false
-	on error number 900
-		set no_accessor to true
-	end try
-	if no_accessor then
-		set an_accessor to XAccessor's make_with(a_name)
-		my _global_accessors's set_value(a_name, an_accessor)
-	end if
-	return an_accessor
-end global_accessor
-
-on export_to_global(a_script)
-	set an_accessor to global_accessor(name of a_script)
-	an_accessor's set_global(a_script)
-end export_to_global
-
 on export_to_cache(a_script)
 	my _exported_modules's set_value(name of a_script, a_script)
 end export_to_cache
-
-on require(a_name)
-	set an_accessor to global_accessor(a_name)
-	try
-		set a_script to an_accessor's get_global()
-	on error
-		set a_script to load(a_name)
-		an_accessor's set_global(a_script)
-		return
-	end try
-	
-	if a_script is missing value then
-		set a_script to load(a_name)
-		an_accessor's set_global(a_script)
-	end if
-end require
 
 on load module a_name
 	return load(a_name)
@@ -265,6 +226,11 @@ on try_collect(a_name, a_location)
 	end tell
 	return new_alias as alias
 end try_collect
+
+on clear_cache()
+	set my _exported_modules to missing value
+	set my _setuped_scripts to missing value
+end clear_cache
 
 (*
 on start_log()
