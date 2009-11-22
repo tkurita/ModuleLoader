@@ -18,6 +18,8 @@
 		2C5B3B7410B98242004396E4 /* AEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB99C3F10AA6364002C5D32 /* AEUtils.c */; };
 		2C5B3B7610B98242004396E4 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
 		2C5B3B7810B98242004396E4 /* ModuleLoader.r in Rez */ = {isa = PBXBuildFile; fileRef = 2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */; };
+		2C5B3B8310B982BE004396E4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5B3B8210B982BE004396E4 /* Info.plist */; };
+		2C5B3B8410B982BE004396E4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5B3B8210B982BE004396E4 /* Info.plist */; };
 		2C706D6B10AD3A1400208505 /* loader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6210AD336100208505 /* loader.scpt */; };
 		2C706D6C10AD3A1A00208505 /* LocalLoader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6110AD336100208505 /* LocalLoader.scpt */; };
 		2C706D9810AD3C4D00208505 /* LocalLoader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6110AD336100208505 /* LocalLoader.scpt */; };
@@ -61,6 +63,7 @@
 		2C24C07B10AAEB31007144CD /* loader.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = loader.applescript; sourceTree = "<group>"; };
 		2C5B3B7C10B98242004396E4 /* ModuleLoader.osax */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModuleLoader.osax; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C5B3B7D10B98242004396E4 /* Info_10_5 copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info_10_5 copy.plist"; sourceTree = "<group>"; };
+		2C5B3B8210B982BE004396E4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C706CAC10AD0AA800208505 /* LocalLoader.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = LocalLoader.applescript; sourceTree = "<group>"; };
 		2C706D6110AD336100208505 /* LocalLoader.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = LocalLoader.scpt; sourceTree = "<group>"; };
 		2C706D6210AD336100208505 /* loader.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = loader.scpt; sourceTree = "<group>"; };
@@ -143,6 +146,7 @@
 				2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */,
 				2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */,
 				8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */,
+				2C5B3B8210B982BE004396E4 /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				2C813C770B4CD75C000FF2FE /* ModuleLoaderTestApp-Info.plist */,
 				2C24C07B10AAEB31007144CD /* loader.applescript */,
@@ -317,6 +321,7 @@
 			files = (
 				2C706D6C10AD3A1A00208505 /* LocalLoader.scpt in Resources */,
 				2C706D6B10AD3A1400208505 /* loader.scpt in Resources */,
+				2C5B3B8310B982BE004396E4 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +333,7 @@
 				2C706D9910AD3C4D00208505 /* loader.scpt in Resources */,
 				2CB99DCD10AA9625002C5D32 /* ModuleLoader.sdef in Resources */,
 				8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */,
+				2C5B3B8410B982BE004396E4 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,7 +572,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
-				INFOPLIST_FILE = "/Users/tkurita/Dev/Projects/ModuleLoader OSAX/trunk/Info_10_5 copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
 				PRODUCT_NAME = ModuleLoader;
 				SYMROOT = build;
@@ -588,7 +594,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
-				INFOPLIST_FILE = "/Users/tkurita/Dev/Projects/ModuleLoader OSAX/trunk/Info_10_5 copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
 				PRODUCT_NAME = ModuleLoader;
 				SYMROOT = build;

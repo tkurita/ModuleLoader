@@ -292,12 +292,12 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>25</integer>
-									<integer>23</integer>
+									<integer>28</integer>
+									<integer>26</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {321, 626}}</string>
+							<string>{{0, 37}, {321, 626}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -318,7 +318,7 @@
 							<real>299</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>299 172 1028 706 0 0 1440 878 </string>
+						<string>88 172 1028 706 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -334,7 +334,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>EventHandlers.h</string>
+								<string>Info.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -342,17 +342,16 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>EventHandlers.h</string>
+										<string>Info.plist</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2C5B3B3510B96A4C004396E4</string>
+										<string>2C5B3B9910B98A21004396E4</string>
 										<key>history</key>
 										<array>
 											<string>2C1AD2A110B055C8004B9EDB</string>
 											<string>2C1AD31B10B067C1004B9EDB</string>
 											<string>2C47E07F10B19164002ADC14</string>
-											<string>2C47E17010B25CE9002ADC14</string>
 											<string>2C4026EE10B56E0E00BBF1B5</string>
 											<string>2C4026EF10B56E0E00BBF1B5</string>
 											<string>2C40273410B58E7000BBF1B5</string>
@@ -361,7 +360,9 @@
 											<string>2C2DD8B010B70567007C5F8E</string>
 											<string>2C2DD8D910B7096E007C5F8E</string>
 											<string>2C2DD91A10B71143007C5F8E</string>
-											<string>2C5B3A1810B79123004396E4</string>
+											<string>2C5B3B9310B98A21004396E4</string>
+											<string>2C5B3B9410B98A21004396E4</string>
+											<string>2C5B3B9510B98A21004396E4</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -377,6 +378,9 @@
 											<string>2C4026D610B5655000BBF1B5</string>
 											<string>2C2DD89D10B703CB007C5F8E</string>
 											<string>2C2DD8DB10B7096E007C5F8E</string>
+											<string>2C5B3B9610B98A21004396E4</string>
+											<string>2C5B3B9710B98A21004396E4</string>
+											<string>2C5B3B9810B98A21004396E4</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -390,7 +394,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {685, 550}}</string>
 								<key>RubberWindowFrame</key>
-								<string>299 172 1028 706 0 0 1440 878 </string>
+								<string>88 172 1028 706 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -410,7 +414,7 @@
 								<key>Frame</key>
 								<string>{{0, 555}, {685, 89}}</string>
 								<key>RubberWindowFrame</key>
-								<string>299 172 1028 706 0 0 1440 878 </string>
+								<string>88 172 1028 706 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -434,9 +438,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2C5B3B3610B96A4C004396E4</string>
+				<string>2C5B3B9A10B98A21004396E4</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2C5B3B3710B96A4C004396E4</string>
+				<string>2C5B3B9B10B98A21004396E4</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -568,10 +572,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>2C003D8110A91F95003C3066</string>
 		<string>/Users/tkurita/Dev/Projects/ModuleLoader OSAX/trunk/ModuleLoader.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>299 172 1028 706 0 0 1440 878 </string>
+	<string>88 172 1028 706 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -650,7 +655,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2C003D8110A91F95003C3066</string>
-				<string>2C2DD92010B71143007C5F8E</string>
+				<string>2C5B3B9C10B98A21004396E4</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
