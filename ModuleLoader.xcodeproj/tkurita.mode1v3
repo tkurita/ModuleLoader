@@ -281,6 +281,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>089C166AFE841209C02AAC07</string>
+								<string>08FB77ADFE841716C02AAC07</string>
 								<string>2CB99C3E10AA6364002C5D32</string>
 								<string>089C167CFE841241C02AAC07</string>
 								<string>2CEBDE1510AD4EF400B7F6BB</string>
@@ -292,12 +293,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>28</integer>
-									<integer>26</integer>
+									<integer>9</integer>
+									<integer>2</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 37}, {321, 626}}</string>
+							<string>{{0, 0}, {321, 626}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -334,7 +336,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Info.plist</string>
+								<string>EventHandlers.c</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -342,11 +344,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Info.plist</string>
+										<string>EventHandlers.c</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2C5B3B9910B98A21004396E4</string>
+										<string>2C2CD59610BA2950008CA461</string>
 										<key>history</key>
 										<array>
 											<string>2C1AD2A110B055C8004B9EDB</string>
@@ -358,11 +360,11 @@
 											<string>2C40276F10B5952E00BBF1B5</string>
 											<string>2C40277010B5952E00BBF1B5</string>
 											<string>2C2DD8B010B70567007C5F8E</string>
-											<string>2C2DD8D910B7096E007C5F8E</string>
-											<string>2C2DD91A10B71143007C5F8E</string>
 											<string>2C5B3B9310B98A21004396E4</string>
 											<string>2C5B3B9410B98A21004396E4</string>
-											<string>2C5B3B9510B98A21004396E4</string>
+											<string>2C2CD59210BA2950008CA461</string>
+											<string>2C2CD59310BA2950008CA461</string>
+											<string>2C2DD91A10B71143007C5F8E</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -379,8 +381,8 @@
 											<string>2C2DD89D10B703CB007C5F8E</string>
 											<string>2C2DD8DB10B7096E007C5F8E</string>
 											<string>2C5B3B9610B98A21004396E4</string>
-											<string>2C5B3B9710B98A21004396E4</string>
-											<string>2C5B3B9810B98A21004396E4</string>
+											<string>2C2CD59410BA2950008CA461</string>
+											<string>2C2CD59510BA2950008CA461</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -438,9 +440,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2C5B3B9A10B98A21004396E4</string>
+				<string>2C2CD59710BA2950008CA461</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2C5B3B9B10B98A21004396E4</string>
+				<string>2C2CD59810BA2950008CA461</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -572,7 +574,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>2C003D8110A91F95003C3066</string>
 		<string>/Users/tkurita/Dev/Projects/ModuleLoader OSAX/trunk/ModuleLoader.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

@@ -2,14 +2,14 @@ property name : "LoaderProxy"
 property ModuleCache : missing value
 property ConsoleLog : missing value
 
-on __load__(loader)
+on module loaded by loader
 	tell loader
 		set ModuleCache to load("ModuleCache")
 		set ConsoleLog to load("ConsoleLog")
 	end tell
-end __load__
+end module loaded
 
-property _ : __load__((proxy() of application (get "ModuleLoaderLib"))'s set_localonly(true))
+property _ : module loaded by ((proxy() of application (get "ModuleLoaderLib"))'s set_localonly(true))
 
 property _loadonly : false
 property _module_cache : make ModuleCache
@@ -61,13 +61,52 @@ on do_log(msg)
 end do_log
 
 on find_module(a_name, a_location)
-	set loc_path to quoted form of POSIX path of a_location
-	set a_result to do shell script "module_name=`echo '" & a_name & "'|/usr/bin/iconv -f UTF-8 -t UTF-8-MAC`; find -E " & loc_path & " -regex " & quote & "(.*/)*$module_name($|.scpt|.scptd|.app)$" & quote
-	if a_result is "" then
+	set module_path to missing value
+	if a_name contains ":" then
+		set loc_path to POSIX path of a_location
+		set delim to AppleScript's text item delimiters
+		set AppleScript's text item delimiters to ":"
+		set path_elems to every text item of a_name
+		set AppleScript's text item delimiters to delim
+		set mod_name to last item of path_elems
+		if (length of mod_name < 1) then
+			error (quoted form of a_name) & " is invald form to specify a module." number 1801
+		end if
+		repeat with n from 1 to (length of path_elems) - 1
+			set an_elem to item 1 of path_elems
+			if (length of an_elem > 0) then
+				set loc_path to loc_path & (an_elem) & "/"
+			end if
+		end repeat
+		tell application "System Events"
+			set a_folder to item loc_path
+			tell a_folder
+				set module_items to items whose name starts with mod_name
+			end tell
+		end tell
+		if (length of module_items < 1) then
+			raise_error(a_name, a_location)
+		end if
+		tell application "System Events"
+			repeat with an_item in module_items
+				if name extension of an_item is in {"scpt", "scptd", "app"} then
+					set module_path to an_item as alias
+					exit repeat
+				end if
+			end repeat
+		end tell
+	else
+		set loc_path to quoted form of POSIX path of a_location
+		set a_result to do shell script "module_name=`echo '" & a_name & "'|/usr/bin/iconv -f UTF-8 -t UTF-8-MAC`; find -E " & loc_path & " -regex " & quote & "(.*/)*$module_name($|.scpt|.scptd|.app)$" & quote
+		if a_result is not "" then
+			set module_path to (POSIX file (paragraph 1 of a_result)) as alias
+		end if
+	end if
+	
+	if module_path is missing value then
 		raise_error(a_name, a_location)
 	end if
-	set a_path to (POSIX file (paragraph 1 of a_result)) as alias
-	return a_path
+	return module_path
 end find_module
 
 on export(a_script) -- save myself to cache when load a module which load myself.
