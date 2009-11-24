@@ -80,8 +80,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 280739404;
-			PBXWorkspaceStateSaveDate = 280739404;
+			PBXPerProjectTemplateStateSaveDate = 280744694;
+			PBXWorkspaceStateSaveDate = 280744694;
 		};
 		perUserProjectItems = {
 			2C1AD29110B05521004B9EDB = 2C1AD29110B05521004B9EDB /* PBXTextBookmark */;
@@ -98,12 +98,12 @@
 			2C2CD59210BA2950008CA461 = 2C2CD59210BA2950008CA461 /* PlistBookmark */;
 			2C2CD59310BA2950008CA461 = 2C2CD59310BA2950008CA461 /* PBXTextBookmark */;
 			2C2CD59410BA2950008CA461 = 2C2CD59410BA2950008CA461 /* PlistBookmark */;
-			2C2CD59510BA2950008CA461 = 2C2CD59510BA2950008CA461 /* PBXTextBookmark */;
-			2C2CD59610BA2950008CA461 = 2C2CD59610BA2950008CA461 /* PBXTextBookmark */;
+			2C2CD5B810BBC0CA008CA461 = 2C2CD5B810BBC0CA008CA461 /* PBXTextBookmark */;
+			2C2CD5B910BBC0CA008CA461 = 2C2CD5B910BBC0CA008CA461 /* PBXTextBookmark */;
+			2C2CD5C110BBC248008CA461 = 2C2CD5C110BBC248008CA461 /* PBXTextBookmark */;
 			2C2DD89D10B703CB007C5F8E = 2C2DD89D10B703CB007C5F8E /* PBXTextBookmark */;
 			2C2DD8B010B70567007C5F8E = 2C2DD8B010B70567007C5F8E /* PBXTextBookmark */;
 			2C2DD8DB10B7096E007C5F8E = 2C2DD8DB10B7096E007C5F8E /* PBXTextBookmark */;
-			2C2DD91A10B71143007C5F8E = 2C2DD91A10B71143007C5F8E /* PBXTextBookmark */;
 			2C4026D610B5655000BBF1B5 = 2C4026D610B5655000BBF1B5 /* PBXTextBookmark */;
 			2C4026EE10B56E0E00BBF1B5 = 2C4026EE10B56E0E00BBF1B5 /* PBXTextBookmark */;
 			2C4026EF10B56E0E00BBF1B5 = 2C4026EF10B56E0E00BBF1B5 /* PBXTextBookmark */;
@@ -322,7 +322,7 @@
 		fRef = 2C706CAC10AD0AA800208505 /* LocalLoader.applescript */;
 		name = "LocalLoader.applescript: 51";
 		rLen = 0;
-		rLoc = 1124;
+		rLoc = 1136;
 		rType = 0;
 		vrLen = 630;
 		vrLoc = 198;
@@ -339,10 +339,10 @@
 	};
 	2C24C07B10AAEB31007144CD /* loader.applescript */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {637, 3508}}";
-			sepNavSelRange = "{5005, 0}";
-			sepNavVisRange = "{534, 749}";
-			sepNavWindowFrame = "{{15, 119}, {801, 754}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1256, 4137}}";
+			sepNavSelRange = "{6297, 0}";
+			sepNavVisRange = "{0, 879}";
+			sepNavWindowFrame = "{{15, 116}, {1017, 757}}";
 		};
 	};
 	2C24C0F610AB0F63007144CD /* EventHandlers.c:148 */ = {
@@ -504,25 +504,35 @@
 		rLen = 0;
 		rLoc = 2147483647;
 	};
-	2C2CD59510BA2950008CA461 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2C24C07B10AAEB31007144CD /* loader.applescript */;
-		name = "loader.applescript: 210";
-		rLen = 0;
-		rLoc = 29;
-		rType = 0;
-		vrLen = 749;
-		vrLoc = 534;
-	};
-	2C2CD59610BA2950008CA461 /* PBXTextBookmark */ = {
+	2C2CD5B810BBC0CA008CA461 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 206";
 		rLen = 0;
 		rLoc = 6170;
 		rType = 0;
-		vrLen = 1067;
+		vrLen = 1054;
 		vrLoc = 6491;
+	};
+	2C2CD5B910BBC0CA008CA461 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		name = "EventHandlers.c: 206";
+		rLen = 0;
+		rLoc = 6170;
+		rType = 0;
+		vrLen = 1054;
+		vrLoc = 6491;
+	};
+	2C2CD5C110BBC248008CA461 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2C24C07B10AAEB31007144CD /* loader.applescript */;
+		name = "loader.applescript: 28";
+		rLen = 0;
+		rLoc = 732;
+		rType = 0;
+		vrLen = 607;
+		vrLoc = 5660;
 	};
 	2C2DD89D10B703CB007C5F8E /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -570,16 +580,6 @@
 		location = ModuleLoaderTestApp;
 		modificationTime = 280432680.08134;
 		state = 1;
-	};
-	2C2DD91A10B71143007C5F8E /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
-		name = "EventHandlers.c: 206";
-		rLen = 0;
-		rLoc = 6170;
-		rType = 0;
-		vrLen = 965;
-		vrLoc = 6050;
 	};
 	2C3C9DDE10B5997800D5664F /* findModule.c:277 */ = {
 		isa = PBXFileBreakpoint;
@@ -671,7 +671,7 @@
 		fRef = 2C706CAC10AD0AA800208505 /* LocalLoader.applescript */;
 		name = "LocalLoader.applescript: 55";
 		rLen = 0;
-		rLoc = 1124;
+		rLoc = 1136;
 		rType = 0;
 		vrLen = 650;
 		vrLoc = 474;

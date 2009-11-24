@@ -12,25 +12,33 @@ on setup()
 end setup
 
 on load(a_name)
-	set a_loader to proxy()
-	return a_loader's load(a_name)
+	return load_module(a_name)
 end load
 
+on load module a_name
+	return load_module(a_name)
+end load module
+
+on load_module(a_name)
+	set a_loader to make_loader()
+	return a_loader's load_module(a_name)
+end load_module
+
 on make loader
-	return proxy()
+	return make_loader()
 end make loader
 
-on make_loader()
-	return proxy()
-end make_loader
-
 on proxy()
+	return make_loader()
+end proxy
+
+on make_loader()
 	copy my _loaderCore to local_loader
 	local_loader's set_local(true)
 	local_loader's set_localonly(my _only_local)
 	local_loader's set_additional_paths({local_loader's current_location()})
 	return local_loader
-end proxy
+end make_loader
 
 on idle
 	--ConsoleLog's do("start idle")

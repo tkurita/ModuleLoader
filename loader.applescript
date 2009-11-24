@@ -110,22 +110,22 @@ on find_module(a_name, a_location)
 end find_module
 
 on export(a_script) -- save myself to cache when load a module which load myself.
-	export_to_cache(a_script)
+	export_to_cache(name of a_script, a_script)
 end export
 
-on export_to_cache(a_script)
-	my _module_cache's add_module(name of a_script, missing value, a_script)
+on export_to_cache(a_name, a_script)
+	my _module_cache's add_module(a_name, missing value, a_script)
 end export_to_cache
 
 on load module a_name
-	return load(a_name)
+	return load_module(a_name)
 end load module
 
-on load_module(a_name)
-	return load(a_name)
-end load_module
-
 on load(a_name)
+	return load_module(a_name)
+end load
+
+on load_module(a_name)
 	do_log("start load for " & quoted form of a_name)
 	if a_name is in {":", "", "/", "."} then
 		error (quoted form of a_name) & " is invald form to specify a module." number 1801
@@ -178,7 +178,7 @@ on load(a_name)
 	end if
 	
 	return a_script
-end load
+end load_module
 
 on set_loadonly(a_flat)
 	set my _loadonly to a_flag

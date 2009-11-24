@@ -376,7 +376,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "osascript <<EOS\ntry\ntell application \"Finder\"\n        set theItem to POSIX file \"${INSTALL_DIR}/${PRODUCT_NAME}\"\n        delete (theItem as alias)\nend tell\nend try\nreturn\nEOS\n";
+			shellScript = "exit 0;\nosascript <<EOS\ntry\ntell application \"Finder\"\n        set theItem to POSIX file \"${INSTALL_DIR}/${PRODUCT_NAME}\"\n        delete (theItem as alias)\nend tell\nend try\nreturn\nEOS\n";
 		};
 		2C40269C10B562EA00BBF1B5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
