@@ -40,6 +40,10 @@ on make_loader()
 	return local_loader
 end make_loader
 
+on makeLoader() -- AppleMods
+	return make_loader()
+end makeLoader
+
 on idle
 	--ConsoleLog's do("start idle")
 	if _idleTime is greater than or equal to _waitTime then

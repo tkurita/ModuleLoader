@@ -11,9 +11,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.0</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>copyright 2006-2009, Tetsuro KURITA</string>
+	<string>for 10.6. copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleGetInfoString</key>
-	<string>2.0 copyright 2006-2009, Tetsuro KURITA</string>
+	<string>2.0 for 10.6. copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>

@@ -195,6 +195,11 @@ on set_logging(a_flag, loader_name)
 	return a reference to me
 end set_logging
 
+(** AppleMods handler **)
+on loadLib(a_name)
+	return load_module(a_name)
+end loadLib
+
 (** Handlers for local loader **)
 
 on set_localonly(a_flag)
