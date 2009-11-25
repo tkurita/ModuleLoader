@@ -60,7 +60,7 @@ on do_log(msg)
 	end if
 end do_log
 
-on find_module(a_name, a_location)
+on find_without_osax(a_name, a_location)
 	set module_path to missing value
 	if a_name contains ":" then
 		set loc_path to POSIX path of a_location
@@ -107,7 +107,7 @@ on find_module(a_name, a_location)
 		raise_error(a_name, a_location)
 	end if
 	return module_path
-end find_module
+end find_without_osax
 
 on export(a_script) -- save myself to cache when load a module which load myself.
 	export_to_cache(name of a_script, a_script)
@@ -116,6 +116,25 @@ end export
 on export_to_cache(a_name, a_script)
 	my _module_cache's add_module(a_name, missing value, a_script)
 end export_to_cache
+
+on find module a_name
+	return find_module(a_name)
+end find module
+
+on find_module(a_name)
+	set adpaths to my _additional_paths
+	if (my _is_local and (length of adpaths is 0)) then
+		set adpaths to {current_location()}
+	end if
+	
+	if my _only_local then
+		set a_path to find_without_osax(a_name, item 1 of adpaths)
+	else
+		set a_path to continue find module a_name additional paths adpaths
+	end if
+	
+	return a_path
+end find_module
 
 on load module a_name
 	return load_module(a_name)
@@ -147,7 +166,7 @@ on load_module(a_name)
 	
 	if my _collecting or my _only_local then
 		try
-			set a_path to find_module(a_name, item 1 of adpaths)
+			set a_path to find_without_osax(a_name, item 1 of adpaths)
 		on error msg number errno
 			if my _collecting then
 				set a_path to try_collect(a_name, item 1 of adpaths)
@@ -156,7 +175,7 @@ on load_module(a_name)
 			end if
 		end try
 	else
-		set a_path to find module a_name additional paths adpaths
+		set a_path to continue find module a_name additional paths adpaths
 	end if
 	
 	try
@@ -230,7 +249,7 @@ on set_local(a_flag)
 end set_local
 
 on try_collect(a_name, a_location)
-	set a_path to find module a_name
+	set a_path to continue find module a_name
 	tell application "Finder"
 		set new_alias to make alias file at a_location to a_path -- with properties {name:name of path_rec}
 	end tell
