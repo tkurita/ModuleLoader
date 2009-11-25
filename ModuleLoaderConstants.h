@@ -5,3 +5,12 @@
 
 #define kInDirectoryParam 'inDr'
 #define kOtherPathsParam 'ohPh'
+
+#define kModuleLoaderSuite  'Molo'
+#define kLoadModuleEvent	'loMo'
+#define kFindModuleEvent 'fdMo'
+#define kMakeLoaderEvent 'MKlo'
+#define kMakeLocaLoaderEvent 'MkLl'
+#define kSetAdditionalModulePathsEvent 'adMp'
+#define kModulePathsEvent 'gtPH'
+#define kVersionEvent 'Vers'

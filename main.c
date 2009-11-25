@@ -1,9 +1,10 @@
 #include "findModule.h"
 #include "EventHandlers.h"
+#include "ModuleLoaderConstants.h"
 
-#define useLog 1
+#define useLog 0
 
-UInt32			gAdditionReferenceCount = 0;
+extern UInt32 gAdditionReferenceCount;
 CFBundleRef		gAdditionBundle;
 
 
@@ -13,15 +14,6 @@ struct AEEventHandlerInfo {
 };
 
 typedef struct AEEventHandlerInfo AEEventHandlerInfo;
-
-#define kModuleLoaderSuite  'Molo'
-#define kLoadModuleEvent	'loMo'
-#define kFindModuleEvent 'fdMo'
-#define kMakeLoaderEvent 'MKlo'
-#define kSetAdditionalModulePathsEvent 'adMp'
-#define kModulePathsEvent 'gtPH'
-#define kMakeLocaLoaderEvent 'MkLl'
-#define kVersionEvent 'Vers'
 
 static AEEventHandlerUPP *gEventUPPs;
 
@@ -39,7 +31,6 @@ const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kModulePathsEvent, modulePathsHandler},
 { kModuleLoaderSuite, kMakeLocaLoaderEvent, makeLocalLoaderHandler},
 { kModuleLoaderSuite, kVersionEvent, versionHandler}
-// Add more suite/event/handler triplets here if you define more than one command.
 };
 
 const int kEventHandlerCount = (sizeof(gEventInfo) / sizeof(AEEventHandlerInfo));
@@ -67,8 +58,7 @@ void SATerminate()
 
 Boolean SAIsBusy()
 {
-	//return gAdditionReferenceCount != 0;
-	return true;
+	return gAdditionReferenceCount != 0;
 }
 
 static OSErr InstallMyEventHandlers()
@@ -118,6 +108,7 @@ static void RemoveMyEventHandlers()
 #endif	
 }
 
+#if !__LP64__
 int main(int argc, char *argv[]) // for debugging
 {
 	/*
@@ -136,3 +127,4 @@ int main(int argc, char *argv[]) // for debugging
 	free(gEventUPPs);
 	return 0;
 }
+#endif

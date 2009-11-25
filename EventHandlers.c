@@ -4,25 +4,28 @@
 #include "ModuleLoaderConstants.h"
 
 #define useLog 0
-#define CACHE_LOADER_SCRIPT 1
+
+UInt32 gAdditionReferenceCount = 0;
 
 static ComponentInstance scriptingComponent = NULL;
 
 OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
+	gAdditionReferenceCount++;
 	OSErr err;
 	CFBundleRef	bundle = CFBundleGetBundleWithIdentifier(BUNDLE_ID);
 	CFDictionaryRef info = CFBundleGetInfoDictionary(bundle);
 	
 	CFStringRef vers = CFDictionaryGetValue(info, CFSTR("CFBundleShortVersionString"));
 	err = putStringToEvent(reply, keyAEResult, vers, kCFStringEncodingUnicode);
+	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
+	gAdditionReferenceCount++;
 	OSErr err;
-	
 	CFMutableArrayRef all_paths = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
 	CFArrayRef additional_paths = additionalModulePaths();
 	if (additional_paths) {
@@ -39,11 +42,13 @@ OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	
 	err = putStringListToEvent(reply, keyAEResult, all_paths, kCFStringEncodingUTF8);
 	CFRelease(all_paths);
+	gAdditionReferenceCount--;
 	return noErr;
 }
 
 OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
+	gAdditionReferenceCount++;
 	OSErr err;
 	CFMutableArrayRef module_paths = NULL;
 	Boolean ismsg;
@@ -59,12 +64,14 @@ OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, l
 	}
 bail:
 	safeRelease(module_paths);
+	gAdditionReferenceCount--;	
 	return err;
 }
 
 
 OSErr loadBundleScript(CFStringRef name, OSAID *newIDPtr)
 {
+	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	if (*newIDPtr != kOSANullScript) goto bail;
 	
@@ -86,11 +93,13 @@ OSErr loadBundleScript(CFStringRef name, OSAID *newIDPtr)
 	}
 
 bail:
+	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
+	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	OSAID loader_id = kOSANullScript;
 	err = loadBundleScript(CFSTR("LocalLoader"), &loader_id);
@@ -138,11 +147,13 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 bail:
 	if (loader_id != kOSANullScript) 
 		OSADispose(scriptingComponent, loader_id);
+	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
+	gAdditionReferenceCount++;
 	OSErr err;
 	OSAID loader_id = kOSANullScript;
 	err = loadBundleScript(CFSTR("loader"), &loader_id);
@@ -164,6 +175,7 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 bail:
 	if (loader_id != kOSANullScript) 
 		OSADispose(scriptingComponent, loader_id);
+	gAdditionReferenceCount--;
 	return err;
 }
 
@@ -206,6 +218,7 @@ bail:
 
 OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
+	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	FSRef module_ref;
 	err = findModuleWithEvent(ev, reply, &module_ref);
@@ -214,11 +227,13 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = FSNewAlias(NULL, &module_ref, &an_alias);
 	err = putAliasToReply(an_alias, reply);
 bail:
+	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
+	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	FSRef module_ref;
 	err = findModuleWithEvent(ev, reply, &module_ref);
@@ -250,6 +265,6 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	OSADispose(scriptingComponent,script_id);
 	
 bail:
-	
+	gAdditionReferenceCount--;
 	return err;
 }
