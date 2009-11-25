@@ -117,20 +117,24 @@ on export_to_cache(a_name, a_script)
 	my _module_cache's add_module(a_name, missing value, a_script)
 end export_to_cache
 
-on find module a_name
-	return find_module(a_name)
-end find module
-
-on find_module(a_name)
+on find_module(a_name) -- clients should call only for debugging
 	set adpaths to my _additional_paths
 	if (my _is_local and (length of adpaths is 0)) then
 		set adpaths to {current_location()}
 	end if
 	
-	if my _only_local then
-		set a_path to find_without_osax(a_name, item 1 of adpaths)
+	if my _collecting or my _only_local then
+		try
+			set a_path to find_without_osax(a_name, item 1 of adpaths)
+		on error msg number errno
+			if my _collecting then
+				set a_path to try_collect(a_name, item 1 of adpaths)
+			else
+				error msg number errno
+			end if
+		end try
 	else
-		set a_path to continue find module a_name additional paths adpaths
+		set a_path to find module a_name additional paths adpaths
 	end if
 	
 	return a_path
@@ -159,24 +163,7 @@ on load_module(a_name)
 		return a_script
 	end if
 	
-	set adpaths to my _additional_paths
-	if (my _is_local and (length of adpaths is 0)) then
-		set adpaths to {current_location()}
-	end if
-	
-	if my _collecting or my _only_local then
-		try
-			set a_path to find_without_osax(a_name, item 1 of adpaths)
-		on error msg number errno
-			if my _collecting then
-				set a_path to try_collect(a_name, item 1 of adpaths)
-			else
-				error msg number errno
-			end if
-		end try
-	else
-		set a_path to continue find module a_name additional paths adpaths
-	end if
+	set a_path to find_module(a_name)
 	
 	try
 		set a_script to my _module_cache's module_for_path(a_path)
@@ -249,7 +236,7 @@ on set_local(a_flag)
 end set_local
 
 on try_collect(a_name, a_location)
-	set a_path to continue find module a_name
+	set a_path to find module a_name
 	tell application "Finder"
 		set new_alias to make alias file at a_location to a_path -- with properties {name:name of path_rec}
 	end tell
