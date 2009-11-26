@@ -83,6 +83,8 @@
 				<true/>
 				<key>Context</key>
 				<string>Machine</string>
+				<key>Handler</key>
+				<string>makeLocalLoaderHandler</string>
 			</dict>
 			<key>MoloVers</key>
 			<dict>
