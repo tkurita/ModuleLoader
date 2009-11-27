@@ -5,7 +5,7 @@ on cwd()
 	if pwd is "" or pwd is ((path to startup disk)'s POSIX path) then
 		return "/Users/tkurita/Dev/Projects/ModuleLoader/trunk/"
 	else
-		return pwd
+		return pwd & "/"
 	end if
 end cwd
 
