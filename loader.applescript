@@ -1,9 +1,17 @@
 property name : "LoaderProxy"
---property _src : "/Users/tkurita/Dev/Projects/ModuleLoader/trunk/"
-property _src : system attribute "PWD"&"/"
-property ModuleCache : run script POSIX file (_src & "ModuleCache.applescript")
-property XList : run script POSIX file (_src & "FastList.applescript")
-property ConsoleLog : run script POSIX file (_src & "ConsoleLog.applescript")
+
+on cwd()
+	set pwd to system attribute "PWD"
+	if pwd is "" or pwd is ((path to startup disk)'s POSIX path) then
+		return "/Users/tkurita/Dev/Projects/ModuleLoader/trunk/"
+	else
+		return pwd
+	end if
+end cwd
+
+property ModuleCache : run script POSIX file (cwd() & "ModuleCache.applescript")
+property XList : run script POSIX file (cwd() & "FastList.applescript")
+property ConsoleLog : run script POSIX file (cwd() & "ConsoleLog.applescript")
 
 property _loadonly : false
 property _module_cache : make ModuleCache
