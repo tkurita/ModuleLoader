@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>ModuleLoader</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0</string>
 	<key>NSHumanReadableCopyright</key>

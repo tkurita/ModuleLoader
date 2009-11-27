@@ -84,6 +84,9 @@
 		2C813BD00B4CC5E6000FF2FE /* History.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = History.rtf; sourceTree = "<group>"; };
 		2C813C750B4CD75C000FF2FE /* ModuleLoaderTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModuleLoaderTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C813C770B4CD75C000FF2FE /* ModuleLoaderTestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ModuleLoaderTestApp-Info.plist"; sourceTree = "<group>"; };
+		2C8E295410BFD82B008C44A9 /* FastList.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = FastList.applescript; sourceTree = "<group>"; };
+		2C8E295510BFD835008C44A9 /* ModuleCache.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ModuleCache.applescript; sourceTree = "<group>"; };
+		2C8E296110BFD9B6008C44A9 /* ConsoleLog.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ConsoleLog.applescript; sourceTree = "<group>"; };
 		2CB99B8010AA4801002C5D32 /* EventHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventHandlers.h; sourceTree = "<group>"; };
 		2CB99B8110AA4801002C5D32 /* EventHandlers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EventHandlers.c; sourceTree = "<group>"; };
 		2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = ModuleLoader.r; sourceTree = "<group>"; };
@@ -144,6 +147,7 @@
 				2C813BD00B4CC5E6000FF2FE /* History.rtf */,
 				08FB77ADFE841716C02AAC07 /* Source */,
 				2CB99C3E10AA6364002C5D32 /* AEUtils */,
+				2C8E294E10BFD810008C44A9 /* Scripts */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
@@ -168,8 +172,6 @@
 				2C5B3B8210B982BE004396E4 /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				2C813C770B4CD75C000FF2FE /* ModuleLoaderTestApp-Info.plist */,
-				2C24C07B10AAEB31007144CD /* loader.applescript */,
-				2C706CAC10AD0AA800208505 /* LocalLoader.applescript */,
 				2CEBDE1510AD4EF400B7F6BB /* compiled scripts */,
 				2C2CD6AD10BCB79C008CA461 /* Info_10_4.plist */,
 			);
@@ -201,6 +203,18 @@
 				2C2CD6AC10BCB79C008CA461 /* ModuleLoader.osax */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2C8E294E10BFD810008C44A9 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				2C8E295510BFD835008C44A9 /* ModuleCache.applescript */,
+				2C8E295410BFD82B008C44A9 /* FastList.applescript */,
+				2C24C07B10AAEB31007144CD /* loader.applescript */,
+				2C8E296110BFD9B6008C44A9 /* ConsoleLog.applescript */,
+				2C706CAC10AD0AA800208505 /* LocalLoader.applescript */,
+			);
+			name = Scripts;
 			sourceTree = "<group>";
 		};
 		2CB99C3E10AA6364002C5D32 /* AEUtils */ = {
@@ -670,7 +684,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -692,7 +706,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -711,7 +725,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -732,7 +746,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -800,7 +814,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -824,7 +838,7 @@
 					ppc,
 					i386,
 				);
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

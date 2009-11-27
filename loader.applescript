@@ -1,15 +1,9 @@
 property name : "LoaderProxy"
-property ModuleCache : missing value
-property ConsoleLog : missing value
-
-on module loaded by loader
-	tell loader
-		set ModuleCache to load("ModuleCache")
-		set ConsoleLog to load("ConsoleLog")
-	end tell
-end module loaded
-
-property _ : module loaded by ((proxy() of application (get "ModuleLoaderLib"))'s set_localonly(true))
+--property _src : "/Users/tkurita/Dev/Projects/ModuleLoader/trunk/"
+property _src : system attribute "PWD"&"/"
+property ModuleCache : run script POSIX file (_src & "ModuleCache.applescript")
+property XList : run script POSIX file (_src & "FastList.applescript")
+property ConsoleLog : run script POSIX file (_src & "ConsoleLog.applescript")
 
 property _loadonly : false
 property _module_cache : make ModuleCache
@@ -22,7 +16,7 @@ property _collecting : false
 property _only_local : false
 
 on setup_script(a_script)
-	do_log("start setup_script")
+	--do_log("start setup_script")
 	set sucess_setup to false
 	try
 		module loaded a_script by me
@@ -40,7 +34,7 @@ on setup_script(a_script)
 		try
 			a_script's __load__(me)
 		on error msg number errno
-			do_log("error on calling __load__")
+			--do_log("error on calling __load__")
 			if errno is not -1708 then
 				error msg number errno
 			end if
@@ -149,7 +143,7 @@ on load(a_name)
 end load
 
 on load_module(a_name)
-	do_log("start load for " & quoted form of a_name)
+	--do_log("start load for " & quoted form of a_name)
 	if a_name is in {":", "", "/", "."} then
 		error (quoted form of a_name) & " is invald form to specify a module." number 1801
 	end if
@@ -173,14 +167,14 @@ on load_module(a_name)
 		set need_setup to true
 	end try
 	if need_setup then
-		do_log("did not hit in script chache")
+		--do_log("did not hit in script chache")
 		set a_script to load script a_path
 		my _module_cache's add_module(a_name, a_path, a_script)
 		if not my _loadonly then
 			setup_script(a_script)
 		end if
 	else
-		do_log("hit in script chache")
+		--do_log("hit in script chache")
 	end if
 	
 	return a_script
