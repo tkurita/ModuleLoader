@@ -14,3 +14,4 @@
 #define kSetAdditionalModulePathsEvent 'adMp'
 #define kModulePathsEvent 'gtPH'
 #define kVersionEvent 'Vers'
+#define kMakeModuleSpecEvent 'MkMs'

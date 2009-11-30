@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
 <dictionary title="ModuleLoader Terminology">
-	<suite name="ModuleLoader Suite" code="Molo" description="loding script module">
+	<suite name="ModuleLoader Suite" code="Molo" description="loding script modules">
 		<value-type hidden="yes" name="script" code="scpt"/>
+		<record-type name="module specifier" code="MoSp" description="A specifier of a module will be loaded.">
+			<property name="name" code="pnam" description="Module name" type="text"/>
+		</record-type>
+		<record-type name="dependency infomation" code="DpIf" description="Module dependency infomation">
+			<property name="name" code="pnam" description="A property name which a module is loaded." type="text"/>
+			<property name="module info" code="MoIF" description="A module specifier" type="module specifier"/>
+		</record-type>
 		<command name="find module" code="MolofdMo" description="Find module from module paths. If specified module can not be forund, the error number 1800 will raise.">
 			<direct-parameter description="A module name" type="text"/>
 			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
@@ -36,6 +43,19 @@
 		</command>
 		<command name="ModuleLoader version" code="MoloVers" description="get version number of ModuleLoader">
 			<result description="version number" type="text"/>
+		</command>
+		<command name="module" code="MoloMkMs" description="Make a module specifier record">
+			<direct-parameter description="A module name" type="text"/>
+			<result description="A module specifer record" type="module specifier"/>
+		</command>
+		<command name="extract dependencies" code="MoloExdp" description="Extarct module specifier records from a module script.">
+			<direct-parameter description="A module script" type="scpt"/>
+			<result>
+				<type type="dependency infomation" list="yes"/>
+			</result>
+		</command>
+		<command name="set up" code="MoloStup" description="Set up modules depending on. This command must be sent to a loader script returned from &quot;make loader&quot; command.">
+			<direct-parameter description="A script which need to load modules" type="script"/>
 		</command>
 		<event name="module loaded" code="MolowlLd" description="A handler in which a module resolve dependencies. This event is sent by a loader script when a script is loaded. ">
 			<parameter name="by" code="whLD" description="A loader script" type="script"/>

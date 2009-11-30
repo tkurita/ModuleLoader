@@ -30,7 +30,8 @@ const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kSetAdditionalModulePathsEvent, setAdditionalModulePathsHandler},
 { kModuleLoaderSuite, kModulePathsEvent, modulePathsHandler},
 { kModuleLoaderSuite, kMakeLocaLoaderEvent, makeLocalLoaderHandler},
-{ kModuleLoaderSuite, kVersionEvent, versionHandler}
+{ kModuleLoaderSuite, kVersionEvent, versionHandler},
+{ kModuleLoaderSuite, kMakeModuleSpecEvent, makeModuleSpecHandler}
 };
 
 const int kEventHandlerCount = (sizeof(gEventInfo) / sizeof(AEEventHandlerInfo));

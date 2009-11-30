@@ -7,3 +7,4 @@ OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, l
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
 OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
+OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);

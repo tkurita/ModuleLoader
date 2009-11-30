@@ -268,3 +268,25 @@ bail:
 	gAdditionReferenceCount--;
 	return err;
 }
+
+OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	gAdditionReferenceCount++;
+	OSErr err;
+	AEDesc module_name;
+	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
+	if (err != noErr) goto bail;
+	AEDesc module_spec;
+	AEBuildError ae_err;
+	err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
+	if (err != noErr) {
+		AEDisposeDesc(&module_name);
+		goto bail;
+	}
+	err = AEPutParamDesc(reply, keyAEResult, &module_spec);
+	AEDisposeDesc(&module_spec);
+	AEDisposeDesc(&module_name);
+bail:
+	gAdditionReferenceCount--;
+	return err;
+}

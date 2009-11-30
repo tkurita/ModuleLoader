@@ -41,7 +41,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 		},
 
 		"ModuleLoader Suite",
-		"loding script module",
+		"loding script modules",
 		'Molo',
 		1,
 		1,
@@ -148,6 +148,46 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 
 			},
 
+			"module",
+			"Make module specifier record",
+			'Molo', 'MkMs',
+			'MoSp',
+			"A module specifer record",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			'TEXT',
+			"A module name",
+			directParamRequired,
+			singleItem, notEnumerated, Reserved13,
+			{
+
+			},
+
+			"extract dependencies",
+			"Extarct module specifier records from a module script.",
+			'Molo', 'Exdp',
+			'DpIf',
+			"",
+			replyRequired, listOfItems, notEnumerated, Reserved13,
+			'****',
+			"A module script",
+			directParamRequired,
+			singleItem, notEnumerated, Reserved13,
+			{
+
+			},
+
+			"set up",
+			"Set up modules depending on. This command must be sent to a loader script returned from \"make loader\" command.",
+			'Molo', 'Stup',
+			reply_none__,
+			'scpt',
+			"A script which need to load modules",
+			directParamRequired,
+			singleItem, notEnumerated, Reserved13,
+			{
+
+			},
+
 			"module loaded",
 			"A handler in which a module resolve dependencies. This event is sent by a loader script when a script is loaded. ",
 			'Molo', 'wlLd',
@@ -163,6 +203,29 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 		{
 			/* Classes */
 
+			"module specifier", 'MoSp',
+			"A specifier of a module will be loaded.",
+			{
+				"name", 'pnam', 'TEXT',
+				"Module name",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12
+			},
+			{
+			},
+
+			"dependency infomation", 'DpIf',
+			"Module dependency infomation",
+			{
+				"name", 'pnam', 'TEXT',
+				"A property name which a module is loaded.",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12,
+
+				"module info", 'MoIF', 'MoSp',
+				"A module specifier",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12
+			},
+			{
+			}
 		},
 		{
 			/* Comparisons */
