@@ -2,6 +2,7 @@
 #include "AEUtils.h"
 #include "findModule.h"
 #include "ModuleLoaderConstants.h"
+#include "ExtractDependencies.h"
 
 #define useLog 0
 
@@ -287,6 +288,32 @@ OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon
 	AEDisposeDesc(&module_spec);
 	AEDisposeDesc(&module_name);
 bail:
+	gAdditionReferenceCount--;
+	return err;
+}
+
+OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	gAdditionReferenceCount++;
+	OSErr err;
+	AEDesc script_data;
+	AECreateDesc(typeNull, NULL, 0, &script_data);
+	err = AEGetParamDesc(ev, kForModuleParam, typeScript, &script_data);
+	if (err != noErr) goto bail;
+	if (!scriptingComponent)
+		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+	
+	OSAID script_id = kOSANullScript;
+	err = OSACoerceFromDesc(scriptingComponent, &script_data, kOSAModeNull, &script_id);
+	if (err != noErr) goto bail;
+	AEDescList dependencies;
+	AECreateDesc(typeNull, NULL, 0, &dependencies);
+	err = extractDependencies(scriptingComponent, script_id, &dependencies);
+	if (noErr != err) goto bail;
+	err = AEPutParamDesc(reply, keyAEResult, &dependencies);
+bail:
+	AEDisposeDesc(&script_data);
+	AEDisposeDesc(&dependencies);
 	gAdditionReferenceCount--;
 	return err;
 }
