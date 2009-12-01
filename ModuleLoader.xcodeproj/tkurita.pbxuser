@@ -1,9 +1,9 @@
 // !$*UTF8*$!
 {
 	089C1669FE841209C02AAC07 /* Project object */ = {
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = 2C813C760B4CD75C000FF2FE /* ModuleLoaderTestApp */;
-		activeTarget = 8D01CCC60486CAD60068D4B7 /* ModuleLoader for 10.5 */;
+		activeTarget = 2C5B3B6910B98242004396E4 /* ModuleLoader */;
 		addToTargets = (
 			2C5B3B6910B98242004396E4 /* ModuleLoader */,
 			2C2CD69710BCB79C008CA461 /* ModuleLoader for 10.4 */,
@@ -152,6 +152,22 @@
 			2C525A8610C4AD4F00497709 = 2C525A8610C4AD4F00497709 /* PlistBookmark */;
 			2C525A8710C4AD4F00497709 = 2C525A8710C4AD4F00497709 /* PBXTextBookmark */;
 			2C525A8810C4AD4F00497709 = 2C525A8810C4AD4F00497709 /* PBXTextBookmark */;
+			2C525ADB10C4D1ED00497709 /* PBXTextBookmark */ = 2C525ADB10C4D1ED00497709 /* PBXTextBookmark */;
+			2C525ADC10C4D1ED00497709 /* PBXTextBookmark */ = 2C525ADC10C4D1ED00497709 /* PBXTextBookmark */;
+			2C525ADD10C4D1ED00497709 /* PlistBookmark */ = 2C525ADD10C4D1ED00497709 /* PlistBookmark */;
+			2C525ADE10C4D1ED00497709 /* PlistBookmark */ = 2C525ADE10C4D1ED00497709 /* PlistBookmark */;
+			2C525ADF10C4D1ED00497709 /* PlistBookmark */ = 2C525ADF10C4D1ED00497709 /* PlistBookmark */;
+			2C525AE010C4D1ED00497709 /* PBXTextBookmark */ = 2C525AE010C4D1ED00497709 /* PBXTextBookmark */;
+			2C525AE110C4D1ED00497709 /* PBXTextBookmark */ = 2C525AE110C4D1ED00497709 /* PBXTextBookmark */;
+			2C525AE210C4D1ED00497709 /* PlistBookmark */ = 2C525AE210C4D1ED00497709 /* PlistBookmark */;
+			2C525AE310C4D1ED00497709 /* PlistBookmark */ = 2C525AE310C4D1ED00497709 /* PlistBookmark */;
+			2C525AE410C4D1ED00497709 /* PlistBookmark */ = 2C525AE410C4D1ED00497709 /* PlistBookmark */;
+			2C525AEB10C4D25400497709 /* PlistBookmark */ = 2C525AEB10C4D25400497709 /* PlistBookmark */;
+			2C525AEC10C4D25400497709 /* PlistBookmark */ = 2C525AEC10C4D25400497709 /* PlistBookmark */;
+			2C525AED10C4D25400497709 /* PlistBookmark */ = 2C525AED10C4D25400497709 /* PlistBookmark */;
+			2C525AEE10C4D25400497709 /* PlistBookmark */ = 2C525AEE10C4D25400497709 /* PlistBookmark */;
+			2C525AEF10C4D25400497709 /* PlistBookmark */ = 2C525AEF10C4D25400497709 /* PlistBookmark */;
+			2C525AF010C4D25400497709 /* PlistBookmark */ = 2C525AF010C4D25400497709 /* PlistBookmark */;
 			2C7C4AEC10C3C14A00FFB0B1 = 2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.c */;
 			2C7C4B1210C3C86500FFB0B1 = 2C7C4B1210C3C86500FFB0B1 /* PBXTextBookmark */;
 			2C7CF40210BE3AB9006C3270 = 2C7CF40210BE3AB9006C3270 /* PlistBookmark */;
@@ -346,9 +362,9 @@
 	};
 	2C24C07B10AAEB31007144CD /* loader.applescript */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {882, 3591}}";
-			sepNavSelRange = "{5896, 0}";
-			sepNavVisRange = "{5159, 713}";
+			sepNavIntBoundsRect = "{{0, 0}, {958, 3790}}";
+			sepNavSelRange = "{5894, 0}";
+			sepNavVisRange = "{3351, 1104}";
 			sepNavWindowFrame = "{{358, 110}, {1017, 757}}";
 		};
 	};
@@ -612,9 +628,9 @@
 	};
 	2C525A1C10C42A3B00497709 /* PropertyAccessor.applescript */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {882, 526}}";
+			sepNavIntBoundsRect = "{{0, 0}, {882, 521}}";
 			sepNavSelRange = "{99, 0}";
-			sepNavVisRange = "{0, 81}";
+			sepNavVisRange = "{0, 213}";
 		};
 	};
 	2C525A3310C4A2F100497709 /* PBXTextBookmark */ = {
@@ -803,7 +819,7 @@
 		fRef = 2C24C07B10AAEB31007144CD /* loader.applescript */;
 		name = "loader.applescript: 289";
 		rLen = 0;
-		rLoc = 5890;
+		rLoc = 5888;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 5896;
@@ -834,7 +850,7 @@
 		fRef = 2C24C07B10AAEB31007144CD /* loader.applescript */;
 		name = "loader.applescript: 289";
 		rLen = 0;
-		rLoc = 5890;
+		rLoc = 5888;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 5896;
@@ -885,7 +901,7 @@
 		fRef = 2C24C07B10AAEB31007144CD /* loader.applescript */;
 		name = "loader.applescript: 294";
 		rLen = 0;
-		rLoc = 5896;
+		rLoc = 5894;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 5896;
@@ -895,17 +911,191 @@
 		fRef = 2C24C07B10AAEB31007144CD /* loader.applescript */;
 		name = "loader.applescript: 242";
 		rLen = 0;
-		rLoc = 5896;
+		rLoc = 5894;
 		rType = 0;
 		vrLen = 304;
 		vrLoc = 5433;
+	};
+	2C525ADB10C4D1ED00497709 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99C3F10AA6364002C5D32 /* AEUtils.c */;
+		name = "AEUtils.c: 557";
+		rLen = 0;
+		rLoc = 13671;
+		rType = 0;
+		vrLen = 448;
+		vrLoc = 13459;
+	};
+	2C525ADC10C4D1ED00497709 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2C525A1C10C42A3B00497709 /* PropertyAccessor.applescript */;
+		name = "PropertyAccessor.applescript: 7";
+		rLen = 0;
+		rLoc = 99;
+		rType = 0;
+		vrLen = 213;
+		vrLoc = 0;
+	};
+	2C525ADD10C4D1ED00497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C2CD6AD10BCB79C008CA461 /* Info_10_4.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIconFile,
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_4.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525ADE10C4D1ED00497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525ADF10C4D1ED00497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AE010C4D1ED00497709 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99C3F10AA6364002C5D32 /* AEUtils.c */;
+		name = "AEUtils.c: 557";
+		rLen = 0;
+		rLoc = 13671;
+		rType = 0;
+		vrLen = 448;
+		vrLoc = 13459;
+	};
+	2C525AE110C4D1ED00497709 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2C525A1C10C42A3B00497709 /* PropertyAccessor.applescript */;
+		name = "PropertyAccessor.applescript: 7";
+		rLen = 0;
+		rLoc = 99;
+		rType = 0;
+		vrLen = 213;
+		vrLoc = 0;
+	};
+	2C525AE210C4D1ED00497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C2CD6AD10BCB79C008CA461 /* Info_10_4.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIconFile,
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_4.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AE310C4D1ED00497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AE410C4D1ED00497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AEB10C4D25400497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AEC10C4D25400497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AED10C4D25400497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AEE10C4D25400497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AEF10C4D25400497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C525AF010C4D25400497709 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
 	};
 	2C5B3B6910B98242004396E4 /* ModuleLoader */ = {
 		activeExec = 0;
 	};
 	2C5B3B8210B982BE004396E4 /* Info.plist */ = {
 		uiCtxt = {
-			sepNavWindowFrame = "{{84, 170}, {1321, 640}}";
+			sepNavWindowFrame = "{{84, 249}, {617, 561}}";
 		};
 	};
 	2C706CAC10AD0AA800208505 /* LocalLoader.applescript */ = {
@@ -1362,7 +1552,7 @@
 			sepNavSelRange = "{550, 26}";
 			sepNavVisRange = "{171, 1196}";
 			sepNavVisRect = "{{0, 0}, {672, 614}}";
-			sepNavWindowFrame = "{{15, 119}, {801, 754}}";
+			sepNavWindowFrame = "{{653, 269}, {659, 394}}";
 		};
 	};
 }

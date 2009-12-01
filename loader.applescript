@@ -155,11 +155,11 @@ on resolve_dependencies(a_script, dependencies, is_top)
 	end repeat
 end resolve_dependencies
 
-on drive for a_script
+on boot for a_script
 	set dependencies to extract dependencies for a_script
 	resolve_dependencies(a_script, dependencies, true)
 	return missing value
-end drive
+end boot
 
 on set_loadonly(a_flat)
 	set my _loadonly to a_flag
