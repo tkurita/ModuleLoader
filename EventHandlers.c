@@ -107,6 +107,8 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	OSAID loader_id = kOSANullScript;
+	OSAID result_id = kOSANullScript;
+	
 	err = loadBundleScript(CFSTR("LocalLoader"), &loader_id);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
@@ -130,9 +132,8 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 		goto bail;
 	}
 	
-	OSAID resultID = kOSANullScript;
 	err = OSAExecuteEvent(scriptingComponent, &setup_event,
-						  loader_id, kOSAModeNull, &resultID);
+						  loader_id, kOSAModeNull, &result_id);
 	AEDisposeDesc(&setup_event);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
@@ -150,8 +151,8 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	AEDisposeDesc(&result);
 bail:
-	if (loader_id != kOSANullScript) 
-		OSADispose(scriptingComponent, loader_id);
+	OSADispose(scriptingComponent, loader_id);
+	OSADispose(scriptingComponent, result_id);
 	gAdditionReferenceCount--;
 	return err;
 }
@@ -178,8 +179,7 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	AEDisposeDesc(&result);
 bail:
-	if (loader_id != kOSANullScript) 
-		OSADispose(scriptingComponent, loader_id);
+	OSADispose(scriptingComponent, loader_id);
 	gAdditionReferenceCount--;
 	return err;
 }
@@ -237,14 +237,27 @@ bail:
 	return err;
 }
 
+OSErr setPropertyWithName(OSAID scriptID, const char *propertyName, AEDesc *inDesc)
+{
+	OSErr err = noErr;
+	AEDesc a_label;
+	AECreateDesc(typeChar, propertyName, strlen(propertyName), &a_label);
+	OSAID value_id = kOSANullScript;
+	err = OSACoerceFromDesc(scriptingComponent, inDesc, kOSAModeNull, &value_id);
+	if (noErr != err) goto bail;
+	err = OSASetProperty(scriptingComponent, kOSAModeNull, scriptID, &a_label, value_id);
+	if (noErr != err) goto bail;
+bail:
+	OSADispose(scriptingComponent, value_id);
+	AEDisposeDesc(&a_label);
+	return err;
+}
+
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	OSAID script_id = kOSANullScript;
-	OSAID dependencies_id = kOSANullScript;
-	OSAID module_spec_id = kOSANullScript;
-	OSAID module_alias_id = kOSANullScript;
 	
 	AEDescList dependencies;
 	AECreateDesc(typeNull, NULL, 0, &dependencies);
@@ -252,15 +265,6 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	AECreateDesc(typeNull, NULL, 0, &module_spec);
 	AEDesc alias_desc;
 	AECreateDesc(typeNull, NULL, 0, &alias_desc);
-	
-	AEDesc module_spec_label;
-	AECreateDesc(typeChar, MODULE_SPEC_LABEL, strlen(MODULE_SPEC_LABEL), &module_spec_label);
-	
-	AEDesc module_dependencies_label;
-	AECreateDesc(typeChar, MODULE_DEPENDENCIES_LABEL, strlen(MODULE_DEPENDENCIES_LABEL), &module_dependencies_label);
-
-	AEDesc module_path_label;
-	AECreateDesc(typeChar, MODULE_PATH_LABEL, strlen(MODULE_PATH_LABEL), &module_path_label);
 
 	FSRef module_ref;
 	err = findModuleWithEvent(ev, reply, &module_ref);
@@ -286,18 +290,14 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 					   GetHandleSize((Handle) an_alias), &alias_desc);
 	HUnlock((Handle)an_alias);
 	if (noErr != err) goto bail;
-	err = OSACoerceFromDesc(scriptingComponent, &alias_desc, kOSAModeNull, &module_alias_id);
-	if (noErr != err) goto bail;
+	err = setPropertyWithName(script_id, MODULE_PATH_LABEL, &alias_desc);
 	DisposeHandle((Handle) an_alias);
-	err = OSASetProperty(scriptingComponent, kOSAModeNull, script_id, &module_path_label, module_alias_id);
 	if (noErr != err) goto bail;
 	
 	// add __module_dependencies__ property
 	err = extractDependencies(scriptingComponent, script_id, &dependencies);
 	if (noErr != err) goto bail;
-	err = OSACoerceFromDesc(scriptingComponent, &dependencies, kOSAModeNull, &dependencies_id);
-	if (noErr != err) goto bail;
-	err = OSASetProperty(scriptingComponent, kOSAModeNull, script_id, &module_dependencies_label, dependencies_id);
+	err = setPropertyWithName(script_id, MODULE_DEPENDENCIES_LABEL, &dependencies);
 	if (noErr != err) goto bail;
 	
 	// add __module_spec_ property
@@ -308,10 +308,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
 	AEDisposeDesc(&module_name);
 	if (err != noErr) goto bail;
-	
-	err = OSACoerceFromDesc(scriptingComponent, &module_spec, kOSAModeNull, &module_spec_id);
-	if (noErr != err) goto bail;
-	err = OSASetProperty(scriptingComponent, kOSAModeNull, script_id, &module_spec_label, module_spec_id);
+	err = setPropertyWithName(script_id, MODULE_SPEC_LABEL, &module_spec);
 	if (noErr != err) goto bail;
 	
 	// setup result
@@ -330,12 +327,6 @@ bail:
 	AEDisposeDesc(&alias_desc);
 	AEDisposeDesc(&module_spec);
 	AEDisposeDesc(&dependencies);
-	AEDisposeDesc(&module_spec_label);
-	AEDisposeDesc(&module_dependencies_label);
-	AEDisposeDesc(&module_path_label);
-	OSADispose(scriptingComponent, module_alias_id);
-	OSADispose(scriptingComponent, dependencies_id);
-	OSADispose(scriptingComponent, module_spec_id);
 	OSADispose(scriptingComponent, script_id);
 	gAdditionReferenceCount--;
 	return err;

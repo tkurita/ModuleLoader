@@ -26,9 +26,7 @@ property _only_local : false
 
 on setup_script(a_script)
 	--do_log("start setup_script")
-	try
-		resolve_dependencies(a_script, __module_dependencies__ of a_script, false)
-	end try
+	resolve_dependencies(a_script, __module_dependencies__ of a_script, false)
 	set sucess_setup to false
 	try
 		module loaded a_script by me
@@ -65,8 +63,6 @@ on do_log(msg)
 		my _logger's do(msg)
 	end if
 end do_log
-
-
 
 on export(a_script) -- save myself to cache when load a module which load myself.
 	export_to_cache(name of a_script, a_script)
