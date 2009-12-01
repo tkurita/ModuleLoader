@@ -16,6 +16,7 @@ end initialize
 on make_with_name(a_name)
 	set ind to my _keys's index_of(a_name)
 	if ind is not 0 then
+		--log "hit in accessr cache"
 		return my _accessors's item_at(ind)
 	end if
 	

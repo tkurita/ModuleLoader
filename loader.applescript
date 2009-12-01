@@ -144,7 +144,6 @@ on resolve_dependencies(a_script, dependencies, is_top)
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
 		set a_module to load_module(name of module specifier of a_dep)
 		an_accessor's set_value(a_script, a_module)
-		log a_module
 		if is_top then
 			set __module_specifier__ of a_module to module specifier of a_dep
 		end if
