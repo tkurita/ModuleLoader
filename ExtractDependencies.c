@@ -1,7 +1,10 @@
 #include <Carbon/Carbon.h>
-#include "ExtractDependencies.h"
 #include "ModuleLoaderConstants.h"
+#include "ExtractDependencies.h"
 #include "AEUtils.h"
+
+const char *MODULE_SPEC_LABEL = "__module_specifier__";
+const char *MODULE_DEPENDENCIES_LABEL = "__module_dependencies__";
 
 OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescList *dependencies)
 {
@@ -11,8 +14,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	AECreateDesc(typeNull, NULL, 0, &property_names);	
 	
 	AEDesc moduleSpecLabel;
-	char *a_label = "__module_specifier__";
-	err = AECreateDesc(typeChar, a_label, strlen(a_label), &moduleSpecLabel);
+	err = AECreateDesc(typeChar, MODULE_SPEC_LABEL, strlen(MODULE_SPEC_LABEL), &moduleSpecLabel);
 	
 	err = AECreateList(NULL, 0, false, dependencies);
 	if (err != noErr) goto bail;

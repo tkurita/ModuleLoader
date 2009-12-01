@@ -90,6 +90,27 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				singleItem, notEnumerated, Reserved13
 			},
 
+			"_load module_",
+			"Private command. Load a module from module paths. If specified module can not be forund, the error number 1800 will raise.",
+			'Molo', 'PloM',
+			'scpt',
+			"A loaded module.",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			'TEXT',
+			"A module name.",
+			directParamRequired,
+			singleItem, notEnumerated, Reserved13,
+			{
+				"additional paths", 'inDr', 'file',
+				"Additional locations to search modules.",
+				optional,
+				listOfItems, notEnumerated, Reserved13,
+				"other paths", 'ohPh', 'bool',
+				"If tue is passed,  module search paths are restricted to  paths given in 'additional paths'.",
+				optional,
+				singleItem, notEnumerated, Reserved13
+			},
+
 			"module loader",
 			"Obtain a loader script",
 			'Molo', 'MKlo',

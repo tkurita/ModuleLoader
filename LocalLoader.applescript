@@ -24,9 +24,9 @@ on load_module(a_name)
 	return a_loader's load_module(a_name)
 end load_module
 
-on make loader
+on module loader
 	return make_loader()
-end make loader
+end module loader
 
 on proxy()
 	return make_loader()

@@ -1,4 +1,4 @@
-property name : "LoaderProxy"
+﻿property name : "LoaderProxy"
 
 on cwd()
 	set pwd to system attribute "PWD"
@@ -12,6 +12,7 @@ end cwd
 property ModuleCache : run script POSIX file (cwd() & "ModuleCache.applescript")
 property XList : run script POSIX file (cwd() & "FastList.applescript")
 property ConsoleLog : run script POSIX file (cwd() & "ConsoleLog.applescript")
+property PropertyAccessor : (run script POSIX file (cwd() & "PropertyAccessor.applescript"))'s initialize()
 
 property _loadonly : false
 property _module_cache : make ModuleCache
@@ -25,6 +26,9 @@ property _only_local : false
 
 on setup_script(a_script)
 	--do_log("start setup_script")
+	try
+		resolve_dependencies(a_script, __module_dependencies__ of a_script, false)
+	end try
 	set sucess_setup to false
 	try
 		module loaded a_script by me
@@ -62,54 +66,7 @@ on do_log(msg)
 	end if
 end do_log
 
-on find_without_osax(a_name, a_location)
-	set module_path to missing value
-	if a_name contains ":" then
-		set loc_path to POSIX path of a_location
-		set delim to AppleScript's text item delimiters
-		set AppleScript's text item delimiters to ":"
-		set path_elems to every text item of a_name
-		set AppleScript's text item delimiters to delim
-		set mod_name to last item of path_elems
-		if (length of mod_name < 1) then
-			error (quoted form of a_name) & " is invald form to specify a module." number 1801
-		end if
-		repeat with n from 1 to (length of path_elems) - 1
-			set an_elem to item 1 of path_elems
-			if (length of an_elem > 0) then
-				set loc_path to loc_path & (an_elem) & "/"
-			end if
-		end repeat
-		tell application "System Events"
-			set a_folder to item loc_path
-			tell a_folder
-				set module_items to items whose name starts with mod_name
-			end tell
-		end tell
-		if (length of module_items < 1) then
-			raise_error(a_name, a_location)
-		end if
-		tell application "System Events"
-			repeat with an_item in module_items
-				if name extension of an_item is in {"scpt", "scptd", "app"} then
-					set module_path to an_item as alias
-					exit repeat
-				end if
-			end repeat
-		end tell
-	else
-		set loc_path to quoted form of POSIX path of a_location
-		set a_result to do shell script "module_name=`echo '" & a_name & "'|/usr/bin/iconv -f UTF-8 -t UTF-8-MAC`; find -E " & loc_path & " -regex " & quote & "(.*/)*$module_name($|.scpt|.scptd|.app)$" & quote
-		if a_result is not "" then
-			set module_path to (POSIX file (paragraph 1 of a_result)) as alias
-		end if
-	end if
-	
-	if module_path is missing value then
-		raise_error(a_name, a_location)
-	end if
-	return module_path
-end find_without_osax
+
 
 on export(a_script) -- save myself to cache when load a module which load myself.
 	export_to_cache(name of a_script, a_script)
@@ -118,29 +75,6 @@ end export
 on export_to_cache(a_name, a_script)
 	my _module_cache's add_module(a_name, missing value, a_script)
 end export_to_cache
-
-on find_module(a_name) -- clients should call only for debugging
-	set adpaths to my _additional_paths
-	if (my _is_local and (length of adpaths is 0)) then
-		set adpaths to {current_location()}
-	end if
-	
-	if my _collecting or my _only_local then
-		try
-			set a_path to find_without_osax(a_name, item 1 of adpaths)
-		on error msg number errno
-			if my _collecting then
-				set a_path to try_collect(a_name, item 1 of adpaths)
-			else
-				error msg number errno
-			end if
-		end try
-	else
-		set a_path to find module a_name additional paths adpaths
-	end if
-	
-	return a_path
-end find_module
 
 on load module a_name
 	return load_module(a_name)
@@ -165,7 +99,29 @@ on load_module(a_name)
 		return a_script
 	end if
 	
-	set a_path to find_module(a_name)
+	set adpaths to my _additional_paths
+	if (my _is_local and (length of adpaths is 0)) then
+		set adpaths to {current_location()}
+	end if
+	
+	if my _collecting or my _only_local then
+		try
+			set a_script to _load module_ a_name additional paths adpaths without other paths
+		on error msg number errno
+			if my _collecting then
+				set a_script to try_collect(a_name, adpaths)
+			else
+				error msg number errno
+			end if
+		end try
+	else
+		set a_script to _load module_ a_name additional paths adpaths
+	end if
+	
+	set a_script to _load module_ a_name additional paths adpaths
+	
+	
+	set a_path to __module_path__ of a_script
 	
 	try
 		set a_script to my _module_cache's module_for_path(a_path)
@@ -176,7 +132,6 @@ on load_module(a_name)
 	end try
 	if need_setup then
 		--do_log("did not hit in script chache")
-		set a_script to load script a_path
 		my _module_cache's add_module(a_name, a_path, a_script)
 		if not my _loadonly then
 			setup_script(a_script)
@@ -187,6 +142,24 @@ on load_module(a_name)
 	
 	return a_script
 end load_module
+
+on resolve_dependencies(a_script, dependencies, is_top)
+	repeat with a_dep in dependencies
+		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
+		set a_module to load_module(name of module specifier of a_dep)
+		an_accessor's set_value(a_script, a_module)
+		log a_module
+		if is_top then
+			set __module_specifier__ of a_module to module specifier of a_dep
+		end if
+	end repeat
+end resolve_dependencies
+
+on drive for a_script
+	set dependencies to extract dependencies for a_script
+	resolve_dependencies(a_script, dependencies, true)
+	return missing value
+end drive
 
 on set_loadonly(a_flat)
 	set my _loadonly to a_flag
@@ -237,12 +210,14 @@ on set_local(a_flag)
 	return me
 end set_local
 
-on try_collect(a_name, a_location)
-	set a_path to find module a_name
+on try_collect(a_name, adpaths)
+	set a_script to _load module_ a_name additional paths adpaths
+	set a_path to __module_path__ of a_script
+	set a_location to item 1 of adpaths
 	tell application "Finder"
 		set new_alias to make alias file at a_location to a_path -- with properties {name:name of path_rec}
 	end tell
-	return new_alias as alias
+	return a_script
 end try_collect
 
 on clear_cache()
@@ -258,4 +233,10 @@ on stop_log()
 	ConsoleLog's stop_log()
 end stop_log
 *)
-
+(*
+property ModuleA : module "Module A"
+on run
+	--drive (module loader) for me
+	drive for me
+end run
+*)

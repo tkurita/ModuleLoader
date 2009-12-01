@@ -9,8 +9,9 @@
 
 #define kModuleLoaderSuite  'Molo'
 #define kLoadModuleEvent	'loMo'
-#define kFindModuleEvent 'fdMo'
-#define kMakeLoaderEvent 'MKlo'
+#define kPrivateLoadModuleEvent 'PloM'
+#define kFindModuleEvent	'fdMo'
+#define kMakeLoaderEvent	'MKlo'
 #define kMakeLocaLoaderEvent 'MkLl'
 #define kSetAdditionalModulePathsEvent 'adMp'
 #define kModulePathsEvent 'gtPH'

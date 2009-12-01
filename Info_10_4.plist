@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>ModuleLoader</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0</string>
 	<key>CFBundleGetInfoString</key>
