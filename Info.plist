@@ -95,6 +95,24 @@
 				<key>Context</key>
 				<string>Machine</string>
 			</dict>
+			<key>MoloMkMs</key>
+			<dict>
+				<key>Handler</key>
+				<string>makeModuleSpecHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+				<key>Context</key>
+				<string>Machine</string>
+			</dict>
+			<key>MoloExdp</key>
+			<dict>
+				<key>Handler</key>
+				<string>extractDependenciesHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+				<key>Context</key>
+				<string>Machine</string>
+			</dict>
 		</dict>
 	</dict>
 </dict>
