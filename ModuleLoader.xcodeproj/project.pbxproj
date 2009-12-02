@@ -76,6 +76,13 @@
 			remoteGlobalIDString = 2CAFFE0A10C6257C002B217C /* DummyDIctionary */;
 			remoteInfo = DummyDIctionary;
 		};
+		2CAFFE8C10C64202002B217C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CAFFE0A10C6257C002B217C /* DummyDictionary */;
+			remoteInfo = DummyDictionary;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -315,6 +322,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2CAFFE8D10C64202002B217C /* PBXTargetDependency */,
 			);
 			name = ModuleLoader;
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -346,7 +354,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2CAFFE0F10C6257D002B217C /* Build configuration list for PBXNativeTarget "DummyDictionary" */;
 			buildPhases = (
-				2CAFFE0710C6257C002B217C /* Resources */,
+				2CAFFE7210C636C4002B217C /* ShellScript */,
 				2CAFFE1F10C625ED002B217C /* Rez */,
 			);
 			buildRules = (
@@ -432,13 +440,6 @@
 				2C706D6C10AD3A1A00208505 /* LocalLoader.scpt in Resources */,
 				2C706D6B10AD3A1400208505 /* loader.scpt in Resources */,
 				2C5B3B8310B982BE004396E4 /* Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2CAFFE0710C6257C002B217C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,18 +577,31 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/ModuleLoader.sdef",
 				"$(SRCROOT)/LocalLoader.applescript",
 				"$(SRCROOT)/loader.applescript",
 			);
 			outputPaths = (
-				"${SRCROOT}/ModuleLoader.r",
 				"$(SRCROOT)/loder.scpt",
 				"$(SRCROOT)/LocalLoader.scpt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/bin/sdp -f a -o \"${SRCROOT}/ModuleLoader.r\" ModuleLoader.sdef\nosacompile -dx -o loader.scpt loader.applescript\nosacompile -dx -o LocalLoader.scpt LocalLoader.applescript";
+			shellScript = "DICT_FRAMEWORK=\"build/${BUILD_STYLE}/DummyDictionary.framework\"\nosacompile -dx -i ${DICT_FRAMEWORK} -o loader.scpt loader.applescript\nosacompile -dx -i ${DICT_FRAMEWORK} -o LocalLoader.scpt LocalLoader.applescript";
+		};
+		2CAFFE7210C636C4002B217C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/ModuleLoader.sdef",
+			);
+			outputPaths = (
+				"$(SRCROOT)/ModuleLoader.r",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/sdp -f a -o \"${SRCROOT}/ModuleLoader.r\" ModuleLoader.sdef";
 		};
 		2CB99D6110AA933F002C5D32 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -595,18 +609,16 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/ModuleLoader.sdef",
 				"$(SRCROOT)/LocalLoader.applescript",
 				"$(SRCROOT)/loader.applescript",
 			);
 			outputPaths = (
-				"${SRCROOT}/ModuleLoader.r",
 				"$(SRCROOT)/loder.scpt",
 				"$(SRCROOT)/LocalLoader.scpt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/bin/sdp -f a -o \"${SRCROOT}/ModuleLoader.r\" ModuleLoader.sdef\nosacompile -dx -i DummyDictionary.framework -o loader.scpt loader.applescript\nosacompile -dx -i DummyDictionary.framework -o LocalLoader.scpt LocalLoader.applescript";
+			shellScript = "DICT_FRAMEWORK=\"build/${BUILD_STYLE}/DummyDictionary.framework\"\nosacompile -dx -i ${DICT_FRAMEWORK} -o loader.scpt loader.applescript\nosacompile -dx -i ${DICT_FRAMEWORK} -o LocalLoader.scpt LocalLoader.applescript";
 		};
 		2CC755100B9EE5E800D009A7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -693,6 +705,11 @@
 			target = 2CAFFE0A10C6257C002B217C /* DummyDictionary */;
 			targetProxy = 2CAFFE1310C625DD002B217C /* PBXContainerItemProxy */;
 		};
+		2CAFFE8D10C64202002B217C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CAFFE0A10C6257C002B217C /* DummyDictionary */;
+			targetProxy = 2CAFFE8C10C64202002B217C /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -707,27 +724,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		2C003D7610A8F7A2003C3066 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INSTALL_PATH = /usr/local/bin;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = findModule;
-			};
-			name = Debug;
-		};
 		2C003D7710A8F7A2003C3066 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -749,29 +745,6 @@
 			};
 			name = Release;
 		};
-		2C2CD6AA10BCB79C008CA461 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 6;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
-				INFOPLIST_FILE = Info_10_4.plist;
-				INSTALL_PATH = /Library/ScriptingAdditions;
-				PRODUCT_NAME = ModuleLoader;
-				SDKROOT = macosx10.4;
-				SYMROOT = build_10_4;
-				VERSIONING_SYSTEM = "apple-generic";
-				WRAPPER_EXTENSION = osax;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
 		2C2CD6AB10BCB79C008CA461 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -791,27 +764,6 @@
 			};
 			name = Release;
 		};
-		2C5B3B7A10B98242004396E4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 6;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = /Library/ScriptingAdditions;
-				PRODUCT_NAME = ModuleLoader;
-				SYMROOT = build;
-				VERSIONING_SYSTEM = "apple-generic";
-				WRAPPER_EXTENSION = osax;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
 		2C5B3B7B10B98242004396E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -829,30 +781,6 @@
 				WRAPPER_EXTENSION = osax;
 			};
 			name = Release;
-		};
-		2C813C790B4CD75D000FF2FE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "ModuleLoaderTestApp-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = ModuleLoaderTestApp;
-				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
 		};
 		2C813C7A0B4CD75D000FF2FE /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -880,31 +808,6 @@
 			};
 			name = Release;
 		};
-		2CAFFE0D10C6257D002B217C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "DummyDictionary-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = DummyDictionary;
-			};
-			name = Debug;
-		};
 		2CAFFE0E10C6257D002B217C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -930,15 +833,47 @@
 			};
 			name = Release;
 		};
-		4FADC23408B4156C00ABE55E /* Debug */ = {
+		2CAFFE3D10C63528002B217C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				REZ_SHOW_DEBUG_OUTPUT = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		2CAFFE3E10C63528002B217C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CURRENT_PROJECT_VERSION = 6;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Library/ScriptingAdditions;
+				PRODUCT_NAME = ModuleLoader;
+				SYMROOT = build;
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = osax;
+			};
+			name = Debug;
+		};
+		2CAFFE3F10C63528002B217C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				CURRENT_PROJECT_VERSION = 6;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
 				INFOPLIST_FILE = Info_10_5.plist;
@@ -947,7 +882,97 @@
 				SYMROOT = build_10_5;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = osax;
-				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		2CAFFE4010C63528002B217C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CURRENT_PROJECT_VERSION = 6;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
+				INFOPLIST_FILE = Info_10_4.plist;
+				INSTALL_PATH = /Library/ScriptingAdditions;
+				PRODUCT_NAME = ModuleLoader;
+				SDKROOT = macosx10.4;
+				SYMROOT = build_10_4;
+				VERSIONING_SYSTEM = "apple-generic";
+				WRAPPER_EXTENSION = osax;
+			};
+			name = Debug;
+		};
+		2CAFFE4110C63528002B217C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "ModuleLoaderTestApp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ModuleLoaderTestApp;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		2CAFFE4210C63528002B217C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = findModule;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		2CAFFE4310C63528002B217C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "DummyDictionary-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = DummyDictionary;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -972,20 +997,10 @@
 			};
 			name = Release;
 		};
-		4FADC23808B4156C00ABE55E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
-			};
-			name = Debug;
-		};
 		4FADC23908B4156C00ABE55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1000,8 +1015,8 @@
 		2C003D7A10A8F7C7003C3066 /* Build configuration list for PBXNativeTarget "findModule" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2C003D7610A8F7A2003C3066 /* Debug */,
 				2C003D7710A8F7A2003C3066 /* Release */,
+				2CAFFE4210C63528002B217C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1009,8 +1024,8 @@
 		2C2CD6A910BCB79C008CA461 /* Build configuration list for PBXNativeTarget "ModuleLoader for 10.4" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2C2CD6AA10BCB79C008CA461 /* Debug */,
 				2C2CD6AB10BCB79C008CA461 /* Release */,
+				2CAFFE4010C63528002B217C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1018,8 +1033,8 @@
 		2C5B3B7910B98242004396E4 /* Build configuration list for PBXNativeTarget "ModuleLoader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2C5B3B7A10B98242004396E4 /* Debug */,
 				2C5B3B7B10B98242004396E4 /* Release */,
+				2CAFFE3E10C63528002B217C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1027,8 +1042,8 @@
 		2C813C780B4CD75D000FF2FE /* Build configuration list for PBXNativeTarget "ModuleLoaderTestApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2C813C790B4CD75D000FF2FE /* Debug */,
 				2C813C7A0B4CD75D000FF2FE /* Release */,
+				2CAFFE4110C63528002B217C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1036,8 +1051,8 @@
 		2CAFFE0F10C6257D002B217C /* Build configuration list for PBXNativeTarget "DummyDictionary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2CAFFE0D10C6257D002B217C /* Debug */,
 				2CAFFE0E10C6257D002B217C /* Release */,
+				2CAFFE4310C63528002B217C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1045,8 +1060,8 @@
 		4FADC23308B4156C00ABE55E /* Build configuration list for PBXNativeTarget "ModuleLoader for 10.5" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4FADC23408B4156C00ABE55E /* Debug */,
 				4FADC23508B4156C00ABE55E /* Release */,
+				2CAFFE3F10C63528002B217C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1054,8 +1069,8 @@
 		4FADC23708B4156C00ABE55E /* Build configuration list for PBXProject "ModuleLoader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4FADC23808B4156C00ABE55E /* Debug */,
 				4FADC23908B4156C00ABE55E /* Release */,
+				2CAFFE3D10C63528002B217C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
