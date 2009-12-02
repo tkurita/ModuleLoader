@@ -113,10 +113,11 @@ bail:
 OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, Boolean searchSubFolders)
 {
 	OSErr err = noErr;
-	FSIterator itor;
+	FSIterator itor = NULL;
 	FSCatalogInfo cat_info;
 	ItemCount ict;
 	FSRef fsref;
+	CFMutableArrayRef folder_array = NULL;
 	
 	err = pickupModuleAtFolder(container_ref, module_name, outRef);
 	if (noErr == err) {
@@ -132,7 +133,7 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 		goto bail;
 	}
 
-	CFMutableArrayRef folder_array = CFArrayCreateMutable(NULL, 5, &kCFTypeArrayCallBacks);
+	folder_array = CFArrayCreateMutable(NULL, 5, &kCFTypeArrayCallBacks);
 	FSCatalogInfoBitmap whichInfo = kFSCatInfoFinderInfo|kFSCatInfoNodeFlags;
 	while (!FSGetCatalogInfoBulk(itor, 1, &ict, NULL, whichInfo, &cat_info, &fsref, NULL, NULL)) {
 		if (kIsAlias & ((FileInfo *)(&cat_info.finderInfo))->finderFlags) {
@@ -169,8 +170,8 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 	goto bail;
 
 bail:
-	CFRelease(folder_array);
-	FSCloseIterator(itor);
+	safeRelease(folder_array);
+	if (itor) FSCloseIterator(itor);
 #if useLog	
 	fprintf(stderr, "scanFolder will end with err :%d.\n", err);
 #endif
