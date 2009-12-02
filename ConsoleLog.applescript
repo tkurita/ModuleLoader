@@ -11,10 +11,12 @@ end set_name
 
 on start_log()
 	set my _recordLog to true
+	return me
 end start_log
 
 on stop_log()
 	set my _recordLog to false
+	return me
 end stop_log
 
 on do(a_message)

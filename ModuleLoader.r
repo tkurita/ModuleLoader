@@ -170,14 +170,14 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"module",
-			"Make a module specifier record",
+			"Make a module specifier record. Must placed in propery statements. If a module name is ommited, property name is used as a module name.",
 			'Molo', 'MkMs',
 			'MoSp',
 			"A module specifer record",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			'TEXT',
-			"A module name",
-			directParamRequired,
+			"A module name.",
+			directParamOptional,
 			singleItem, notEnumerated, Reserved13,
 			{
 

@@ -165,7 +165,7 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = loadBundleScript(CFSTR("loader"), &loader_id);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+						 CFSTR("Fail to a loader script."), kCFStringEncodingUTF8);
 		goto bail;
 	}
 	
@@ -337,19 +337,26 @@ OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon
 	gAdditionReferenceCount++;
 	OSErr err;
 	AEDesc module_name;
-	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
-	if (err != noErr) goto bail;
+	AECreateDesc(typeNull, NULL, 0, &module_name);
 	AEDesc module_spec;
+	AECreateDesc(typeNull, NULL, 0, &module_spec);
+
 	AEBuildError ae_err;
-	err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
-	if (err != noErr) {
-		AEDisposeDesc(&module_name);
-		goto bail;
+	
+	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
+	if ((err == noErr) && (typeNull != module_name.descriptorType)) {
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
+		if (err != noErr) goto bail;
+	} else {
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{}");
+		if (err != noErr) goto bail;		
 	}
+	
 	err = AEPutParamDesc(reply, keyAEResult, &module_spec);
+
+bail:
 	AEDisposeDesc(&module_spec);
 	AEDisposeDesc(&module_name);
-bail:
 	gAdditionReferenceCount--;
 	return err;
 }

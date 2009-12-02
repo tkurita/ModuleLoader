@@ -558,7 +558,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/bin/sdp -f a -o \"${SRCROOT}/ModuleLoader.r\" ModuleLoader.sdef\nosacompile -dx -o loader.scpt loader.applescript\nosacompile -dx -o LocalLoader.scpt LocalLoader.applescript";
+			shellScript = "/usr/bin/sdp -f a -o \"${SRCROOT}/ModuleLoader.r\" ModuleLoader.sdef\nosacompile -d -o loader.scpt loader.applescript\nosacompile -d -o LocalLoader.scpt LocalLoader.applescript";
 		};
 		2CC755100B9EE5E800D009A7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

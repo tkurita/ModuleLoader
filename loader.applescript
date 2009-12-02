@@ -16,6 +16,7 @@ property PropertyAccessor : (run script POSIX file (cwd() & "PropertyAccessor.ap
 
 property _loadonly : false
 property _module_cache : make ModuleCache
+--property _logger : ConsoleLog's make_with("ModuleLoader")'s start_log()
 property _logger : missing value
 
 (** Properties for local loader **)
@@ -81,7 +82,7 @@ on load(a_name)
 end load
 
 on load_module(a_name)
-	--do_log("start load for " & quoted form of a_name)
+	--do_log("start load_module " & a_name)
 	if a_name is in {":", "", "/", "."} then
 		error (quoted form of a_name) & " is invald form to specify a module." number 1801
 	end if
@@ -113,9 +114,6 @@ on load_module(a_name)
 	else
 		set a_script to _load module_ a_name additional paths adpaths
 	end if
-	
-	set a_script to _load module_ a_name additional paths adpaths
-	
 	
 	set a_path to __module_path__ of a_script
 	

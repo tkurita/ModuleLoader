@@ -26,8 +26,6 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	err = AECountItems(&property_names, &count);
 	if (err != noErr) goto bail;
 	
-
-	
 	AEKeyword a_keyword;
 	for (long n = 1; n <= count; n++) {
 		AEDesc a_pname;
@@ -41,7 +39,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		
 		err = AEGetNthDesc(&property_names, n, typeWildCard, &a_keyword, &a_pname);
 		if (err != noErr) goto loopbail;
-		showAEDesc(&a_pname);
+		//showAEDesc(&a_pname);
 		err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &prop_value_id);
 		if (err != noErr) goto loopbail;
 
@@ -62,6 +60,13 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 			if (err != noErr) goto loopbail;
 			if (prop_desc.descriptorType != typeModuleSpecifier) {
 				goto loopbail;
+			}
+			long count;
+			AECountItems(&prop_desc, &count);
+			if (!count) {
+				AEDisposeDesc(&prop_desc);
+				err = AEBuildDesc(&prop_desc, &ae_err, "MoSp{pnam:@}",&a_pname);
+				if (noErr != err) goto loopbail;
 			}
 		}
 		
