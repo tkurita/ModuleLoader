@@ -3,7 +3,7 @@
 	089C1669FE841209C02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = 2C813C760B4CD75C000FF2FE /* ModuleLoaderTestApp */;
-		activeTarget = 2C5B3B6910B98242004396E4 /* ModuleLoader */;
+		activeTarget = 8D01CCC60486CAD60068D4B7 /* ModuleLoader for 10.5 */;
 		addToTargets = (
 			2C5B3B6910B98242004396E4 /* ModuleLoader */,
 			2C2CD69710BCB79C008CA461 /* ModuleLoader for 10.4 */,
@@ -299,6 +299,8 @@
 			2CAFFE9210C64223002B217C /* PBXTextBookmark */ = 2CAFFE9210C64223002B217C /* PBXTextBookmark */;
 			2CAFFE9610C6455C002B217C /* PBXTextBookmark */ = 2CAFFE9610C6455C002B217C /* PBXTextBookmark */;
 			2CAFFE9710C6455C002B217C /* PBXTextBookmark */ = 2CAFFE9710C6455C002B217C /* PBXTextBookmark */;
+			2CAFFE9810C6457E002B217C /* PBXTextBookmark */ = 2CAFFE9810C6457E002B217C /* PBXTextBookmark */;
+			2CAFFE9910C6457E002B217C /* PBXTextBookmark */ = 2CAFFE9910C6457E002B217C /* PBXTextBookmark */;
 			2CB99B8110AA4801002C5D32 = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 			2CB99C3F10AA6364002C5D32 = 2CB99C3F10AA6364002C5D32 /* AEUtils.c */;
 		};
@@ -2759,6 +2761,26 @@
 		vrLoc = 0;
 	};
 	2CAFFE9710C6455C002B217C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99C4010AA6364002C5D32 /* AEUtils.h */;
+		name = "AEUtils.h: 16";
+		rLen = 10;
+		rLoc = 902;
+		rType = 0;
+		vrLen = 393;
+		vrLoc = 744;
+	};
+	2CAFFE9810C6457E002B217C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2C813BD00B4CC5E6000FF2FE /* History.rtf */;
+		name = "History.rtf: 7";
+		rLen = 0;
+		rLoc = 93;
+		rType = 0;
+		vrLen = 854;
+		vrLoc = 0;
+	};
+	2CAFFE9910C6457E002B217C /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 2CB99C4010AA6364002C5D32 /* AEUtils.h */;
 		name = "AEUtils.h: 16";
