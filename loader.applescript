@@ -189,7 +189,7 @@ end collecting_modules
 on current_location()
 	set a_path to path to me
 	tell application "Finder"
-		set a_folder to folder of a_path as alias
+		set a_folder to container of a_path as alias
 	end tell
 	return a_folder
 end current_location

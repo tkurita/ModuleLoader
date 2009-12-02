@@ -295,8 +295,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>9</integer>
-									<integer>2</integer>
+									<integer>19</integer>
+									<integer>16</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -340,7 +340,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>EventHandlers.c</string>
+								<string>loader.applescript</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -348,11 +348,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>EventHandlers.c</string>
+										<string>loader.applescript</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2CAFFDD410C601FC002B217C</string>
+										<string>2CAFFDF210C61F1E002B217C</string>
 										<key>history</key>
 										<array>
 											<string>2C7CF40310BE3AB9006C3270</string>
@@ -369,7 +369,8 @@
 											<string>2CAFFDC610C5FD95002B217C</string>
 											<string>2CAFFDC710C5FD95002B217C</string>
 											<string>2CAFFDC810C5FD95002B217C</string>
-											<string>2CAFFDC910C5FD95002B217C</string>
+											<string>2CAFFDE110C60A4F002B217C</string>
+											<string>2CAFFDE210C60A4F002B217C</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -392,6 +393,11 @@
 											<string>2CAFFDCA10C5FD95002B217C</string>
 											<string>2CAFFDCB10C5FD95002B217C</string>
 											<string>2CAFFDCC10C5FD95002B217C</string>
+											<string>2CAFFDE310C60A4F002B217C</string>
+											<string>2CAFFDE410C60A4F002B217C</string>
+											<string>2CAFFDE510C60A4F002B217C</string>
+											<string>2CAFFDE610C60A4F002B217C</string>
+											<string>2CAFFDE710C60A4F002B217C</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -430,7 +436,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2CAFFDD510C601FC002B217C</string>
+										<string>2CAFFDF310C61F1E002B217C</string>
 										<key>history</key>
 										<array>
 											<string>2C4026EE10B56E0E00BBF1B5</string>
@@ -655,8 +661,8 @@
 		<string>2CAFFD7A10C5E42A002B217C</string>
 		<string>2C003D8110A91F95003C3066</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
-		<string>/Users/tkurita/Dev/Projects/ModuleLoader/trunk/ModuleLoader.xcodeproj</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>/Users/tkurita/Dev/Projects/ModuleLoader/trunk/ModuleLoader.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>115 131 1112 747 0 0 1440 878 </string>
