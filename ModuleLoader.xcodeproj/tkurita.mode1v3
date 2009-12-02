@@ -244,6 +244,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -289,19 +291,23 @@
 								<string>089C1671FE841209C02AAC07</string>
 								<string>19C28FB4FE9D528D11CA2CBB</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>2CAFFDA610C5ED30002B217C</string>
+								<string>2CAFFE1510C625ED002B217C</string>
+								<string>2CAFFE1610C625ED002B217C</string>
+								<string>2CAFFE1710C625ED002B217C</string>
+								<string>2CAFFE1810C625ED002B217C</string>
+								<string>2CAFFE1910C625ED002B217C</string>
+								<string>2CAFFE1010C625AE002B217C</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>19</integer>
-									<integer>16</integer>
-									<integer>0</integer>
+									<integer>50</integer>
+									<integer>42</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {321, 667}}</string>
+							<string>{{0, 557}, {321, 667}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -333,14 +339,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>loader.applescript</string>
+								<string>ModuleLoader.r</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -348,11 +352,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>loader.applescript</string>
+										<string>ModuleLoader.r</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2CAFFDF210C61F1E002B217C</string>
+										<string>2CAFFE1D10C625ED002B217C</string>
 										<key>history</key>
 										<array>
 											<string>2C7CF40310BE3AB9006C3270</string>
@@ -360,7 +364,6 @@
 											<string>2C525A0510C428E700497709</string>
 											<string>2C525A3310C4A2F100497709</string>
 											<string>2C525A8610C4AD4F00497709</string>
-											<string>2C525B6A10C5170400497709</string>
 											<string>2CAFFD6010C5E42A002B217C</string>
 											<string>2CAFFD6110C5E42A002B217C</string>
 											<string>2CAFFD6210C5E42A002B217C</string>
@@ -370,7 +373,8 @@
 											<string>2CAFFDC710C5FD95002B217C</string>
 											<string>2CAFFDC810C5FD95002B217C</string>
 											<string>2CAFFDE110C60A4F002B217C</string>
-											<string>2CAFFDE210C60A4F002B217C</string>
+											<string>2CAFFE1A10C625ED002B217C</string>
+											<string>2CAFFE1B10C625ED002B217C</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -398,6 +402,7 @@
 											<string>2CAFFDE510C60A4F002B217C</string>
 											<string>2CAFFDE610C60A4F002B217C</string>
 											<string>2CAFFDE710C60A4F002B217C</string>
+											<string>2CAFFE1C10C625ED002B217C</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -436,7 +441,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2CAFFDF310C61F1E002B217C</string>
+										<string>2CAFFE1E10C625ED002B217C</string>
 										<key>history</key>
 										<array>
 											<string>2C4026EE10B56E0E00BBF1B5</string>
