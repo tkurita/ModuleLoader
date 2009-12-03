@@ -151,6 +151,15 @@ end resolve_dependencies
 on boot for a_script
 	set dependencies to extract dependencies for a_script
 	resolve_dependencies(a_script, dependencies, true)
+	try
+		module loaded a_script by me
+	on error msg number errno
+		-- 1800 : the module is not found
+		-- -1708 : handelr "module loaded" is not implemented
+		if errno is not -1708 then
+			error msg number errno
+		end if
+	end try
 	return missing value
 end boot
 
