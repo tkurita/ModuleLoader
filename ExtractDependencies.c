@@ -40,7 +40,12 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		err = AEGetNthDesc(&property_names, n, typeWildCard, &a_keyword, &a_pname);
 		if (err != noErr) goto loopbail;
 		//showAEDesc(&a_pname);
+		if (typeType == a_pname.descriptorType) {
+			// if a_pname is not user defined property, skip
+			goto loopbail;
+		}
 		err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &prop_value_id);
+		
 		if (err != noErr) goto loopbail;
 
 		long is_script;
@@ -69,7 +74,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 				if (noErr != err) goto loopbail;
 			}
 		}
-		
+	
 		err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@}",&a_pname, &prop_desc);
 		if (err != noErr) goto loopbail;
 		AEPutDesc(dependencies, 0, &dep_info);
@@ -80,6 +85,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AEDisposeDesc(&dep_info);
 		OSADispose(component, prop_value_id);
 		OSADispose(component, prop_value_id2);
+		if (noErr != err) goto bail;
 	}
 bail:
 	AEDisposeDesc(&property_names);

@@ -69,6 +69,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		2CAF009A10C81972002B217C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CAFFE0A10C6257C002B217C /* DummyDictionary */;
+			remoteInfo = DummyDictionary;
+		};
 		2CAFFE1310C625DD002B217C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -344,6 +351,7 @@
 				2C813D5A0B4CDC2D000FF2FE /* PBXBuildRule */,
 			);
 			dependencies = (
+				2CAF009B10C81972002B217C /* PBXTargetDependency */,
 			);
 			name = ModuleLoaderTestApp;
 			productName = LoadModuleApp;
@@ -626,18 +634,16 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/ModuleLoader.sdef",
 				"$(SRCROOT)/LocalLoader.applescript",
 				"$(SRCROOT)/loader.applescript",
 			);
 			outputPaths = (
-				"${SRCROOT}/ModuleLoader.r",
 				"$(SRCROOT)/LocalLoader.scpt",
 				"$(SRCROOT)/loader.scpt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/bin/sdp -f a -o \"${SRCROOT}/ModuleLoader.r\" ModuleLoader.sdef\nosacompile -d -o loader.scpt loader.applescript\nosacompile -d -o LocalLoader.scpt LocalLoader.applescript";
+			shellScript = "DICT_FRAMEWORK=\"build/${BUILD_STYLE}/DummyDictionary.framework\"\nosacompile -d -i ${DICT_FRAMEWORK} -o loader.scpt loader.applescript\nosacompile -d -i ${DICT_FRAMEWORK} -o LocalLoader.scpt LocalLoader.applescript";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -700,6 +706,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2CAF009B10C81972002B217C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CAFFE0A10C6257C002B217C /* DummyDictionary */;
+			targetProxy = 2CAF009A10C81972002B217C /* PBXContainerItemProxy */;
+		};
 		2CAFFE1410C625DD002B217C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2CAFFE0A10C6257C002B217C /* DummyDictionary */;
@@ -907,13 +918,10 @@
 		2CAFFE4110C63528002B217C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(NATIVE_ARCH)";
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
