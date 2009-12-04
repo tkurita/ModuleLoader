@@ -170,7 +170,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"module",
-			"Make a module specifier record. Must placed in propery statements. If a module name is ommited, property name is used as a module name.",
+			"Make a module specifier record. Must be placed in a user defined propery statement . If a module name is ommited, property name is used as a module name.",
 			'Molo', 'MkMs',
 			'MoSp',
 			"A module specifer record",
@@ -191,9 +191,9 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			replyRequired, listOfItems, notEnumerated, Reserved13,
 			dp_none__,
 			{
-				"for", 'forM', 'scpt',
+				"from", 'forM', 'scpt',
 				"A module script",
-				required,
+				optional,
 				singleItem, notEnumerated, Reserved13
 			},
 

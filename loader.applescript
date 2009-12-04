@@ -149,7 +149,7 @@ on resolve_dependencies(a_script, dependencies, is_top)
 end resolve_dependencies
 
 on boot for a_script
-	set dependencies to extract dependencies for a_script
+	set dependencies to extract dependencies from a_script
 	resolve_dependencies(a_script, dependencies, true)
 	try
 		module loaded a_script by me

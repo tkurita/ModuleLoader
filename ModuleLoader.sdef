@@ -52,12 +52,12 @@
 		<command name="ModuleLoader version" code="MoloVers" description="get version number of ModuleLoader">
 			<result description="version number" type="text"/>
 		</command>
-		<command name="module" code="MoloMkMs" description="Make a module specifier record. Must placed in propery statements. If a module name is ommited, property name is used as a module name.">
+		<command name="module" code="MoloMkMs" description="Make a module specifier record. Must be placed in a user defined propery statement . If a module name is ommited, property name is used as a module name.">
 			<direct-parameter description="A module name." type="text" optional="yes"/>
 			<result description="A module specifer record" type="module specifier"/>
 		</command>
 		<command name="extract dependencies" code="MoloExdp" description="Extarct module specifier records from a module script.">
-			<parameter name="for" code="forM" description="A module script" type="script"/>
+			<parameter name="from" code="forM" description="A module script" type="script" optional="yes"/>
 			<result>
 				<type type="dependency infomation" list="yes"/>
 			</result>
