@@ -32,6 +32,15 @@
 	<dict>
 		<key>Events</key>
 		<dict>
+			<key>MoloPloM</key>
+			<dict>
+				<key>Handler</key>
+				<string>loadModuleHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+				<key>Context</key>
+				<string>Machine</string>
+			</dict>
 			<key>MolofdMo</key>
 			<dict>
 				<key>Handler</key>
