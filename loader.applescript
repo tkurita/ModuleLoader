@@ -148,7 +148,7 @@ on resolve_dependencies(a_script, dependencies, is_top)
 	end repeat
 end resolve_dependencies
 
-on boot for a_script
+on boot loader for a_script
 	set dependencies to extract dependencies from a_script
 	resolve_dependencies(a_script, dependencies, true)
 	try
@@ -160,7 +160,7 @@ on boot for a_script
 			error msg number errno
 		end if
 	end try
-	return missing value
+	return loader
 end boot
 
 on set_loadonly(a_flat)

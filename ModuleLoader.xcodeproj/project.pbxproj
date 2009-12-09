@@ -840,6 +840,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = DummyDictionary;
+				SKIP_INSTALL = YES;
 				ZERO_LINK = NO;
 			};
 			name = Release;
