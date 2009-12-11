@@ -56,8 +56,8 @@
 			<direct-parameter description="A module name." type="text" optional="yes"/>
 			<result description="A module specifer record" type="module specifier"/>
 		</command>
-		<command name="extract dependencies" code="MoloExdp" description="Extarct module specifier records from a module script.">
-			<parameter name="from" code="forM" description="A module script" type="script" optional="yes"/>
+		<command name="extract dependencies from" code="MoloExdp" description="Extarct module specifier records from a module script.">
+			<direct-parameter description="A module script" type="script"/>
 			<result>
 				<type type="dependency infomation" list="yes"/>
 			</result>
@@ -68,7 +68,8 @@
 			<result type="script"/>
 		</command>
 		<event name="module loaded" code="MolowlLd" description="Called when a module is loaded by a loader script. It&apos;s a place to customize modules.">
-			<parameter name="by" code="whLD" description="A loader script" type="script"/>
+			<direct-parameter type="script"/>
+			<parameter name="by" code="whLD" description="A loader script" type="script" optional="yes"/>
 		</event>
 	</suite>
 </dictionary>

@@ -369,8 +369,7 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, long r
 	AECreateDesc(typeNull, NULL, 0, &script_data);
 	AEDescList dependencies;
 	AECreateDesc(typeNull, NULL, 0, &dependencies);
-	
-	err = AEGetParamDesc(ev, kForModuleParam, typeScript, &script_data);
+	err = AEGetParamDesc(ev, keyDirectObject, typeScript, &script_data);
 	if (err != noErr) goto bail;
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);

@@ -183,18 +183,18 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 
 			},
 
-			"extract dependencies",
+			"extract dependencies from",
 			"Extarct module specifier records from a module script.",
 			'Molo', 'Exdp',
 			'DpIf',
 			"",
 			replyRequired, listOfItems, notEnumerated, Reserved13,
-			dp_none__,
+			'scpt',
+			"A module script",
+			directParamRequired,
+			singleItem, notEnumerated, Reserved13,
 			{
-				"from", 'forM', 'scpt',
-				"A module script",
-				optional,
-				singleItem, notEnumerated, Reserved13
+
 			},
 
 			"boot",
@@ -218,11 +218,14 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			"Called when a module is loaded by a loader script. It's a place to customize modules.",
 			'Molo', 'wlLd',
 			reply_none__,
-			dp_none__,
+			'scpt',
+			"",
+			directParamRequired,
+			singleItem, notEnumerated, Reserved13,
 			{
 				"by", 'whLD', 'scpt',
 				"A loader script",
-				required,
+				optional,
 				singleItem, notEnumerated, Reserved13
 			}
 		},

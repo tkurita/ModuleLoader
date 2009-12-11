@@ -214,7 +214,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2C3E1FE810D201DC00F415EA</string>
+						<string>2C3E1FFB10D2038800F415EA</string>
 						<key>history</key>
 						<array>
 							<string>2C348B2710CFBA78004EBDA1</string>
@@ -329,7 +329,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {321, 688}}</string>
+							<string>{{0, 24}, {321, 688}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -447,7 +447,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2C3E1FE710D201DC00F415EA</string>
+										<string>2C3E1FFA10D2038800F415EA</string>
 										<key>history</key>
 										<array>
 											<string>2C4026EE10B56E0E00BBF1B5</string>
@@ -461,10 +461,10 @@
 											<string>2C54D8DF10CF657C00DFFEB6</string>
 											<string>2C54D8FD10CF75CD00DFFEB6</string>
 											<string>2C54D8FE10CF75CD00DFFEB6</string>
-											<string>2C54D90810CF78E800DFFEB6</string>
 											<string>2C3E1FE110D201DC00F415EA</string>
 											<string>2C3E1FE210D201DC00F415EA</string>
-											<string>2C3E1FE310D201DC00F415EA</string>
+											<string>2C3E1FF710D2038800F415EA</string>
+											<string>2C3E1FF810D2038800F415EA</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -486,6 +486,8 @@
 											<string>2C3E1FE410D201DC00F415EA</string>
 											<string>2C3E1FE510D201DC00F415EA</string>
 											<string>2C3E1FE610D201DC00F415EA</string>
+											<string>2C3E1FF110D202B300F415EA</string>
+											<string>2C3E1FF910D2038800F415EA</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -679,6 +681,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>2C3E1FFC10D2038800F415EA</string>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>2C003D8110A91F95003C3066</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>2C54D90210CF75CD00DFFEB6</string>
 		<string>/Users/tkurita/Dev/Projects/ModuleLoader/trunk/ModuleLoader.xcodeproj</string>
@@ -763,7 +768,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2C003D8110A91F95003C3066</string>
-				<string>2C348B2810CFBA78004EBDA1</string>
+				<string>2C3E1FF410D202B300F415EA</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -1045,7 +1050,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>2CE01EB510C94AB40014EDFF</string>
+				<string>2C3E1FF510D202B300F415EA</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
