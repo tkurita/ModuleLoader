@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>ModuleLoader</string>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>7</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.1b1</string>
 	<key>NSHumanReadableCopyright</key>
@@ -37,7 +37,7 @@
 			<key>MololoMo</key>
 			<string>loadModuleHandler</string>
 			<key>MoloPloM</key>
-			<string>loadModuleHandler</string>
+			<string>_loadModuleHandler_</string>
 			<key>MoloMKlo</key>
 			<string>makeLoaderHandler</string>
 			<key>MologtPH</key>

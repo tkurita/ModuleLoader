@@ -25,7 +25,7 @@ static void RemoveMyEventHandlers();
 
 const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kLoadModuleEvent, loadModuleHandler },
-{ kModuleLoaderSuite, kPrivateLoadModuleEvent, loadModuleHandler },
+{ kModuleLoaderSuite, kPrivateLoadModuleEvent, _loadModuleHandler_ },
 { kModuleLoaderSuite, kFindModuleEvent, findModuleHandler},
 { kModuleLoaderSuite, kMakeLoaderEvent, makeLoaderHandler},
 { kModuleLoaderSuite, kSetAdditionalModulePathsEvent, setAdditionalModulePathsHandler},

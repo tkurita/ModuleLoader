@@ -91,9 +91,9 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"_load module_",
-			"Private command to avoid a bug of Script Debugger. A synonym of \"load module\" command.",
+			"A command for private use.",
 			'Molo', 'PloM',
-			'scpt',
+			'reco',
 			"A loaded module.",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			'TEXT',
@@ -109,8 +109,8 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				"If tue is passed,  module search paths are restricted to  paths given in 'additional paths'.",
 				optional,
 				singleItem, notEnumerated, Reserved13,
-				"appending info", 'apIf', 'bool',
-				"",
+				"embeding specifier", 'ebSp', 'bool',
+				"Whether loading infocation is appened to the script or not.",
 				optional,
 				singleItem, notEnumerated, Reserved13
 			},

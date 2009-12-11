@@ -8,3 +8,4 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
 OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
 OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon);
+OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, long refcon);

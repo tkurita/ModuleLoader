@@ -25,9 +25,9 @@ property _additional_paths : {}
 property _collecting : false
 property _only_local : false
 
-on setup_script(a_script)
+on setup_script(a_script, dependencies)
 	--do_log("start setup_script")
-	resolve_dependencies(a_script, __module_dependencies__ of a_script, false)
+	resolve_dependencies(a_script, dependencies, false)
 	set sucess_setup to false
 	try
 		module loaded a_script by me
@@ -103,19 +103,20 @@ on load_module(a_name, with_loadinfo)
 	
 	if my _collecting or my _only_local then
 		try
-			set a_script to _load module_ a_name additional paths adpaths appending info with_loadinfo without other paths
+			set a_record to _load module_ a_name additional paths adpaths embeding specifier with_loadinfo without other paths
 		on error msg number errno
 			if my _collecting then
-				set a_script to try_collect(a_name, adpaths, with_loadinfo)
+				set a_record to try_collect(a_name, adpaths, with_loadinfo)
 			else
 				error msg number errno
 			end if
 		end try
 	else
-		set a_script to _load module_ a_name appending info with_loadinfo additional paths adpaths
+		set a_record to _load module_ a_name embeding specifier with_loadinfo additional paths adpaths
 	end if
-	
-	set a_path to __module_path__ of a_script
+	log a_record
+	set a_path to file of a_record
+	set a_script to script of a_record
 	
 	try
 		set a_script to my _module_cache's module_for_path(a_path)
@@ -128,7 +129,7 @@ on load_module(a_name, with_loadinfo)
 		--do_log("did not hit in script chache")
 		my _module_cache's add_module(a_name, a_path, a_script)
 		if not my _loadonly then
-			setup_script(a_script)
+			setup_script(a_script, dependency infomation of a_record)
 		end if
 	else
 		--do_log("hit in script chache")
@@ -213,13 +214,14 @@ on set_local(a_flag)
 end set_local
 
 on try_collect(a_name, adpaths, with_loadinfo)
-	set a_script to _load module_ a_name appending info with_loadinfo additional paths adpaths
-	set a_path to __module_path__ of a_script
+	set a_record to _load module_ a_name embeding specifier with_loadinfo additional paths adpaths
+	set a_path to file of a_record
+	set a_script to script of a_record
 	set a_location to item 1 of adpaths
 	tell application "Finder"
 		set new_alias to make alias file at a_location to a_path -- with properties {name:name of path_rec}
 	end tell
-	return a_script
+	return a_record
 end try_collect
 
 on clear_cache()

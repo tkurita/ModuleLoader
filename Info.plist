@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>ModuleLoader</string>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>7</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.1b1</string>
 	<key>NSHumanReadableCopyright</key>
@@ -35,7 +35,7 @@
 			<key>MoloPloM</key>
 			<dict>
 				<key>Handler</key>
-				<string>loadModuleHandler</string>
+				<string>_loadModuleHandler_</string>
 				<key>ThreadSafe</key>
 				<true/>
 				<key>Context</key>
