@@ -74,14 +74,14 @@ on export_to_cache(a_name, a_script)
 end export_to_cache
 
 on load module a_name
-	return load_module(a_name)
+	return load_module(a_name, false)
 end load module
 
 on load(a_name)
-	return load_module(a_name)
+	return load_module(a_name, false)
 end load
 
-on load_module(a_name)
+on load_module(a_name, with_loadinfo)
 	--do_log("start load_module " & a_name)
 	if a_name is in {":", "", "/", "."} then
 		error (quoted form of a_name) & " is invald form to specify a module." number 1801
@@ -103,16 +103,16 @@ on load_module(a_name)
 	
 	if my _collecting or my _only_local then
 		try
-			set a_script to _load module_ a_name additional paths adpaths without other paths
+			set a_script to _load module_ a_name additional paths adpaths appending info with_loadinfo without other paths
 		on error msg number errno
 			if my _collecting then
-				set a_script to try_collect(a_name, adpaths)
+				set a_script to try_collect(a_name, adpaths, with_loadinfo)
 			else
 				error msg number errno
 			end if
 		end try
 	else
-		set a_script to _load module_ a_name additional paths adpaths
+		set a_script to _load module_ a_name appending info with_loadinfo additional paths adpaths
 	end if
 	
 	set a_path to __module_path__ of a_script
@@ -140,7 +140,7 @@ end load_module
 on resolve_dependencies(a_script, dependencies, is_top)
 	repeat with a_dep in dependencies
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
-		set a_module to load_module(name of module specifier of a_dep)
+		set a_module to load_module(name of module specifier of a_dep, is_top)
 		an_accessor's set_value(a_script, a_module)
 		if is_top then
 			set __module_specifier__ of a_module to module specifier of a_dep
@@ -180,7 +180,7 @@ end set_logging
 
 (** AppleMods handler **)
 on loadLib(a_name)
-	return load_module(a_name)
+	return load_module(a_name, false)
 end loadLib
 
 (** Handlers for local loader **)
@@ -212,8 +212,8 @@ on set_local(a_flag)
 	return me
 end set_local
 
-on try_collect(a_name, adpaths)
-	set a_script to _load module_ a_name additional paths adpaths
+on try_collect(a_name, adpaths, with_loadinfo)
+	set a_script to _load module_ a_name appending info with_loadinfo additional paths adpaths
 	set a_path to __module_path__ of a_script
 	set a_location to item 1 of adpaths
 	tell application "Finder"

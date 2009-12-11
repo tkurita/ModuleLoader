@@ -108,6 +108,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				"other paths", 'ohPh', 'bool',
 				"If tue is passed,  module search paths are restricted to  paths given in 'additional paths'.",
 				optional,
+				singleItem, notEnumerated, Reserved13,
+				"appending info", 'apIf', 'bool',
+				"",
+				optional,
 				singleItem, notEnumerated, Reserved13
 			},
 

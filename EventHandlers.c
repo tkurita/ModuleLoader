@@ -265,7 +265,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	AECreateDesc(typeNull, NULL, 0, &module_spec);
 	AEDesc alias_desc;
 	AECreateDesc(typeNull, NULL, 0, &alias_desc);
-
+	
 	FSRef module_ref;
 	err = findModuleWithEvent(ev, reply, &module_ref);
 	if (err != noErr) goto bail;
@@ -281,35 +281,38 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
 		goto bail;
 	}
-	
-	// add __module_path__ property
-	AliasHandle an_alias;
-	err = FSNewAlias(NULL, &module_ref, &an_alias);
-	HLock((Handle)an_alias);
-	err = AECreateDesc(typeAlias, (Ptr) (*an_alias),
-					   GetHandleSize((Handle) an_alias), &alias_desc);
-	HUnlock((Handle)an_alias);
-	if (noErr != err) goto bail;
-	err = setPropertyWithName(script_id, MODULE_PATH_LABEL, &alias_desc);
-	DisposeHandle((Handle) an_alias);
-	if (noErr != err) goto bail;
-	
-	// add __module_dependencies__ property
-	err = extractDependencies(scriptingComponent, script_id, &dependencies);
-	if (noErr != err) goto bail;
-	err = setPropertyWithName(script_id, MODULE_DEPENDENCIES_LABEL, &dependencies);
-	if (noErr != err) goto bail;
-	
-	// add __module_spec_ property
-	AEDesc module_name;
-	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
-	if (err != noErr) goto bail;
-	AEBuildError ae_err;
-	err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
-	AEDisposeDesc(&module_name);
-	if (err != noErr) goto bail;
-	err = setPropertyWithName(script_id, MODULE_SPEC_LABEL, &module_spec);
-	if (noErr != err) goto bail;
+	Boolean append_info = false;
+	err = getBoolValue(ev, kAppendInfoParam, &append_info);
+	if (append_info) {
+		// add __module_path__ property
+		AliasHandle an_alias;
+		err = FSNewAlias(NULL, &module_ref, &an_alias);
+		HLock((Handle)an_alias);
+		err = AECreateDesc(typeAlias, (Ptr) (*an_alias),
+						   GetHandleSize((Handle) an_alias), &alias_desc);
+		HUnlock((Handle)an_alias);
+		if (noErr != err) goto bail;
+		err = setPropertyWithName(script_id, MODULE_PATH_LABEL, &alias_desc);
+		DisposeHandle((Handle) an_alias);
+		if (noErr != err) goto bail;
+		
+		// add __module_dependencies__ property
+		err = extractDependencies(scriptingComponent, script_id, &dependencies);
+		if (noErr != err) goto bail;
+		err = setPropertyWithName(script_id, MODULE_DEPENDENCIES_LABEL, &dependencies);
+		if (noErr != err) goto bail;
+		
+		// add __module_spec_ property
+		AEDesc module_name;
+		err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
+		if (err != noErr) goto bail;
+		AEBuildError ae_err;
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
+		AEDisposeDesc(&module_name);
+		if (err != noErr) goto bail;
+		err = setPropertyWithName(script_id, MODULE_SPEC_LABEL, &module_spec);
+		if (noErr != err) goto bail;
+	}
 	
 	// setup result
 	AEDesc result;
