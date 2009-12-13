@@ -105,7 +105,6 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	OSAID loader_id = kOSANullScript;
-	OSAID result_id = kOSANullScript;
 	
 	err = loadBundleScript(CFSTR("LocalLoader"), &loader_id);
 	if (err != noErr) {
@@ -113,32 +112,7 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
 		goto bail;
 	}
-	
-	AppleEvent setup_event;
-    ProcessSerialNumber PSN = {0, kCurrentProcess}; 
-	AEBuildError aeerr;
-	err = AEBuildAppleEvent(kASAppleScriptSuite, kASSubroutineEvent, 
-							typeProcessSerialNumber, (Ptr) &PSN, sizeof(PSN), 
-							kAutoGenerateReturnID, kAnyTransactionID, 
-							&setup_event, 
-							&aeerr, 
-							"'snam':TEXT(@)", 
-							"setup"); 
-	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to AEBuildAppleEvent."), kCFStringEncodingUTF8);	
-		goto bail;
-	}
-	
-	err = OSAExecuteEvent(scriptingComponent, &setup_event,
-						  loader_id, kOSAModeNull, &result_id);
-	AEDisposeDesc(&setup_event);
-	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to setup a local loader."), kCFStringEncodingUTF8);
-		goto bail;		
-	}
-	
+		
 	AEDesc result;
 	err = OSACoerceToDesc(scriptingComponent, loader_id, typeWildCard,kOSAModeNull, &result);
 	if (err != noErr) {
@@ -150,7 +124,6 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	AEDisposeDesc(&result);
 bail:
 	OSADispose(scriptingComponent, loader_id);
-	OSADispose(scriptingComponent, result_id);
 	gAdditionReferenceCount--;
 	return err;
 }

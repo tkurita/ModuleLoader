@@ -2,13 +2,7 @@ property name : "LocalLoader"
 property _idleTime : 0
 property _idleInterval : 60 * 5
 property _waitTime : _idleInterval
-property _loaderCore : missing value
 property _only_local : false
-
-on setup()
-	set my _loaderCore to continue module loader
-	my _loaderCore's set_local(true)
-end setup
 
 on load(a_name)
 	set a_loader to make_loader()
@@ -20,12 +14,7 @@ on load module a_name
 end load module
 
 on module loader
-	set a_loader to continue module loader
-	a_loader's set_local(true)
-	a_loader's set_localonly(my _only_local)
-	a_loader's set_additional_paths({a_loader's current_location()})
-	return a_loader
-	--return make_loader()
+	return make_loader()
 end module loader
 
 on proxy()
@@ -33,11 +22,11 @@ on proxy()
 end proxy
 
 on make_loader()
-	copy my _loaderCore to local_loader
-	local_loader's set_local(true)
-	local_loader's set_localonly(my _only_local)
-	local_loader's set_additional_paths({local_loader's current_location()})
-	return local_loader
+	set a_loader to continue module loader
+	a_loader's set_local(true)
+	a_loader's set_localonly(my _only_local)
+	a_loader's set_additional_paths({a_loader's current_location()})
+	return a_loader
 end make_loader
 
 on makeLoader() -- AppleMods
