@@ -407,13 +407,19 @@ bail:
 OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	gAdditionReferenceCount++;
+#if useLog
+	fprintf(stderr, "start extractDependenciesHandler\n");
+#endif
 	OSErr err;
 	AEDesc script_data;
 	AECreateDesc(typeNull, NULL, 0, &script_data);
 	AEDescList dependencies;
 	AECreateDesc(typeNull, NULL, 0, &dependencies);
 	err = AEGetParamDesc(ev, keyDirectObject, typeScript, &script_data);
-	if (err != noErr) goto bail;
+	if (err != noErr) {
+		fprintf(stderr, "Faild to AEGetParamDesc in extractDependenciesHandler\n");
+		goto bail;
+	}
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 	

@@ -13,6 +13,7 @@ property ModuleCache : run script POSIX file (cwd() & "ModuleCache.applescript")
 property XList : run script POSIX file (cwd() & "FastList.applescript")
 property ConsoleLog : run script POSIX file (cwd() & "ConsoleLog.applescript")
 property PropertyAccessor : (run script POSIX file (cwd() & "PropertyAccessor.applescript"))'s initialize()
+property ModuleInfo : run script POSIX file (cwd() & "ModuleInfo.applescript")
 
 property _loadonly : false
 property _module_cache : make ModuleCache
@@ -25,9 +26,12 @@ property _additional_paths : {}
 property _collecting : false
 property _only_local : false
 
-on setup_script(a_script, dependencies)
-	--do_log("start setup_script")
-	resolve_dependencies(a_script, dependencies, false)
+on setup_script(a_moduleinfo)
+	set a_script to a_moduleinfo's module_script()
+	--do_log("start setup_script" & " for " & name of a_script)
+	--set dependencies to dependency info of module_record
+	a_moduleinfo's set_setupped(true)
+	resolve_dependencies(a_moduleinfo, false)
 	set sucess_setup to false
 	try
 		module loaded a_script by me
@@ -70,30 +74,38 @@ on export(a_script) -- save myself to cache when load a module which load myself
 end export
 
 on export_to_cache(a_name, a_script)
-	my _module_cache's add_module(a_name, missing value, a_script)
+	set a_moduleinfo to ModuleInfo's make_with_vars(a_script, {}, true)
+	my _module_cache's add_module(a_name, missing value, a_moduleinfo)
 end export_to_cache
 
 on load module a_name
-	return load_module(a_name, false)
+	return load(a_name)
 end load module
 
 on load(a_name)
-	return load_module(a_name, false)
+	set a_moduleinfo to load_module(a_name, false)
+	if a_moduleinfo's need_setup() then
+		if not my _loadonly then
+			setup_script(a_moduleinfo)
+		end if
+	end if
+	return a_moduleinfo's module_script()
 end load
 
 on load_module(a_name, with_loadinfo)
+	--log "start load_module"
 	--do_log("start load_module " & a_name)
 	if a_name is in {":", "", "/", "."} then
 		error (quoted form of a_name) & " is invald form to specify a module." number 1801
 	end if
 	try
-		set a_script to my _module_cache's module_for_name(a_name)
+		set a_moduleinfo to my _module_cache's module_for_name(a_name)
 		set has_exported to true
 	on error number 900
 		set has_exported to false
 	end try
 	if has_exported then
-		return a_script
+		return a_moduleinfo
 	end if
 	
 	set adpaths to my _additional_paths
@@ -103,55 +115,62 @@ on load_module(a_name, with_loadinfo)
 	
 	if my _collecting or my _only_local then
 		try
-			set a_record to _load module_ a_name additional paths adpaths embeding specifier with_loadinfo without other paths
+			set a_loadinfo to _load module_ a_name additional paths adpaths embeding specifier with_loadinfo without other paths
 		on error msg number errno
 			if my _collecting then
-				set a_record to try_collect(a_name, adpaths, with_loadinfo)
+				set a_loadinfo to try_collect(a_name, adpaths, with_loadinfo)
 			else
 				error msg number errno
 			end if
 		end try
 	else
-		set a_record to _load module_ a_name embeding specifier with_loadinfo additional paths adpaths
+		set a_loadinfo to _load module_ a_name embeding specifier with_loadinfo additional paths adpaths
 	end if
-	log a_record
-	set a_path to file of a_record
-	set a_script to script of a_record
+	-- log "after _load_module_"
+	set a_path to file of a_loadinfo
 	
 	try
-		set a_script to my _module_cache's module_for_path(a_path)
-		my _module_cache's add_module(a_name, a_path, a_script)
-		set need_setup to false
+		set a_moduleinfo to my _module_cache's module_for_path(a_path)
+		my _module_cache's add_module(a_name, a_path, a_moduleinfo)
 	on error number 900
-		set need_setup to true
+		set a_moduleinfo to ModuleInfo's make_with_loadinfo(a_loadinfo)
+		my _module_cache's add_module(a_name, a_path, a_moduleinfo)
 	end try
-	if need_setup then
-		--do_log("did not hit in script chache")
-		my _module_cache's add_module(a_name, a_path, a_script)
-		if not my _loadonly then
-			setup_script(a_script, dependency infomation of a_record)
-		end if
-	else
-		--do_log("hit in script chache")
-	end if
 	
-	return a_script
+	-- log "end of load_module"
+	return a_moduleinfo
 end load_module
 
-on resolve_dependencies(a_script, dependencies, is_top)
-	repeat with a_dep in dependencies
+on resolve_dependencies(a_moduleinfo)
+	repeat with a_dep in a_moduleinfo's dependencies()
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
-		set a_module to load_module(name of module specifier of a_dep, is_top)
-		an_accessor's set_value(a_script, a_module)
-		if is_top then
-			set __module_specifier__ of a_module to module specifier of a_dep
+		set dep_moduleinfo to load_module(name of module specifier of a_dep, false)
+		if dep_moduleinfo's need_setup() then
+			setup_script(dep_moduleinfo)
 		end if
+		an_accessor's set_value(a_moduleinfo's module_script(), dep_moduleinfo's module_script())
 	end repeat
 end resolve_dependencies
 
 on boot loader for a_script
+	--tell application "ModuleLoaderTestApp"
 	set dependencies to extract dependencies from a_script
-	resolve_dependencies(a_script, dependencies, true)
+	--end tell
+	set moduleinfo_list to {}
+	repeat with a_dep in dependencies
+		--log name of a_dep
+		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
+		set a_moduleinfo to load_module(name of module specifier of a_dep, true)
+		an_accessor's set_value(a_script, a_moduleinfo's module_script())
+		set end of moduleinfo_list to a_moduleinfo
+	end repeat
+	
+	repeat with a_moduleinfo in moduleinfo_list
+		if a_moduleinfo's need_setup() then
+			setup_script(a_moduleinfo)
+		end if
+	end repeat
+	
 	try
 		module loaded a_script by me
 	on error msg number errno
@@ -181,7 +200,7 @@ end set_logging
 
 (** AppleMods handler **)
 on loadLib(a_name)
-	return load_module(a_name, false)
+	return load(a_name)
 end loadLib
 
 (** Handlers for local loader **)

@@ -105,6 +105,7 @@
 		2C525A1C10C42A3B00497709 /* PropertyAccessor.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = PropertyAccessor.applescript; sourceTree = "<group>"; };
 		2C5B3B7C10B98242004396E4 /* ModuleLoader.osax */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModuleLoader.osax; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C5B3B8210B982BE004396E4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C6F05B810D3F2CC00733C3B /* ModuleInfo.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ModuleInfo.applescript; sourceTree = "<group>"; };
 		2C706CAC10AD0AA800208505 /* LocalLoader.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = LocalLoader.applescript; sourceTree = "<group>"; };
 		2C706D6110AD336100208505 /* LocalLoader.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = LocalLoader.scpt; sourceTree = "<group>"; };
 		2C706D6210AD336100208505 /* loader.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = loader.scpt; sourceTree = "<group>"; };
@@ -252,6 +253,7 @@
 				2C8E296110BFD9B6008C44A9 /* ConsoleLog.applescript */,
 				2C706CAC10AD0AA800208505 /* LocalLoader.applescript */,
 				2C525A1C10C42A3B00497709 /* PropertyAccessor.applescript */,
+				2C6F05B810D3F2CC00733C3B /* ModuleInfo.applescript */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";

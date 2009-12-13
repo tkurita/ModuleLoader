@@ -6,7 +6,7 @@
 		<record-type name="module specifier" code="MoSp" description="A specifier of a module will be loaded.">
 			<property name="name" code="pnam" description="Module name" type="text"/>
 		</record-type>
-		<record-type name="dependency infomation" code="DpIf" description="Module dependency infomation">
+		<record-type name="dependency info" code="DpIf" description="Module dependency information">
 			<property name="name" code="pnam" description="A property name which a module is loaded." type="text"/>
 			<property name="module specifier" code="MoSp" description="A module specifier" type="module specifier"/>
 		</record-type>

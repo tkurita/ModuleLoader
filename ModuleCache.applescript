@@ -44,8 +44,8 @@ on module_for_path(a_path)
 	return search_value(a_path, my _paths, my _values)
 end module_for_path
 
-on add_module(a_name, a_path, a_module)
+on add_module(a_name, a_path, a_moduleinfo)
 	my _names's push(a_name)
 	my _paths's push(a_path)
-	my _values's push(a_module)
+	my _values's push(a_moduleinfo)
 end add_module

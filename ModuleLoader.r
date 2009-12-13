@@ -190,7 +190,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			"extract dependencies from",
 			"Extarct module specifier records from a module script.",
 			'Molo', 'Exdp',
-			'DpIf',
+			'****',
 			"",
 			replyRequired, listOfItems, notEnumerated, Reserved13,
 			'scpt',
@@ -246,8 +246,8 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			{
 			},
 
-			"dependency infomation", 'DpIf',
-			"Module dependency infomation",
+			"dependency info", 'DpIf',
+			"Module dependency information",
 			{
 				"name", 'pnam', 'TEXT',
 				"A property name which a module is loaded.",
