@@ -153,14 +153,19 @@ on resolve_dependencies(a_moduleinfo)
 end resolve_dependencies
 
 on boot loader for a_script
-	--tell application "ModuleLoaderTestApp"
-	set dependencies to extract dependencies from a_script
-	--end tell
+	global __module_dependencies__
+	try
+		set dependencies to __module_dependencies__
+		--log "found __module_dependencies__"
+	on error
+		set dependencies to extract dependencies from a_script
+		--log "not found __module_dependencies__"
+	end try
 	set moduleinfo_list to {}
 	repeat with a_dep in dependencies
 		--log name of a_dep
+		set a_moduleinfo to load_module(name of module specifier of a_dep, false)
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
-		set a_moduleinfo to load_module(name of module specifier of a_dep, true)
 		an_accessor's set_value(a_script, a_moduleinfo's module_script())
 		set end of moduleinfo_list to a_moduleinfo
 	end repeat
@@ -180,6 +185,8 @@ on boot loader for a_script
 			error msg number errno
 		end if
 	end try
+	--log "will set __module_dependencies__"
+	set __module_dependencies__ to dependencies
 	return loader
 end boot
 

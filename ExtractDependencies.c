@@ -3,6 +3,8 @@
 #include "ExtractDependencies.h"
 #include "AEUtils.h"
 
+#define useLog 0
+
 const char *MODULE_SPEC_LABEL = "__module_specifier__";
 const char *MODULE_DEPENDENCIES_LABEL = "__module_dependencies__";
 
@@ -15,10 +17,24 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	
 	AEDesc moduleSpecLabel;
 	err = AECreateDesc(typeChar, MODULE_SPEC_LABEL, strlen(MODULE_SPEC_LABEL), &moduleSpecLabel);
-	
+	AEDesc moduleDependenciesLabel;
+	err = AECreateDesc(typeChar, MODULE_DEPENDENCIES_LABEL, strlen(MODULE_DEPENDENCIES_LABEL), &moduleDependenciesLabel);
+
 	err = AECreateList(NULL, 0, false, dependencies);
 	if (err != noErr) goto bail;
-
+	
+	OSAID deplist_id = kOSANullScript;
+	err = OSAGetProperty(component, kOSAModeNull, scriptID, &moduleDependenciesLabel, &deplist_id);
+	if (noErr == err) {
+#if useLog
+		fprintf(stderr, "Found __module_dependencies__\n");
+#endif
+		err = OSACoerceToDesc(component, deplist_id, typeWildCard, kOSAModeNull, dependencies);
+		goto bail;
+	}
+#if useLog
+	fprintf(stderr, "Not Found __module_dependencies__\n");
+#endif	
 	err = OSAGetPropertyNames(component, kOSAModeNull, scriptID, &property_names);
 	if (err != noErr) goto bail;
 
