@@ -83,7 +83,7 @@ on load module a_name
 end load module
 
 on load(a_name)
-	set a_moduleinfo to load_module(a_name, false)
+	set a_moduleinfo to load_module(a_name)
 	if a_moduleinfo's need_setup() then
 		if not my _loadonly then
 			setup_script(a_moduleinfo)
@@ -92,7 +92,7 @@ on load(a_name)
 	return a_moduleinfo's module_script()
 end load
 
-on load_module(a_name, with_loadinfo)
+on load_module(a_name)
 	--log "start load_module"
 	--do_log("start load_module " & a_name)
 	if a_name is in {":", "", "/", "."} then
@@ -115,16 +115,16 @@ on load_module(a_name, with_loadinfo)
 	
 	if my _collecting or my _only_local then
 		try
-			set a_loadinfo to _load module_ a_name additional paths adpaths embeding specifier with_loadinfo without other paths
+			set a_loadinfo to _load module_ a_name additional paths adpaths without other paths
 		on error msg number errno
 			if my _collecting then
-				set a_loadinfo to try_collect(a_name, adpaths, with_loadinfo)
+				set a_loadinfo to try_collect(a_name, adpaths)
 			else
 				error msg number errno
 			end if
 		end try
 	else
-		set a_loadinfo to _load module_ a_name embeding specifier with_loadinfo additional paths adpaths
+		set a_loadinfo to _load module_ a_name additional paths adpaths
 	end if
 	-- log "after _load_module_"
 	set a_path to file of a_loadinfo
@@ -144,7 +144,7 @@ end load_module
 on resolve_dependencies(a_moduleinfo)
 	repeat with a_dep in a_moduleinfo's dependencies()
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
-		set dep_moduleinfo to load_module(name of module specifier of a_dep, false)
+		set dep_moduleinfo to load_module(name of module specifier of a_dep)
 		if dep_moduleinfo's need_setup() then
 			setup_script(dep_moduleinfo)
 		end if
@@ -164,7 +164,7 @@ on boot loader for a_script
 	set moduleinfo_list to {}
 	repeat with a_dep in dependencies
 		--log name of a_dep
-		set a_moduleinfo to load_module(name of module specifier of a_dep, false)
+		set a_moduleinfo to load_module(name of module specifier of a_dep)
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
 		an_accessor's set_value(a_script, a_moduleinfo's module_script())
 		set end of moduleinfo_list to a_moduleinfo
@@ -239,8 +239,8 @@ on set_local(a_flag)
 	return me
 end set_local
 
-on try_collect(a_name, adpaths, with_loadinfo)
-	set a_record to _load module_ a_name embeding specifier with_loadinfo additional paths adpaths
+on try_collect(a_name, adpaths)
+	set a_record to _load module_ a_name additional paths adpaths
 	set a_path to file of a_record
 	set a_script to script of a_record
 	set a_location to item 1 of adpaths
