@@ -1,5 +1,5 @@
 property name : "FastList"
-property version : "1.0"
+property version : "1.1"
 
 on run
 	return me
@@ -11,7 +11,7 @@ end make
 
 on make_with(a_list)
 	set a_parent to me
-	script XList
+	script FastList
 		property parent : a_parent
 		property _contents : a_list
 		property _length : length of _contents
@@ -19,7 +19,7 @@ on make_with(a_list)
 		property _currentItem : missing value
 	end script
 	
-	return XList
+	return FastList
 end make_with
 
 on next()
@@ -61,10 +61,6 @@ on increment_index()
 	end if
 end increment_index
 
-on reset()
-	set my _n to 1
-end reset
-
 (*!@group Stack and Quene *)
 
 on push(an_item)
@@ -72,51 +68,14 @@ on push(an_item)
 	set my _length to (my _length) + 1
 end push
 
-on pop()
-	try
-		set a_result to last item of my _contents
-	on error
-		return missing value
-	end try
-	
-	try
-		set my _contents to items 1 thru -2 of my _contents
-	on error
-		set my _contents to {}
-	end try
-	
-	set my _length to (my _length) - 1
-	return a_result
-end pop
-
-on unshift(an_item)
-	set beginning of my _contents to an_item
-	increment_index()
-	set my _length to (my _length) + 1
-	return me
-end unshift
-
-on shift()
-	try
-		set a_result to first item of my _contents
-	on error
-		return missing value
-	end try
-	
-	set my _contents to rest of my _contents
-	decrement_index()
-	set my _length to (my _length) - 1
-	return a_result
-end shift
-
 
 (*!@group Accessing List Items *)
 on count_items()
-	return length of my _contents
+	return count my _contents
 end count_items
 
 on count
-	return length of my _contents
+	return count my _contents
 end count
 
 on delete_at(indexes)
