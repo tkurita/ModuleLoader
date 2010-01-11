@@ -270,21 +270,6 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = extractDependencies(scriptingComponent, script_id, &dependencies);
 	if (noErr != err) goto bail;
 	
-	Boolean embed_specifier = false;
-	err = getBoolValue(ev, kEmbedingSpecifierParam, &embed_specifier);
-	if (embed_specifier) {		
-		// add __module_spec_ property
-		AEDesc module_name;
-		err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
-		if (err != noErr) goto bail;
-		AEBuildError ae_err;
-		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
-		AEDisposeDesc(&module_name);
-		if (err != noErr) goto bail;
-		err = setPropertyWithName(script_id, MODULE_SPEC_LABEL, &module_spec);
-		if (noErr != err) goto bail;
-	}
-	
 	osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &script_desc);
 	if (osa_err != noErr) {
 		err = osa_err;

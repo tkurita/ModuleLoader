@@ -6,7 +6,6 @@
 #define kInDirectoryParam 'inDr'
 #define kOtherPathsParam 'ohPh'
 #define kForModuleParam 'forM'
-#define kEmbedingSpecifierParam 'ebSp'
 
 #define kModuleLoaderSuite  'Molo'
 #define kLoadModuleEvent	'loMo'

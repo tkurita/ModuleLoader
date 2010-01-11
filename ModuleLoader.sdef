@@ -32,7 +32,6 @@
 				<type type="file" list="yes"/>
 			</parameter>
 			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
-			<parameter name="embeding specifier" code="ebSp" description="Whether loading infocation is appened to the script or not." type="boolean" optional="yes"/>
 			<result description="A loaded module." type="record"/>
 		</command>
 		<command name="module loader" code="MoloMKlo" description="Obtain a loader script">
