@@ -7,16 +7,14 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>Scriptfactory.ModuleLoader</string>
+	<string>com.yourcompany.${PRODUCT_NAME:identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>FMWK</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>10</string>
-	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
 </dict>
 </plist>

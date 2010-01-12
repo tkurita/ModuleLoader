@@ -25,12 +25,15 @@ static void RemoveMyEventHandlers();
 
 const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kLoadModuleEvent, loadModuleHandler },
+{ kModuleLoaderSuite, kPrivateLoadModuleEvent, _loadModuleHandler_ },
 { kModuleLoaderSuite, kFindModuleEvent, findModuleHandler},
 { kModuleLoaderSuite, kMakeLoaderEvent, makeLoaderHandler},
 { kModuleLoaderSuite, kSetAdditionalModulePathsEvent, setAdditionalModulePathsHandler},
 { kModuleLoaderSuite, kModulePathsEvent, modulePathsHandler},
 { kModuleLoaderSuite, kMakeLocaLoaderEvent, makeLocalLoaderHandler},
-{ kModuleLoaderSuite, kVersionEvent, versionHandler}
+{ kModuleLoaderSuite, kVersionEvent, versionHandler},
+{ kModuleLoaderSuite, kMakeModuleSpecEvent, makeModuleSpecHandler},
+{ kModuleLoaderSuite, kExtractDependenciesEvent, extractDependenciesHandler}
 };
 
 const int kEventHandlerCount = (sizeof(gEventInfo) / sizeof(AEEventHandlerInfo));

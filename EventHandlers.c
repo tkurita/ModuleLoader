@@ -2,12 +2,15 @@
 #include "AEUtils.h"
 #include "findModule.h"
 #include "ModuleLoaderConstants.h"
+#include "ExtractDependencies.h"
 
 #define useLog 0
 
 UInt32 gAdditionReferenceCount = 0;
 
 static ComponentInstance scriptingComponent = NULL;
+
+extern const char *MODULE_SPEC_LABEL;
 
 OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
@@ -102,39 +105,14 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	OSAID loader_id = kOSANullScript;
+	
 	err = loadBundleScript(CFSTR("LocalLoader"), &loader_id);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
 		goto bail;
 	}
-	
-	AppleEvent setup_event;
-    ProcessSerialNumber PSN = {0, kCurrentProcess}; 
-	AEBuildError aeerr;
-	err = AEBuildAppleEvent(kASAppleScriptSuite, kASSubroutineEvent, 
-							typeProcessSerialNumber, (Ptr) &PSN, sizeof(PSN), 
-							kAutoGenerateReturnID, kAnyTransactionID, 
-							&setup_event, 
-							&aeerr, 
-							"'snam':TEXT(@)", 
-							"setup"); 
-	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to AEBuildAppleEvent."), kCFStringEncodingUTF8);	
-		goto bail;
-	}
-	
-	OSAID resultID = kOSANullScript;
-	err = OSAExecuteEvent(scriptingComponent, &setup_event,
-						  loader_id, kOSAModeNull, &resultID);
-	AEDisposeDesc(&setup_event);
-	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to setup a local loader."), kCFStringEncodingUTF8);
-		goto bail;		
-	}
-	
+		
 	AEDesc result;
 	err = OSACoerceToDesc(scriptingComponent, loader_id, typeWildCard,kOSAModeNull, &result);
 	if (err != noErr) {
@@ -145,8 +123,7 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refco
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	AEDisposeDesc(&result);
 bail:
-	if (loader_id != kOSANullScript) 
-		OSADispose(scriptingComponent, loader_id);
+	OSADispose(scriptingComponent, loader_id);
 	gAdditionReferenceCount--;
 	return err;
 }
@@ -159,7 +136,7 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = loadBundleScript(CFSTR("loader"), &loader_id);
 	if (err != noErr) {
 		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+						 CFSTR("Fail to a loader script."), kCFStringEncodingUTF8);
 		goto bail;
 	}
 	
@@ -173,8 +150,7 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	err = AEPutParamDesc(reply, keyAEResult, &result);
 	AEDisposeDesc(&result);
 bail:
-	if (loader_id != kOSANullScript) 
-		OSADispose(scriptingComponent, loader_id);
+	OSADispose(scriptingComponent, loader_id);
 	gAdditionReferenceCount--;
 	return err;
 }
@@ -226,20 +202,108 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	AliasHandle an_alias;
 	err = FSNewAlias(NULL, &module_ref, &an_alias);
 	err = putAliasToReply(an_alias, reply);
+	DisposeHandle((Handle) an_alias);
 bail:
 	gAdditionReferenceCount--;
 	return err;
+}
+
+OSErr setPropertyWithName(OSAID scriptID, const char *propertyName, AEDesc *inDesc)
+{
+	OSErr err = noErr;
+	AEDesc a_label;
+	AECreateDesc(typeChar, propertyName, strlen(propertyName), &a_label);
+	OSAID value_id = kOSANullScript;
+	err = OSACoerceFromDesc(scriptingComponent, inDesc, kOSAModeNull, &value_id);
+	if (noErr != err) goto bail;
+	err = OSASetProperty(scriptingComponent, kOSAModeNull, scriptID, &a_label, value_id);
+	if (noErr != err) goto bail;
+bail:
+	OSADispose(scriptingComponent, value_id);
+	AEDisposeDesc(&a_label);
+	return err;
+}
+
+OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	gAdditionReferenceCount++;
+	OSErr err = noErr;
+	OSAID script_id = kOSANullScript;
+	
+	AEDescList dependencies;
+	AECreateDesc(typeNull, NULL, 0, &dependencies);
+	AEDesc module_spec;
+	AECreateDesc(typeNull, NULL, 0, &module_spec);
+	AEDesc alias_desc;
+	AECreateDesc(typeNull, NULL, 0, &alias_desc);
+	AEDesc script_desc;
+	AECreateDesc(typeNull, NULL, 0, &script_desc);
+	AEDesc result_desc;
+	AECreateDesc(typeNull, NULL, 0, &result_desc);
+	
+	FSRef module_ref;
+	err = findModuleWithEvent(ev, reply, &module_ref);
+	if (err != noErr) goto bail;
+	
+	OSAError osa_err = noErr;
+	if (!scriptingComponent)
+		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+	
+	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeNull, &script_id);
+	if (osa_err != noErr) {
+		err = osa_err;
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	
+	// path
+	AliasHandle an_alias;
+	err = FSNewAlias(NULL, &module_ref, &an_alias);
+	HLock((Handle)an_alias);
+	err = AECreateDesc(typeAlias, (Ptr) (*an_alias),
+					   GetHandleSize((Handle) an_alias), &alias_desc);
+	HUnlock((Handle)an_alias);
+	if (noErr != err) goto bail;
+	DisposeHandle((Handle) an_alias);
+	
+	err = extractDependencies(scriptingComponent, script_id, &dependencies);
+	if (noErr != err) goto bail;
+	
+	osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &script_desc);
+	if (osa_err != noErr) {
+		err = osa_err;
+		putStringToEvent(reply, keyErrorString, CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
+		goto bail;
+	}	
+	AEBuildError ae_err;
+	err = AEBuildDesc(&result_desc, &ae_err, "{file:@, scpt:@, DpIf:@}",
+									&alias_desc, &script_desc, &dependencies);
+	if (noErr != err) goto bail;
+	
+	err = AEPutParamDesc(reply, keyAEResult, &result_desc);
+
+bail:
+	AEDisposeDesc(&result_desc);
+	AEDisposeDesc(&script_desc);
+	AEDisposeDesc(&alias_desc);
+	AEDisposeDesc(&module_spec);
+	AEDisposeDesc(&dependencies);
+	OSADispose(scriptingComponent, script_id);
+	gAdditionReferenceCount--;
+	return err;	
 }
 
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
+	OSAID script_id = kOSANullScript;
+	
 	FSRef module_ref;
 	err = findModuleWithEvent(ev, reply, &module_ref);
 	if (err != noErr) goto bail;
 	
-	OSAID script_id = kOSANullScript;
 	OSAError osa_err = noErr;
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
@@ -262,9 +326,71 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 		err = AEPutParamDesc(reply, keyAEResult, &result);
 	}
 	AEDisposeDesc(&result);
-	OSADispose(scriptingComponent,script_id);
 	
 bail:
+	OSADispose(scriptingComponent, script_id);
+	gAdditionReferenceCount--;
+	return err;
+}
+
+OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	gAdditionReferenceCount++;
+	OSErr err;
+	AEDesc module_name;
+	AECreateDesc(typeNull, NULL, 0, &module_name);
+	AEDesc module_spec;
+	AECreateDesc(typeNull, NULL, 0, &module_spec);
+
+	AEBuildError ae_err;
+	
+	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
+	if ((err == noErr) && (typeNull != module_name.descriptorType)) {
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
+		if (err != noErr) goto bail;
+	} else {
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{}");
+		if (err != noErr) goto bail;		
+	}
+	
+	err = AEPutParamDesc(reply, keyAEResult, &module_spec);
+
+bail:
+	AEDisposeDesc(&module_spec);
+	AEDisposeDesc(&module_name);
+	gAdditionReferenceCount--;
+	return err;
+}
+
+OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+{
+	gAdditionReferenceCount++;
+#if useLog
+	fprintf(stderr, "start extractDependenciesHandler\n");
+#endif
+	OSErr err;
+	AEDesc script_data;
+	AECreateDesc(typeNull, NULL, 0, &script_data);
+	AEDescList dependencies;
+	AECreateDesc(typeNull, NULL, 0, &dependencies);
+	err = AEGetParamDesc(ev, keyDirectObject, typeScript, &script_data);
+	if (err != noErr) {
+		fprintf(stderr, "Faild to AEGetParamDesc in extractDependenciesHandler\n");
+		goto bail;
+	}
+	if (!scriptingComponent)
+		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+	
+	OSAID script_id = kOSANullScript;
+	err = OSACoerceFromDesc(scriptingComponent, &script_data, kOSAModeNull, &script_id);
+	if (err != noErr) goto bail;
+
+	err = extractDependencies(scriptingComponent, script_id, &dependencies);
+	if (noErr != err) goto bail;
+	err = AEPutParamDesc(reply, keyAEResult, &dependencies);
+bail:
+	AEDisposeDesc(&script_data);
+	AEDisposeDesc(&dependencies);
 	gAdditionReferenceCount--;
 	return err;
 }

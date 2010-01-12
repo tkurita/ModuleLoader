@@ -7,13 +7,13 @@
 	<key>CFBundleExecutable</key>
 	<string>ModuleLoader</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>10</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>2.1</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>for 10.6. copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleGetInfoString</key>
-	<string>2.0 for 10.6. copyright 2006-2009, Tetsuro KURITA</string>
+	<string>2.1 for 10.6. copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -32,6 +32,15 @@
 	<dict>
 		<key>Events</key>
 		<dict>
+			<key>MoloPloM</key>
+			<dict>
+				<key>Handler</key>
+				<string>_loadModuleHandler_</string>
+				<key>ThreadSafe</key>
+				<true/>
+				<key>Context</key>
+				<string>Machine</string>
+			</dict>
 			<key>MolofdMo</key>
 			<dict>
 				<key>Handler</key>
@@ -90,6 +99,24 @@
 			<dict>
 				<key>Handler</key>
 				<string>versionHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+				<key>Context</key>
+				<string>Machine</string>
+			</dict>
+			<key>MoloMkMs</key>
+			<dict>
+				<key>Handler</key>
+				<string>makeModuleSpecHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+				<key>Context</key>
+				<string>Machine</string>
+			</dict>
+			<key>MoloExdp</key>
+			<dict>
+				<key>Handler</key>
+				<string>extractDependenciesHandler</string>
 				<key>ThreadSafe</key>
 				<true/>
 				<key>Context</key>

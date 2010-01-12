@@ -7,13 +7,13 @@
 	<key>CFBundleExecutable</key>
 	<string>ModuleLoader</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>10</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>2.1</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>for 10.5. copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleGetInfoString</key>
-	<string>2.0 for 10.5. copyright 2006-2009, Tetsuro KURITA</string>
+	<string>2.1 for 10.5. copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -36,6 +36,8 @@
 			<string>findModuleHandler</string>
 			<key>MololoMo</key>
 			<string>loadModuleHandler</string>
+			<key>MoloPloM</key>
+			<string>_loadModuleHandler_</string>
 			<key>MoloMKlo</key>
 			<string>makeLoaderHandler</string>
 			<key>MologtPH</key>
@@ -46,6 +48,10 @@
 			<string>makeLocalLoaderHandler</string>
 			<key>MoloVers</key>
 			<string>versionHandler</string>
+			<key>MoloMkMs</key>
+			<string>makeModuleSpecHandler</string>
+			<key>MoloExdp</key>
+			<string>extractDependenciesHandler</string>
 		</dict>
 	</dict>
 </dict>
