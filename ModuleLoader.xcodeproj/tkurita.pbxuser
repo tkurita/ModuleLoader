@@ -3,7 +3,7 @@
 	089C1669FE841209C02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = 2C813C760B4CD75C000FF2FE /* ModuleLoaderTestApp */;
-		activeTarget = 8D01CCC60486CAD60068D4B7 /* ModuleLoader for 10.5 */;
+		activeTarget = 2C5B3B6910B98242004396E4 /* ModuleLoader */;
 		addToTargets = (
 		);
 		breakpoints = (
@@ -158,6 +158,16 @@
 			2C155BF310FBF02400079C06 /* PBXTextBookmark */ = 2C155BF310FBF02400079C06 /* PBXTextBookmark */;
 			2C155BF410FBF02400079C06 /* PBXTextBookmark */ = 2C155BF410FBF02400079C06 /* PBXTextBookmark */;
 			2C155BF510FBF02400079C06 /* PBXTextBookmark */ = 2C155BF510FBF02400079C06 /* PBXTextBookmark */;
+			2C155BFD10FBFC9700079C06 /* PBXTextBookmark */ = 2C155BFD10FBFC9700079C06 /* PBXTextBookmark */;
+			2C155BFE10FBFC9700079C06 /* PBXTextBookmark */ = 2C155BFE10FBFC9700079C06 /* PBXTextBookmark */;
+			2C155BFF10FBFC9700079C06 /* PBXBookmark */ = 2C155BFF10FBFC9700079C06 /* PBXBookmark */;
+			2C155C0010FBFC9700079C06 /* PlistBookmark */ = 2C155C0010FBFC9700079C06 /* PlistBookmark */;
+			2C155C0110FBFC9700079C06 /* PlistBookmark */ = 2C155C0110FBFC9700079C06 /* PlistBookmark */;
+			2C155C0210FBFC9700079C06 /* PBXBookmark */ = 2C155C0210FBFC9700079C06 /* PBXBookmark */;
+			2C155C0310FBFC9700079C06 /* PBXTextBookmark */ = 2C155C0310FBFC9700079C06 /* PBXTextBookmark */;
+			2C155C0410FBFC9700079C06 /* PBXTextBookmark */ = 2C155C0410FBFC9700079C06 /* PBXTextBookmark */;
+			2C155C0510FBFC9700079C06 /* PBXBookmark */ = 2C155C0510FBFC9700079C06 /* PBXBookmark */;
+			2C155C0610FBFC9700079C06 /* PlistBookmark */ = 2C155C0610FBFC9700079C06 /* PlistBookmark */;
 			2C1D233210B26E54006E7E0D = 2C1D233210B26E54006E7E0D /* PBXTextBookmark */;
 			2C3E21C210D2B12200F415EA = 2C3E21C210D2B12200F415EA /* PBXTextBookmark */;
 			2C3E21C410D2B12200F415EA = 2C3E21C410D2B12200F415EA /* PBXTextBookmark */;
@@ -520,9 +530,94 @@
 		vrLen = 795;
 		vrLoc = 6541;
 	};
+	2C155BFD10FBFC9700079C06 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2C1AD26310B04BBF004B9EDB /* ModuleLoaderConstants.h */;
+		name = "ModuleLoaderConstants.h: 8";
+		rLen = 0;
+		rLoc = 238;
+		rType = 0;
+		vrLen = 672;
+		vrLoc = 0;
+	};
+	2C155BFE10FBFC9700079C06 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */;
+		name = "ModuleLoader.r: 114";
+		rLen = 4;
+		rLoc = 3195;
+		rType = 0;
+		vrLen = 1359;
+		vrLoc = 2669;
+	};
+	2C155BFF10FBFC9700079C06 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */;
+	};
+	2C155C0010FBFC9700079C06 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C155C0110FBFC9700079C06 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C155C0210FBFC9700079C06 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */;
+	};
+	2C155C0310FBFC9700079C06 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2C1AD26310B04BBF004B9EDB /* ModuleLoaderConstants.h */;
+		name = "ModuleLoaderConstants.h: 8";
+		rLen = 0;
+		rLoc = 238;
+		rType = 0;
+		vrLen = 672;
+		vrLoc = 0;
+	};
+	2C155C0410FBFC9700079C06 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */;
+		name = "ModuleLoader.r: 114";
+		rLen = 4;
+		rLoc = 3195;
+		rType = 0;
+		vrLen = 1359;
+		vrLoc = 2669;
+	};
+	2C155C0510FBFC9700079C06 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */;
+	};
+	2C155C0610FBFC9700079C06 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
 	2C1AD26310B04BBF004B9EDB /* ModuleLoaderConstants.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {726, 419}}";
+			sepNavIntBoundsRect = "{{0, 0}, {900, 609}}";
 			sepNavSelRange = "{238, 0}";
 			sepNavVisRange = "{0, 672}";
 		};
@@ -1417,9 +1512,9 @@
 	};
 	2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1398, 3612}}";
-			sepNavSelRange = "{3104, 4}";
-			sepNavVisRange = "{2780, 925}";
+			sepNavIntBoundsRect = "{{0, 0}, {1398, 3654}}";
+			sepNavSelRange = "{3195, 4}";
+			sepNavVisRange = "{2669, 1359}";
 			sepNavWindowFrame = "{{15, 208}, {1087, 665}}";
 		};
 	};
