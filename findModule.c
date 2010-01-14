@@ -64,13 +64,13 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 		Boolean wasAliased;
 		err = FSResolveAliasFile(fsref, true, &targetIsFolder, &wasAliased);
 		if (err != noErr) {
-			fprintf(stderr, "Failed to FSResolveAliasFile with error : %d\n", err);
+			fprintf(stderr, "Failed to FSResolveAliasFile with error : %d\n", (int)err);
 			goto bail;
 		}
 		FSCatalogInfoBitmap whichInfo = kFSCatInfoFinderInfo|kFSCatInfoNodeFlags;
 		err = FSGetCatalogInfo(fsref, whichInfo, cat_info, NULL, NULL, NULL);
 		if (err != noErr) {
-			fprintf(stderr, "Failed to FSGetCatalogInfo with error : %d\n", err);
+			fprintf(stderr, "Failed to FSGetCatalogInfo with error : %d\n", (int)err);
 			goto bail;;
 		}
 	}
@@ -79,7 +79,7 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 		err = LSCopyItemInfoForRef(fsref, kLSRequestAllInfo & ~kLSRequestIconAndKind, 
 								   &iteminfo);
 		if (err != noErr) {
-			fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", err);
+			fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", (int)err);
 			goto bail;
 		}
 			
@@ -103,6 +103,19 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 	
 	if (((FileInfo *)(&cat_info->finderInfo))->fileType == 'osas' ) {
 		result = true;
+		goto bail;
+	}
+	
+	err = LSCopyItemInfoForRef(fsref, kLSRequestAllInfo & ~kLSRequestIconAndKind, 
+							   &iteminfo);
+	if (err != noErr) {
+		fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", (int)err);
+		goto bail;
+	}
+	
+	if (kCFCompareEqualTo ==  CFStringCompare(iteminfo.extension, CFSTR("scpt"), 0)) {
+		result = true;
+		goto bail;
 	}
 	
 bail:
@@ -118,7 +131,11 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 	ItemCount ict;
 	FSRef fsref;
 	CFMutableArrayRef folder_array = NULL;
-	
+#if useLog
+	UInt8 container_path[PATH_MAX];
+	FSRefMakePath(container_ref, container_path, PATH_MAX);
+	fprintf(stderr, "start scanFolder for : %s \n", (char *)container_path);
+#endif	
 	err = pickupModuleAtFolder(container_ref, module_name, outRef);
 	if (noErr == err) {
 		goto bail;
@@ -140,22 +157,35 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 			Boolean targetIsFolder;
 			Boolean wasAliased;
 			err = FSResolveAliasFile(&fsref, true, &targetIsFolder, &wasAliased);
-			if (err != noErr) {
+			if (noErr != err) {
 				fprintf(stderr, "Failed to FSResolveAliasFile with error : %d\n", err);
 				continue;
 			}
 
 			err = FSGetCatalogInfo(&fsref, whichInfo, &cat_info, NULL, NULL, NULL);
-			if (err != noErr) {
-				fprintf(stderr, "Failed to FSGetCatalogInfo with error : %d\n", err);
+			if (noErr != err) {
+				fprintf(stderr, "Failed to FSGetCatalogInfo with error : %d\n", (int)err);
 				continue;
 			}
 		}
 		
 		if (0 != (cat_info.nodeFlags & kFSNodeIsDirectoryMask)) {
-			CFDataRef data = CFDataCreate(NULL, (UInt8 *)&fsref, sizeof(fsref));
-			CFArrayAppendValue(folder_array, data);
-			CFRelease(data);
+			LSItemInfoRecord iteminfo;
+			err = LSCopyItemInfoForRef(&fsref, kLSRequestBasicFlagsOnly, &iteminfo);
+			if (noErr == err) {
+				if (! (iteminfo.flags & kLSItemInfoIsPackage)) {
+#if useLog
+					UInt8 subfolder_path[PATH_MAX];
+					FSRefMakePath(&fsref, subfolder_path, PATH_MAX);
+					fprintf(stderr, "subfolder : %s \n", (char *)subfolder_path);
+#endif					
+					CFDataRef data = CFDataCreate(NULL, (UInt8 *)&fsref, sizeof(fsref));
+					CFArrayAppendValue(folder_array, data);
+					CFRelease(data);
+				}
+			} else {
+				fprintf(stderr, "Faild to LSCopyItemInfoForRef with error : %d\n", (int)err);
+			}
 		}
 	}
 	
@@ -210,10 +240,11 @@ OSErr pickupModuleAtFolder(FSRef *container_ref, CFStringRef module_name, FSRef*
 		err = FSMakeFSRefChild(container_ref, filename, module_ref);
 		if (noErr == err) {
 			err = FSGetCatalogInfo(module_ref, whichinfo, &cat_info, NULL, NULL, NULL);
-			if (noErr != err) goto bail;
-			if (isScript(module_ref, &cat_info)) {
-				goto bail;
+			if (noErr != err) {
+				fputs("Failed to FSGetCatalogInfo", stderr);
+				break;
 			}
+			if (isScript(module_ref, &cat_info)) break;
 		}
 		
 		CFRelease(filename);filename = NULL;
