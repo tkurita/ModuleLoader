@@ -9,11 +9,11 @@
 	<key>CFBundleVersion</key>
 	<string>12</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.1.1</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>for 10.5. copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleGetInfoString</key>
-	<string>2.1 for 10.5. copyright 2006-2009, Tetsuro KURITA</string>
+	<string>2.1.1 for 10.5. copyright 2006-2009, Tetsuro KURITA</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>

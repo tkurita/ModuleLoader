@@ -20,7 +20,7 @@
 			2C706D4E10AD287500208505 /* EventHandlers.c:109 */,
 			2CEBE02E10ADD95A00B7F6BB /* EventHandlers.c:58 */,
 			2C1AD2FB10B064D0004B9EDB /* AEUtils.c:480 */,
-			2C3C9DDE10B5997800D5664F /* findModule.c:309 */,
+			2C3C9DDE10B5997800D5664F /* findModule.c:301 */,
 			2C2CD67C10BCB685008CA461 /* main.c:64 */,
 			2C5259EA10C40C3600497709 /* EventHandlers.c:318 */,
 			2CAF00AE10C81A3D002B217C /* ExtractDependencies.c:93 */,
@@ -217,7 +217,7 @@
 	};
 	089C167EFE841241C02AAC07 /* English */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {624, 518}}";
+			sepNavIntBoundsRect = "{{0, 0}, {900, 453}}";
 			sepNavSelRange = "{73, 0}";
 			sepNavVisRange = "{0, 76}";
 			sepNavWindowFrame = "{{61, 77}, {801, 754}}";
@@ -952,7 +952,7 @@
 		rLen = 0;
 		rLoc = 2147483647;
 	};
-	2C3C9DDE10B5997800D5664F /* findModule.c:309 */ = {
+	2C3C9DDE10B5997800D5664F /* findModule.c:301 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -964,7 +964,7 @@
 		functionName = "findModule()";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 309;
+		lineNumber = 301;
 		location = ModuleLoader;
 		modificationTime = 282243471.818617;
 		state = 1;
@@ -1300,9 +1300,9 @@
 	};
 	2C813B830B4CAC4F000FF2FE /* findModule.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {900, 5138}}";
-			sepNavSelRange = "{97, 0}";
-			sepNavVisRange = "{0, 705}";
+			sepNavIntBoundsRect = "{{0, 0}, {900, 5026}}";
+			sepNavSelRange = "{3568, 0}";
+			sepNavVisRange = "{3357, 837}";
 			sepNavVisRect = "{{0, 0}, {837, 608}}";
 			sepNavWindowFrame = "{{582, 111}, {774, 700}}";
 		};

@@ -179,23 +179,15 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 					FSRefMakePath(&fsref, subfolder_path, PATH_MAX);
 					fprintf(stderr, "subfolder : %s \n", (char *)subfolder_path);
 #endif					
-					CFDataRef data = CFDataCreate(NULL, (UInt8 *)&fsref, sizeof(fsref));
-					CFArrayAppendValue(folder_array, data);
-					CFRelease(data);
+					err = scanFolder(&fsref, module_name, outRef, searchSubFolders);
+					if (err == noErr) goto bail;
 				}
 			} else {
 				fprintf(stderr, "Faild to LSCopyItemInfoForRef with error : %d\n", (int)err);
 			}
 		}
 	}
-	
-	for (int n =0; n < CFArrayGetCount(folder_array); n++) {
-		CFDataRef data = CFArrayGetValueAtIndex(folder_array, n);
-		FSRef *dir_ref = (FSRef *)CFDataGetBytePtr(data);
-		err = scanFolder(dir_ref, module_name, outRef, searchSubFolders);
-		if (err == noErr) goto bail;
-	}
-	
+
 	err = kModuleIsNotFound;
 	goto bail;
 
