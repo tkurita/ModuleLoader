@@ -1,19 +1,20 @@
 ﻿property name : "LoaderProxy"
 
-on cwd()
+on current_working_directory()
 	set pwd to system attribute "PWD"
 	if pwd is "" or pwd is ((path to startup disk)'s POSIX path) then
 		return "/Users/tkurita/Dev/Projects/ModuleLoader/trunk/"
 	else
 		return pwd & "/"
 	end if
-end cwd
+end current_working_directory
 
-property ModuleCache : run script POSIX file (cwd() & "ModuleCache.applescript")
-property XList : run script POSIX file (cwd() & "FastList.applescript")
-property ConsoleLog : run script POSIX file (cwd() & "ConsoleLog.applescript")
-property PropertyAccessor : (run script POSIX file (cwd() & "PropertyAccessor.applescript"))'s initialize()
-property ModuleInfo : run script POSIX file (cwd() & "ModuleInfo.applescript")
+property wd : current_working_directory()
+property ModuleCache : run script POSIX file (wd & "ModuleCache.applescript")
+property XList : run script POSIX file (wd & "FastList.applescript")
+property ConsoleLog : run script POSIX file (wd & "ConsoleLog.applescript")
+property PropertyAccessor : (run script POSIX file (wd & "PropertyAccessor.applescript"))'s initialize()
+property ModuleInfo : run script POSIX file (wd & "ModuleInfo.applescript")
 
 property _loadonly : false
 property _module_cache : make ModuleCache
@@ -232,6 +233,7 @@ end current_location
 
 on set_additional_paths(a_list)
 	set my _additional_paths to a_list
+	return me
 end set_additional_paths
 
 on set_local(a_flag)
@@ -252,6 +254,7 @@ end try_collect
 
 on clear_cache()
 	set my _module_cache to missing value
+	return me
 end clear_cache
 
 (*
@@ -266,7 +269,7 @@ end stop_log
 (*
 property ModuleA : module "Module A"
 on run
-	--drive (module loader) for me
-	drive for me
+	--boot (module loader) for me
+	boot for me
 end run
 *)
