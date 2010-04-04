@@ -1,4 +1,5 @@
-global XList
+global FastList
+property XList : missing value
 
 property _keys : missing value
 property _accessors : missing value
@@ -8,6 +9,7 @@ on run
 end run
 
 on initialize()
+	set XList to FastList
 	set my _keys to make XList
 	set my _accessors to make XList
 	return me

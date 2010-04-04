@@ -1,4 +1,5 @@
-global XList
+global FastList
+property XList : missing value
 
 on run
 	return me
@@ -7,6 +8,11 @@ end run
 on make
 	return make_with_lists({}, {}, {})
 end make
+
+on initialize()
+	set XList to FastList
+	return me
+end initialize
 
 on make_with_lists(name_list, path_list, value_list)
 	set name_list to XList's make_with(name_list)

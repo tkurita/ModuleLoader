@@ -11,8 +11,8 @@ on import(a_name)
 	return run script POSIX file (pwd & a_name & ".applescript")
 end import
 
-property ModuleCache : import("ModuleCache")
-property XList : import("FastList")
+property FastList : import("FastList")
+property ModuleCache : import("ModuleCache")'s initialize()
 property ConsoleLog : import("ConsoleLog")
 property PropertyAccessor : import("PropertyAccessor")'s initialize()
 property ModuleInfo : import("ModuleInfo")
