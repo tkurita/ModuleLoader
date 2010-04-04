@@ -1,20 +1,21 @@
 ﻿property name : "LoaderProxy"
 
-on current_working_directory()
+on import(a_name)
 	set pwd to system attribute "PWD"
 	if pwd is "" or pwd is ((path to startup disk)'s POSIX path) then
-		return "/Users/tkurita/Dev/Projects/ModuleLoader/trunk/"
+		set pwd to "/Users/tkurita/Dev/Projects/ModuleLoader/trunk/"
 	else
-		return pwd & "/"
+		set pwd to pwd & "/"
 	end if
-end current_working_directory
+	
+	return run script POSIX file (pwd & a_name & ".applescript")
+end import
 
-property wd : current_working_directory()
-property ModuleCache : run script POSIX file (wd & "ModuleCache.applescript")
-property XList : run script POSIX file (wd & "FastList.applescript")
-property ConsoleLog : run script POSIX file (wd & "ConsoleLog.applescript")
-property PropertyAccessor : (run script POSIX file (wd & "PropertyAccessor.applescript"))'s initialize()
-property ModuleInfo : run script POSIX file (wd & "ModuleInfo.applescript")
+property ModuleCache : import("ModuleCache")
+property XList : import("FastList")
+property ConsoleLog : import("ConsoleLog")
+property PropertyAccessor : import("PropertyAccessor")'s initialize()
+property ModuleInfo : import("ModuleInfo")
 
 property _loadonly : false
 property _module_cache : make ModuleCache
@@ -253,7 +254,7 @@ on try_collect(a_name, adpaths)
 end try_collect
 
 on clear_cache()
-	set my _module_cache to missing value
+	set my _module_cache to make ModuleCache
 	return me
 end clear_cache
 
