@@ -249,7 +249,7 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 	
-	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeNull, &script_id);
+	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeCompileIntoContext, &script_id);
 	if (osa_err != noErr) {
 		err = osa_err;
 		putStringToEvent(reply, keyErrorString, 
@@ -308,7 +308,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 
-	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeNull, &script_id);
+	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeCompileIntoContext, &script_id);
 	if (osa_err != noErr) {
 		err = osa_err;
 		putStringToEvent(reply, keyErrorString, 

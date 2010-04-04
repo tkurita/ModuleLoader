@@ -5,7 +5,8 @@
 #define useLog 0
 
 static CFArrayRef MODULE_PATHS = NULL;
-static char *SUFFIXES[4] = {"", ".scptd", ".scpt", ".app"};
+static char *SUFFIXES[5] = {"", ".scptd", ".scpt", ".app", ".applescript"};
+static unsigned int NSUFFIXES = 5;
 
 void setAdditionalModulePaths(CFArrayRef array)
 {
@@ -225,7 +226,7 @@ OSErr pickupModuleAtFolder(FSRef *container_ref, CFStringRef module_name, FSRef*
 	CFMutableStringRef filename = NULL;
 	FSCatalogInfoBitmap whichinfo = kFSCatInfoFinderInfo|kFSCatInfoNodeFlags;
 	FSCatalogInfo cat_info;
-	for (int n = 0; n < 4; n++) {
+	for (int n = 0; n < NSUFFIXES; n++) {
 		filename = CFStringCreateMutableCopy(NULL, 0, module_name);
 		CFStringAppendCString(filename, SUFFIXES[n], kCFStringEncodingUTF8);
 		err = FSMakeFSRefChild(container_ref, filename, module_ref);

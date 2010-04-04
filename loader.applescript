@@ -31,7 +31,6 @@ property _only_local : false
 on setup_script(a_moduleinfo)
 	set a_script to a_moduleinfo's module_script()
 	--do_log("start setup_script" & " for " & name of a_script)
-	--set dependencies to dependency info of module_record
 	a_moduleinfo's set_setupped(true)
 	resolve_dependencies(a_moduleinfo, false)
 	set sucess_setup to false
