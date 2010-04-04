@@ -50,6 +50,17 @@ on module_for_path(a_path)
 	return search_value(a_path, my _paths, my _values)
 end module_for_path
 
+on replace_module(a_name, a_path, a_moduleinfo)
+	set an_index to my _names's index_of(a_name)
+	if an_index is 0 then
+		add_module(a_name, a_path, a_moduleinfo)
+		return
+	end if
+	set_item of (my _names) for a_name at an_index
+	set_item of (my _paths) for a_path at an_index
+	set_item of (my _values) for a_moduleinfo at an_index
+end replace_module
+
 on add_module(a_name, a_path, a_moduleinfo)
 	my _names's push(a_name)
 	my _paths's push(a_path)

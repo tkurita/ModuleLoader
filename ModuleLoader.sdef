@@ -5,6 +5,7 @@
 		<value-type hidden="yes" name="script" code="scpt"/>
 		<record-type name="module specifier" code="MoSp" description="A specifier of a module will be loaded.">
 			<property name="name" code="pnam" description="Module name" type="text"/>
+			<property name="reloading" code="pRLo" description="Specifies whether or not to load a module from a file always." type="boolean"/>
 		</record-type>
 		<record-type name="dependency info" code="DpIf" description="Module dependency information">
 			<property name="name" code="pnam" description="A property name which a module is loaded." type="text"/>

@@ -237,6 +237,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			{
 				"name", 'pnam', 'TEXT',
 				"Module name",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12,
+
+				"reloading", 'pRLo', 'bool',
+				"Specifies whether or not to load a module from a file always.",
 				reserved, singleItem, notEnumerated, readWrite, Reserved12
 			},
 			{

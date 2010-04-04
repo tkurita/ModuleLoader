@@ -80,12 +80,12 @@ on export_to_cache(a_name, a_script)
 	my _module_cache's add_module(a_name, missing value, a_moduleinfo)
 end export_to_cache
 
-on load module a_name
-	return load(a_name)
+on load module mspec
+	return load(mspec)
 end load module
 
-on load(a_name)
-	set a_moduleinfo to load_module(a_name)
+on load(mspec)
+	set a_moduleinfo to load_module(mspec)
 	if a_moduleinfo's need_setup() then
 		if not my _loadonly then
 			setup_script(a_moduleinfo)
@@ -94,20 +94,40 @@ on load(a_name)
 	return a_moduleinfo's module_script()
 end load
 
-on load_module(a_name)
+on load_module(mspec)
 	--log "start load_module"
 	--do_log("start load_module " & a_name)
+	set force_reload to false
+	set a_class to class of mspec
+	if a_class is in {record, module specifier} then
+		set a_name to name of mspec
+		try
+			set force_reload to reloading of mspec
+		end try
+	else if a_class is list then
+		set a_name to item 1 of mspec
+		try
+			set force_reload to reloading of item 2 of mspec
+		end try
+	else
+		set a_name to mspec
+	end if
+	
 	if a_name is in {":", "", "/", "."} then
 		error (quoted form of a_name) & " is invald form to specify a module." number 1801
 	end if
-	try
-		set a_moduleinfo to my _module_cache's module_for_name(a_name)
-		set has_exported to true
-	on error number 900
-		set has_exported to false
-	end try
-	if has_exported then
-		return a_moduleinfo
+	
+	if not force_reload then
+		try
+			set a_moduleinfo to my _module_cache's module_for_name(a_name)
+			set has_exported to true
+		on error number 900
+			set has_exported to false
+		end try
+		
+		if has_exported then
+			return a_moduleinfo
+		end if
 	end if
 	
 	set adpaths to my _additional_paths
@@ -129,16 +149,20 @@ on load_module(a_name)
 		set a_loadinfo to _load module_ a_name additional paths adpaths
 	end if
 	-- log "after _load_module_"
+	
 	set a_path to file of a_loadinfo
-	
-	try
-		set a_moduleinfo to my _module_cache's module_for_path(a_path)
-		my _module_cache's add_module(a_name, a_path, a_moduleinfo)
-	on error number 900
+	if force_reload then
 		set a_moduleinfo to ModuleInfo's make_with_loadinfo(a_loadinfo)
-		my _module_cache's add_module(a_name, a_path, a_moduleinfo)
-	end try
-	
+		my _module_cache's replace_module(a_name, a_path, a_moduleinfo)
+	else
+		try
+			set a_moduleinfo to my _module_cache's module_for_path(a_path)
+			my _module_cache's add_module(a_name, a_path, a_moduleinfo)
+		on error number 900
+			set a_moduleinfo to ModuleInfo's make_with_loadinfo(a_loadinfo)
+			my _module_cache's add_module(a_name, a_path, a_moduleinfo)
+		end try
+	end if
 	-- log "end of load_module"
 	return a_moduleinfo
 end load_module
