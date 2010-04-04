@@ -130,7 +130,6 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 	FSCatalogInfo cat_info;
 	ItemCount ict;
 	FSRef fsref;
-	CFMutableArrayRef folder_array = NULL;
 #if useLog
 	UInt8 container_path[PATH_MAX];
 	FSRefMakePath(container_ref, container_path, PATH_MAX);
@@ -144,15 +143,16 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 		goto bail;
 	}
 	
+	/* start to search subfolders */
 	err = FSOpenIterator(container_ref, kFSIterateFlat, &itor);
 	if (err != noErr) {
 		fprintf(stderr, "Failed to FSOpenIterator with error : %d\n", err);
 		goto bail;
 	}
-
-	folder_array = CFArrayCreateMutable(NULL, 5, &kCFTypeArrayCallBacks);
+	
 	FSCatalogInfoBitmap whichInfo = kFSCatInfoFinderInfo|kFSCatInfoNodeFlags;
 	while (!FSGetCatalogInfoBulk(itor, 1, &ict, NULL, whichInfo, &cat_info, &fsref, NULL, NULL)) {
+		// resolving alias file
 		if (kIsAlias & ((FileInfo *)(&cat_info.finderInfo))->finderFlags) {
 			Boolean targetIsFolder;
 			Boolean wasAliased;
@@ -192,7 +192,6 @@ OSErr scanFolder(FSRef *container_ref, CFStringRef module_name, FSRef *outRef, B
 	goto bail;
 
 bail:
-	safeRelease(folder_array);
 	if (itor) FSCloseIterator(itor);
 #if useLog	
 	fprintf(stderr, "scanFolder will end with err :%d.\n", err);
@@ -264,7 +263,6 @@ OSErr findModuleWithSubPath(FSRef *container_ref, CFTypeRef path_components, FSR
 		parentdir_ref = subdir_ref;
 	}
 	if (is_exists) {
-		//return scanFolder(&parentdir_ref, CFArrayGetValueAtIndex(path_comps, n), module_ref ,false);
 		return pickupModuleAtFolder(&parentdir_ref, CFArrayGetValueAtIndex(path_comps, n), module_ref);
 		
 	}
