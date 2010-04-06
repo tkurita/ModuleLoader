@@ -341,16 +341,22 @@ OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon
 	AECreateDesc(typeNull, NULL, 0, &module_name);
 	AEDesc module_spec;
 	AECreateDesc(typeNull, NULL, 0, &module_spec);
-
+	AEDesc with_reloading;
+	AECreateDesc(typeFalse, NULL, 0, &with_reloading);
 	AEBuildError ae_err;
 	
 	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
 	if ((err == noErr) && (typeNull != module_name.descriptorType)) {
-		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name, &with_reloading);
 		if (err != noErr) goto bail;
 	} else {
-		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{}");
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{}", &with_reloading);
 		if (err != noErr) goto bail;		
+	}
+
+	err = AEGetParamDesc(ev, kReloadingParam, typeBoolean, &with_reloading);
+	if ((err == noErr) && (typeNull != with_reloading.descriptorType)) {
+		err = AEPutKeyDesc (&module_spec, kReloadingParam, &with_reloading);
 	}
 	
 	err = AEPutParamDesc(reply, keyAEResult, &module_spec);
@@ -358,6 +364,7 @@ OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon
 bail:
 	AEDisposeDesc(&module_spec);
 	AEDisposeDesc(&module_name);
+	AEDisposeDesc(&with_reloading);
 	gAdditionReferenceCount--;
 	return err;
 }
@@ -390,6 +397,7 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, long r
 	err = AEPutParamDesc(reply, keyAEResult, &dependencies);
 bail:
 	AEDisposeDesc(&script_data);
+	AEDisposeDesc(&dependencies);
 	AEDisposeDesc(&dependencies);
 	gAdditionReferenceCount--;
 	return err;

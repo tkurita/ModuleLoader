@@ -180,7 +180,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			directParamOptional,
 			singleItem, notEnumerated, Reserved13,
 			{
-
+				"reloading", 'pRLo', 'bool',
+				"A module is loaded from a file ignoring module cache.",
+				optional,
+				singleItem, notEnumerated, Reserved13
 			},
 
 			"extract dependencies from",
