@@ -112,10 +112,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"module loader",
-			"Obtain a loader script",
+			"Obtain a loader object which is a script object to manage loaded modules.",
 			'Molo', 'MKlo',
 			'scpt',
-			"A loader script",
+			"A loader object",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			dp_none__,
 			{
@@ -201,7 +201,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"boot",
-			"Set up modules depending on. This command must be sent to a loader script returned from \"module loader\" command.",
+			"Set up modules depending on. This command must be sent to a loader object. returned from \"module loader\" command.",
 			'Molo', 'Boot',
 			'scpt',
 			"",
@@ -212,7 +212,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			singleItem, notEnumerated, Reserved13,
 			{
 				"for", 'forM', 'scpt',
-				"A script which need to load modules",
+				"A top-level script which need to load modules",
 				required,
 				singleItem, notEnumerated, Reserved13
 			},

@@ -3,7 +3,7 @@
 	089C1669FE841209C02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = 2C813C760B4CD75C000FF2FE /* ModuleLoaderTestApp */;
-		activeTarget = 8D01CCC60486CAD60068D4B7 /* ModuleLoader for 10.5 */;
+		activeTarget = 2C5B3B6910B98242004396E4 /* ModuleLoader */;
 		addToTargets = (
 		);
 		breakpoints = (
