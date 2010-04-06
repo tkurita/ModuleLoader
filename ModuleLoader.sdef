@@ -5,7 +5,7 @@
 		<value-type hidden="yes" name="script" code="scpt"/>
 		<record-type name="module specifier" code="MoSp" description="A specifier of a module will be loaded.">
 			<property name="name" code="pnam" description="Module name" type="text"/>
-			<property name="reloading" code="pRLo" description="Specifies whether or not to load a module from a file always." type="boolean"/>
+			<property name="reloading" code="pRLo" description="Whether or not to load a module ignoring module chache." type="boolean"/>
 		</record-type>
 		<record-type name="dependency info" code="DpIf" description="Module dependency information">
 			<property name="name" code="pnam" description="A property name which a module is loaded." type="text"/>
@@ -38,8 +38,8 @@
 		<command name="module loader" code="MoloMKlo" description="Obtain a loader object which is a script object to manage loaded modules.">
 			<result description="A loader object" type="script"/>
 		</command>
-		<command name="make local loader" code="MoloMkLl" description="Obtain a local loader script. The Local loader search modules not only module paths but also &quot;path to me&quot; location.">
-			<result description="A loader script" type="script"/>
+		<command name="make local loader" code="MoloMkLl" description="Obtain a local loader object. The local loader search modules not only module paths but also &quot;path to me&quot; location.">
+			<result description="A loader object" type="script"/>
 		</command>
 		<command name="module paths" code="MologtPH" description="List module paths. The default paths are ~/Library/Scritps/Modules and /Library/Scripts/Modules. Only existing folders are listed. Additional paths given by &quot;set additional paths to&quot; will be included in the result.">
 			<result description="List of POSIX paths of folders.">
@@ -53,9 +53,9 @@
 		<command name="ModuleLoader version" code="MoloVers" description="get version number of ModuleLoader">
 			<result description="version number" type="text"/>
 		</command>
-		<command name="module" code="MoloMkMs" description="Make a module specifier record. Must be placed in a user defined propery statement . If a module name is ommited, property name is used as a module name.">
+		<command name="module" code="MoloMkMs" description="Make a module specifier record. Must be placed in a user defined propery statement or in an argument of load handler of a loader object. If a module name is ommited, property name is used as a module name.">
 			<direct-parameter description="A module name." type="text" optional="yes"/>
-			<parameter name="reloading" code="pRLo" description="A module is loaded from a file ignoring module cache." type="boolean" optional="yes"/>
+			<parameter name="reloading" code="pRLo" description="Whether or not to load a module ignoring module chache." type="boolean" optional="yes"/>
 			<result description="A module specifer record" type="module specifier"/>
 		</command>
 		<command name="extract dependencies from" code="MoloExdp" description="Extarct module specifier records from a module script.">
@@ -69,9 +69,9 @@
 			<parameter name="for" code="forM" description="A top-level script which need to load modules" type="script"/>
 			<result type="script"/>
 		</command>
-		<event name="module loaded" code="MolowlLd" description="Called when a module is loaded by a loader script. It&apos;s a place to customize modules.">
+		<event name="module loaded" code="MolowlLd" description="Called when a module is loaded by a loader object. It&apos;s a place to customize modules.">
 			<direct-parameter type="script"/>
-			<parameter name="by" code="whLD" description="A loader script" type="script" optional="yes"/>
+			<parameter name="by" code="whLD" description="A loader object" type="script" optional="yes"/>
 		</event>
 	</suite>
 </dictionary>

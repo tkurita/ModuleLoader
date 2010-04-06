@@ -3,7 +3,7 @@
 	089C1669FE841209C02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = 2C813C760B4CD75C000FF2FE /* ModuleLoaderTestApp */;
-		activeTarget = 2C5B3B6910B98242004396E4 /* ModuleLoader */;
+		activeTarget = 8D01CCC60486CAD60068D4B7 /* ModuleLoader for 10.5 */;
 		addToTargets = (
 		);
 		breakpoints = (
@@ -217,6 +217,9 @@
 			2C6714F1116AB70B00A72DB8 /* PBXTextBookmark */ = 2C6714F1116AB70B00A72DB8 /* PBXTextBookmark */;
 			2C6714F5116AB76500A72DB8 /* PBXTextBookmark */ = 2C6714F5116AB76500A72DB8 /* PBXTextBookmark */;
 			2C6714F6116AB76500A72DB8 /* PBXTextBookmark */ = 2C6714F6116AB76500A72DB8 /* PBXTextBookmark */;
+			2C671500116B73BD00A72DB8 /* PBXTextBookmark */ = 2C671500116B73BD00A72DB8 /* PBXTextBookmark */;
+			2C671501116B73BD00A72DB8 /* PBXTextBookmark */ = 2C671501116B73BD00A72DB8 /* PBXTextBookmark */;
+			2C671502116B73BD00A72DB8 /* PBXTextBookmark */ = 2C671502116B73BD00A72DB8 /* PBXTextBookmark */;
 			2C7C4B1210C3C86500FFB0B1 = 2C7C4B1210C3C86500FFB0B1 /* PBXTextBookmark */;
 			2C7CF40810BE3AB9006C3270 = 2C7CF40810BE3AB9006C3270 /* PBXTextBookmark */;
 			2C8192F711688E2A005E81DE = 2C8192F711688E2A005E81DE /* PBXTextBookmark */;
@@ -1420,6 +1423,36 @@
 		vrLen = 305;
 		vrLoc = 0;
 	};
+	2C671500116B73BD00A72DB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		name = "EventHandlers.c: 366";
+		rLen = 1;
+		rLoc = 11054;
+		rType = 0;
+		vrLen = 733;
+		vrLoc = 10931;
+	};
+	2C671501116B73BD00A72DB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		name = "EventHandlers.c: 366";
+		rLen = 1;
+		rLoc = 11054;
+		rType = 0;
+		vrLen = 960;
+		vrLoc = 9971;
+	};
+	2C671502116B73BD00A72DB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99C3F10AA6364002C5D32 /* AEUtils.c */;
+		name = "AEUtils.c: 8";
+		rLen = 10;
+		rLoc = 129;
+		rType = 0;
+		vrLen = 305;
+		vrLoc = 0;
+	};
 	2C6F05B810D3F2CC00733C3B /* ModuleInfo.applescript */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {900, 540}}";
@@ -2163,9 +2196,9 @@
 	};
 	2CB99B8110AA4801002C5D32 /* EventHandlers.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {707, 5754}}";
-			sepNavSelRange = "{10472, 0}";
-			sepNavVisRange = "{10257, 874}";
+			sepNavIntBoundsRect = "{{0, 0}, {707, 5642}}";
+			sepNavSelRange = "{11054, 1}";
+			sepNavVisRange = "{9971, 960}";
 			sepNavWindowFrame = "{{368, 103}, {669, 663}}";
 		};
 	};
@@ -2179,7 +2212,7 @@
 	};
 	2CB99C3F10AA6364002C5D32 /* AEUtils.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {707, 8582}}";
+			sepNavIntBoundsRect = "{{0, 0}, {707, 8596}}";
 			sepNavSelRange = "{129, 10}";
 			sepNavVisRange = "{0, 305}";
 			sepNavWindowFrame = "{{38, 98}, {801, 754}}";

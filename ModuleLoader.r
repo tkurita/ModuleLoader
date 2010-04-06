@@ -123,10 +123,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"make local loader",
-			"Obtain a local loader script. The Local loader search modules not only module paths but also \"path to me\" location.",
+			"Obtain a local loader object. The local loader search modules not only module paths but also \"path to me\" location.",
 			'Molo', 'MkLl',
 			'scpt',
-			"A loader script",
+			"A loader object",
 			replyRequired, singleItem, notEnumerated, Reserved13,
 			dp_none__,
 			{
@@ -170,7 +170,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"module",
-			"Make a module specifier record. Must be placed in a user defined propery statement . If a module name is ommited, property name is used as a module name.",
+			"Make a module specifier record. Must be placed in a user defined propery statement or in an argument of load handler of a loader object. If a module name is ommited, property name is used as a module name.",
 			'Molo', 'MkMs',
 			'MoSp',
 			"A module specifer record",
@@ -181,7 +181,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			singleItem, notEnumerated, Reserved13,
 			{
 				"reloading", 'pRLo', 'bool',
-				"A module is loaded from a file ignoring module cache.",
+				"Whether or not to load a module ignoring module chache.",
 				optional,
 				singleItem, notEnumerated, Reserved13
 			},
@@ -218,7 +218,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			},
 
 			"module loaded",
-			"Called when a module is loaded by a loader script. It's a place to customize modules.",
+			"Called when a module is loaded by a loader object. It's a place to customize modules.",
 			'Molo', 'wlLd',
 			reply_none__,
 			'scpt',
@@ -227,7 +227,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			singleItem, notEnumerated, Reserved13,
 			{
 				"by", 'whLD', 'scpt',
-				"A loader script",
+				"A loader object",
 				optional,
 				singleItem, notEnumerated, Reserved13
 			}
@@ -243,7 +243,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				reserved, singleItem, notEnumerated, readWrite, Reserved12,
 
 				"reloading", 'pRLo', 'bool',
-				"Specifies whether or not to load a module from a file always.",
+				"Whether or not to load a module ignoring module chache.",
 				reserved, singleItem, notEnumerated, readWrite, Reserved12
 			},
 			{
