@@ -215,6 +215,20 @@ on boot loader for a_script
 	return loader
 end boot
 
+on set_additional_paths(a_list)
+	set my _additional_paths to a_list
+	return me
+end set_additional_paths
+
+on prepend_path(a_path)
+	if my _additional_paths is missing value then
+		set my _additional_paths to {a_path}
+	else
+		set my _additional_paths to (a_path as list) & my _additional_paths
+	end if
+	return me
+end prepend_path
+
 on set_loadonly(a_flat)
 	set my _loadonly to a_flag
 	return me
@@ -254,11 +268,6 @@ on current_location()
 	end tell
 	return a_folder
 end current_location
-
-on set_additional_paths(a_list)
-	set my _additional_paths to a_list
-	return me
-end set_additional_paths
 
 on set_local(a_flag)
 	set my _is_local to true
