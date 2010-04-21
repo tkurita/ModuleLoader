@@ -229,6 +229,10 @@ on prepend_path(a_path)
 	return me
 end prepend_path
 
+on module_paths()
+	return my _additional_paths & (module paths)
+end module_paths
+
 on set_loadonly(a_flat)
 	set my _loadonly to a_flag
 	return me
