@@ -230,6 +230,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -271,14 +273,15 @@
 								<string>2CB99C3E10AA6364002C5D32</string>
 								<string>2C8E294E10BFD810008C44A9</string>
 								<string>089C167CFE841241C02AAC07</string>
+								<string>2CEBDE1510AD4EF400B7F6BB</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>9</integer>
-									<integer>6</integer>
+									<integer>17</integer>
+									<integer>14</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -329,10 +332,6 @@
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
 										<string>ModuleLoader.sdef</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>2C39B6AC117ECC680000AE07</string>
 										<key>history</key>
 										<array>
 											<string>2CAFFDC810C5FD95002B217C</string>
@@ -363,7 +362,7 @@
 											<string>2CA5A1D7116DB49E0089C011</string>
 											<string>2CA5A1D8116DB49E0089C011</string>
 											<string>2CA5A1D9116DB49E0089C011</string>
-											<string>2C64EC55116F564100EDD3C0</string>
+											<string>2CEF8ADD119A9CEA00BE7BA0</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -416,14 +415,12 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>loader.applescript</string>
+								<string>Info_10_5.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -431,11 +428,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>loader.applescript</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>2C39B6AD117ECC680000AE07</string>
+										<string>Info_10_5.plist</string>
 										<key>history</key>
 										<array>
 											<string>2CAFFDC810C5FD95002B217C</string>
@@ -457,8 +450,6 @@
 											<string>2C81932811695AB7005E81DE</string>
 											<string>2C0A8CF1116A0D7200A79C1A</string>
 											<string>2C0A8CF2116A0D7200A79C1A</string>
-											<string>2C93C1AC116A3F7300990BDF</string>
-											<string>2C93C1AD116A3F7300990BDF</string>
 											<string>2C93C1C6116A43C400990BDF</string>
 											<string>2C6714B8116A4E7100A72DB8</string>
 											<string>2C6714B9116A4E7100A72DB8</string>
@@ -466,7 +457,6 @@
 											<string>2C64EC56116F564100EDD3C0</string>
 											<string>2C64EC57116F564100EDD3C0</string>
 											<string>2C64EC58116F564100EDD3C0</string>
-											<string>2C64EC5F116F564100EDD3C0</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -556,9 +546,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2C39B6A8117EB48E0000AE07</string>
+				<string>2C87A70211AA8310005446C5</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2C39B6A9117EB48E0000AE07</string>
+				<string>2C87A70311AA8310005446C5</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
@@ -691,6 +681,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>2C003D8110A91F95003C3066</string>
 		<string>/Users/tkurita/Dev/Projects/ModuleLoader/trunk/ModuleLoader.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -773,7 +764,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2C003D8110A91F95003C3066</string>
-				<string>2C64EC62116F564100EDD3C0</string>
+				<string>2C87A70411AA8310005446C5</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
