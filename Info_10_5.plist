@@ -27,7 +27,7 @@
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>OSAScriptingDefinition</key>
-	<string>${PRODUCT_NAME}.sdef</string>
+	<string>ModuleLoader.sdef</string>
 	<key>OSAXHandlers</key>
 	<dict>
 		<key>Events</key>
