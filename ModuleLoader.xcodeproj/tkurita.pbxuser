@@ -126,8 +126,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 296387312;
-			PBXWorkspaceStateSaveDate = 296387312;
+			PBXPerProjectTemplateStateSaveDate = 296413538;
+			PBXWorkspaceStateSaveDate = 296413538;
 		};
 		perUserProjectItems = {
 			2C04C55110D520BB004A07A9 = 2C04C55110D520BB004A07A9 /* PlistBookmark */;
@@ -169,8 +169,6 @@
 			2C6714B9116A4E7100A72DB8 = 2C6714B9116A4E7100A72DB8 /* PBXTextBookmark */;
 			2C6714D1116A51CB00A72DB8 = 2C6714D1116A51CB00A72DB8 /* PBXTextBookmark */;
 			2C6714D5116A51CB00A72DB8 = 2C6714D5116A51CB00A72DB8 /* PBXTextBookmark */;
-			2C688574119A4FF200C70905 = 2C688574119A4FF200C70905 /* PBXBookmark */;
-			2C688575119A4FF200C70905 = 2C688575119A4FF200C70905 /* PBXTextBookmark */;
 			2C7C4B1210C3C86500FFB0B1 = 2C7C4B1210C3C86500FFB0B1 /* PBXTextBookmark */;
 			2C7CF40810BE3AB9006C3270 = 2C7CF40810BE3AB9006C3270 /* PBXTextBookmark */;
 			2C8192F711688E2A005E81DE = 2C8192F711688E2A005E81DE /* PBXTextBookmark */;
@@ -198,7 +196,6 @@
 			2CAFFD6610C5E42A002B217C = 2CAFFD6610C5E42A002B217C /* PBXTextBookmark */;
 			2CAFFDC810C5FD95002B217C = 2CAFFDC810C5FD95002B217C /* PBXTextBookmark */;
 			2CEF8ADD119A9CEA00BE7BA0 = 2CEF8ADD119A9CEA00BE7BA0 /* PBXBookmark */;
-			2CEF8ADE119A9CEA00BE7BA0 = 2CEF8ADE119A9CEA00BE7BA0 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2C813B680B4CA59F000FF2FE /* Source Control */;
 		userBuildSettings = {
@@ -889,20 +886,6 @@
 		vrLen = 859;
 		vrLoc = 464;
 	};
-	2C688574119A4FF200C70905 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */;
-	};
-	2C688575119A4FF200C70905 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2C24C07B10AAEB31007144CD /* loader.applescript */;
-		name = "loader.applescript: 292";
-		rLen = 11;
-		rLoc = 7718;
-		rType = 0;
-		vrLen = 953;
-		vrLoc = 7003;
-	};
 	2C6F05B810D3F2CC00733C3B /* ModuleInfo.applescript */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {707, 611}}";
@@ -1580,16 +1563,6 @@
 	2CEF8ADD119A9CEA00BE7BA0 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */;
-	};
-	2CEF8ADE119A9CEA00BE7BA0 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2C24C07B10AAEB31007144CD /* loader.applescript */;
-		name = "loader.applescript: 292";
-		rLen = 11;
-		rLoc = 7718;
-		rType = 0;
-		vrLen = 843;
-		vrLoc = 7003;
 	};
 	32BAE0B30371A71500C91783 /* ModuleLoader_Prefix.pch */ = {
 		uiCtxt = {
