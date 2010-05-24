@@ -126,8 +126,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 296413538;
-			PBXWorkspaceStateSaveDate = 296413538;
+			PBXPerProjectTemplateStateSaveDate = 296415627;
+			PBXWorkspaceStateSaveDate = 296415627;
 		};
 		perUserProjectItems = {
 			2C04C55110D520BB004A07A9 = 2C04C55110D520BB004A07A9 /* PlistBookmark */;
@@ -155,6 +155,10 @@
 			2C1C635E10FE10D7005D850A = 2C1C635E10FE10D7005D850A /* PBXTextBookmark */;
 			2C1C636B10FE16D0005D850A = 2C1C636B10FE16D0005D850A /* PBXTextBookmark */;
 			2C1C63CF10FEB01C005D850A = 2C1C63CF10FEB01C005D850A /* PlistBookmark */;
+			2C2BD59911AAEC8300821E20 = 2C2BD59911AAEC8300821E20 /* PlistBookmark */;
+			2C2BD59A11AAEC8300821E20 = 2C2BD59A11AAEC8300821E20 /* PlistBookmark */;
+			2C2BD59B11AAEC8300821E20 = 2C2BD59B11AAEC8300821E20 /* PlistBookmark */;
+			2C2BD59C11AAEC8300821E20 = 2C2BD59C11AAEC8300821E20 /* PlistBookmark */;
 			2C31E6A1115528E2002C16A1 = 2C31E6A1115528E2002C16A1 /* PBXTextBookmark */;
 			2C3E21C510D2B12200F415EA = 2C3E21C510D2B12200F415EA /* PBXTextBookmark */;
 			2C4026D610B5655000BBF1B5 = 2C4026D610B5655000BBF1B5 /* PBXTextBookmark */;
@@ -660,6 +664,53 @@
 		location = ModuleLoader;
 		modificationTime = 282243471.819396;
 		state = 1;
+	};
+	2C2BD59911AAEC8300821E20 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info_10_6.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			OSAScriptingDefinition,
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_6.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C2BD59A11AAEC8300821E20 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C2BD59B11AAEC8300821E20 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 2C5B3B8210B982BE004396E4 /* Info_10_6.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			OSAScriptingDefinition,
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_6.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C2BD59C11AAEC8300821E20 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			OSAScriptingDefinition,
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
 	};
 	2C2CD67C10BCB685008CA461 /* main.c:64 */ = {
 		isa = PBXFileBreakpoint;
