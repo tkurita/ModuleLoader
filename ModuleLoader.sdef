@@ -38,6 +38,9 @@
 		<command name="module loader" code="MoloMKlo" description="Obtain a loader object which is a script object to manage loaded modules.">
 			<result description="A loader object" type="script"/>
 		</command>
+		<command name="_module loader_" code="MoloPMKl" description="A command for private use.">
+			<result description="A loader object" type="script"/>
+		</command>
 		<command name="make local loader" code="MoloMkLl" description="Obtain a local loader object. The local loader search modules not only module paths but also &quot;path to me&quot; location.">
 			<result description="A loader object" type="script"/>
 		</command>

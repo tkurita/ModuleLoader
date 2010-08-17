@@ -22,7 +22,7 @@ on proxy()
 end proxy
 
 on make_loader()
-	set a_loader to continue module loader
+	set a_loader to _module loader_
 	a_loader's set_local(true)
 	a_loader's set_localonly(my _only_local)
 	a_loader's set_additional_paths({a_loader's current_location()})

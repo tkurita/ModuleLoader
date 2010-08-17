@@ -28,6 +28,7 @@ const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kPrivateLoadModuleEvent, _loadModuleHandler_ },
 { kModuleLoaderSuite, kFindModuleEvent, findModuleHandler},
 { kModuleLoaderSuite, kMakeLoaderEvent, makeLoaderHandler},
+{ kModuleLoaderSuite, kPrivateMakeLoaderEvent, makeLoaderHandler},
 { kModuleLoaderSuite, kSetAdditionalModulePathsEvent, setAdditionalModulePathsHandler},
 { kModuleLoaderSuite, kModulePathsEvent, modulePathsHandler},
 { kModuleLoaderSuite, kMakeLocaLoaderEvent, makeLocalLoaderHandler},

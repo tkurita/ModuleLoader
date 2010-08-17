@@ -12,6 +12,7 @@
 #define kPrivateLoadModuleEvent 'PloM'
 #define kFindModuleEvent	'fdMo'
 #define kMakeLoaderEvent	'MKlo'
+#define kPrivateMakeLoaderEvent	'PMKl'
 #define kMakeLocaLoaderEvent 'MkLl'
 #define kSetAdditionalModulePathsEvent 'adMp'
 #define kModulePathsEvent 'gtPH'

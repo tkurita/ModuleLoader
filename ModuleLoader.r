@@ -122,6 +122,17 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 
 			},
 
+			"_module loader_",
+			"A command for private use.",
+			'Molo', 'PMKl',
+			'scpt',
+			"A loader object",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			dp_none__,
+			{
+
+			},
+
 			"make local loader",
 			"Obtain a local loader object. The local loader search modules not only module paths but also \"path to me\" location.",
 			'Molo', 'MkLl',
