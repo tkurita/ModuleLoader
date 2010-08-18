@@ -40,6 +40,8 @@
 			<string>_loadModuleHandler_</string>
 			<key>MoloMKlo</key>
 			<string>makeLoaderHandler</string>
+			<key>MoloPMKl</key>
+			<string>makeLoaderHandler</string>
 			<key>MologtPH</key>
 			<string>modulePathsHandler</string>
 			<key>MoloadMp</key>
