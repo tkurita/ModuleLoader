@@ -12,7 +12,7 @@ static ComponentInstance scriptingComponent = NULL;
 
 extern const char *MODULE_SPEC_LABEL;
 
-OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err;
@@ -25,7 +25,7 @@ OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	return err;
 }
 
-OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err;
@@ -49,7 +49,7 @@ OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
 	return noErr;
 }
 
-OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err;
@@ -100,7 +100,7 @@ bail:
 	return err;
 }
 
-OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
@@ -128,7 +128,7 @@ bail:
 	return err;
 }
 
-OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err;
@@ -192,7 +192,7 @@ bail:
 	return err;
 }
 
-OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
@@ -224,7 +224,7 @@ bail:
 	return err;
 }
 
-OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
@@ -294,7 +294,7 @@ bail:
 	return err;	
 }
 
-OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
@@ -333,7 +333,7 @@ bail:
 	return err;
 }
 
-OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 	OSErr err;
@@ -369,7 +369,7 @@ bail:
 	return err;
 }
 
-OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, long refcon)
+OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	gAdditionReferenceCount++;
 #if useLog
