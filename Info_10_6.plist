@@ -5,17 +5,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>ModuleLoader</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleVersion</key>
 	<string>17</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.1</string>
+	<string>${PRODUCT_VERSION}</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>for 10.6. copyright 2006-2010, Tetsuro KURITA</string>
 	<key>CFBundleGetInfoString</key>
-	<string>2.2.1 for 10.6. copyright 2006-2010, Tetsuro KURITA</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>${PRODUCT_VERSION} for 10.6. copyright 2006-2010, Tetsuro KURITA</string>
 	<key>CFBundleIdentifier</key>
 	<string>Scriptfactory.ModuleLoader</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -24,10 +22,12 @@
 	<string>osax</string>
 	<key>CFBundleSignature</key>
 	<string>ascr</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>OSAScriptingDefinition</key>
-	<string>ModuleLoader.sdef</string>
+	<string>${PRODUCT_NAME}.sdef</string>
 	<key>OSAXHandlers</key>
 	<dict>
 		<key>Events</key>
