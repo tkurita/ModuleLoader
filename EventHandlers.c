@@ -74,7 +74,6 @@ bail:
 
 OSErr loadBundleScript(CFStringRef name, OSAID *newIDPtr)
 {
-	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	if (*newIDPtr != kOSANullScript) goto bail;
 	
@@ -96,7 +95,6 @@ OSErr loadBundleScript(CFStringRef name, OSAID *newIDPtr)
 	}
 
 bail:
-	gAdditionReferenceCount--;
 	return err;
 }
 
