@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>18</string>
 	<key>CFBundleShortVersionString</key>
 	<string>${PRODUCT_VERSION}</string>
 	<key>NSHumanReadableCopyright</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>${PRODUCT_VERSION} for 10.6. copyright 2006-2010, Tetsuro KURITA</string>
 	<key>CFBundleIdentifier</key>
-	<string>Scriptfactory.ModuleLoader</string>
+	<string>Scriptfactory.osax.ModuleLoader</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
