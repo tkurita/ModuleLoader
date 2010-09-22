@@ -280,11 +280,16 @@ end set_local
 
 on try_collect(a_name, adpaths)
 	set a_record to _load module_ a_name additional paths adpaths
-	set a_path to file of a_record
+	set a_source to file of a_record
 	set a_script to script of a_record
 	set a_location to item 1 of adpaths
 	tell application "Finder"
-		set new_alias to make alias file at a_location to a_path -- with properties {name:name of path_rec}
+		set src_name to name of a_source
+		try
+			set new_alias to make alias file at a_location to a_source with properties {name:src_name}
+		on error msg number errno
+			error msg & return & "Failed to make an alias file of " & (quoted form of a_name) number errno
+		end try
 	end tell
 	return a_record
 end try_collect

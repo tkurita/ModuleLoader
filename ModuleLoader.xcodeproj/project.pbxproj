@@ -908,6 +908,7 @@
 				INFOPLIST_FILE = Info_10_5.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
 				PRODUCT_NAME = ModuleLoader;
+				PRODUCT_VERSION = 2.2.3b;
 				SYMROOT = build_10_5;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = osax;
@@ -1014,6 +1015,7 @@
 				INFOPLIST_FILE = Info_10_5.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
 				PRODUCT_NAME = ModuleLoader;
+				PRODUCT_VERSION = 2.2.3b;
 				SYMROOT = build_10_5;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = osax;
