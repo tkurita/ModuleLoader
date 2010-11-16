@@ -56,8 +56,8 @@ OSErr SAInitialize(CFBundleRef theBundle)
 
 void SATerminate()
 {
-	free(gEventUPPs);
 	RemoveMyEventHandlers();
+	free(gEventUPPs);
 }
 
 Boolean SAIsBusy()

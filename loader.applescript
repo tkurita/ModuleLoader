@@ -186,6 +186,9 @@ on boot loader for a_script
 		set dependencies to extract dependencies from a_script
 		--log "not found __module_dependencies__"
 	end try
+	try
+		set my _collecting to __collect_modules__ of a_script
+	end try
 	set moduleinfo_list to {}
 	repeat with a_dep in dependencies
 		--log name of a_dep

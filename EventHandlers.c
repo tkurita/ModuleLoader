@@ -345,10 +345,10 @@ OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon ref
 	
 	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
 	if ((err == noErr) && (typeNull != module_name.descriptorType)) {
-		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name, &with_reloading);
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{pnam:@}",&module_name);
 		if (err != noErr) goto bail;
 	} else {
-		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{}", &with_reloading);
+		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{}");
 		if (err != noErr) goto bail;		
 	}
 
