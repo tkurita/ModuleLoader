@@ -179,6 +179,17 @@ end resolve_dependencies
 
 on boot loader for a_script
 	global __module_dependencies__
+	
+	-- options for local loader
+	if my _is_local then
+		try
+			set my _collecting to collecting modules of a_script
+		end try
+		try
+			set my _only_local to only local of a_script
+		end try
+	end if
+	
 	try
 		set dependencies to __module_dependencies__
 		--log "found __module_dependencies__"
@@ -186,9 +197,7 @@ on boot loader for a_script
 		set dependencies to extract dependencies from a_script
 		--log "not found __module_dependencies__"
 	end try
-	try
-		set my _collecting to __collect_modules__ of a_script
-	end try
+	
 	set moduleinfo_list to {}
 	repeat with a_dep in dependencies
 		--log name of a_dep

@@ -11,6 +11,10 @@
 			<property name="name" code="pnam" description="A property name which a module is loaded." type="text"/>
 			<property name="module specifier" code="MoSp" description="A module specifier" type="module specifier"/>
 		</record-type>
+		<record-type name="local loader options" code="OPll">
+			<property name="collecting modules" code="cLMd" type="boolean"/>
+			<property name="only local" code="oNLo" type="boolean"/>
+		</record-type>
 		<command name="find module" code="MolofdMo" description="Find module from module paths. If specified module can not be forund, the error number 1800 will raise.">
 			<direct-parameter description="A module name" type="text"/>
 			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">

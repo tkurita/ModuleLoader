@@ -272,6 +272,20 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				reserved, singleItem, notEnumerated, readWrite, Reserved12
 			},
 			{
+			},
+
+			"local loader options", 'OPll',
+			"",
+			{
+				"collecting modules", 'cLMd', 'bool',
+				"",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12,
+
+				"only local", 'oNLo', 'bool',
+				"",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12
+			},
+			{
 			}
 		},
 		{
