@@ -183,10 +183,14 @@ on boot loader for a_script
 	-- options for local loader
 	if my _is_local then
 		try
-			set my _collecting to collecting modules of a_script
+			if class of collecting modules of a_script is boolean then -- avoid problem in osacompile Mac OS X 10.6
+				set my _collecting to collecting modules of a_script
+			end if
 		end try
 		try
-			set my _only_local to only local of a_script
+			if class of only local of a_script is boolean then -- avoid problem in osacompile Mac OS X 10.6
+				set my _only_local to only local of a_script
+			end if
 		end try
 	end if
 	
