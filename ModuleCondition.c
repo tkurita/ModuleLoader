@@ -2,6 +2,8 @@
 #include "ModuleCondition.h"
 #include "AEUtils.h"
 
+#define useLog 0
+
 CFStringRef CFStringCreateWithEscapingRegex(CFStringRef text, CFStringRef *errmsg)
 {
 	static TXRegularExpression *regexp = NULL;
@@ -46,14 +48,13 @@ ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef requ
 	}
 	module_condition->required_version = NULL;
 	module_condition->pattern = NULL;
-	module_condition->subpath = NULL;
+	module_condition->subpath = subpath;
 	module_condition->name = CFRetain(module_name);
 	if (required_version) {
 		module_condition->required_version = VersionConditionSetCreate(required_version, errmsg);
 	} else {
 		module_condition->required_version = NULL;
 	}
-	
 	
 	if (! (escaped_name = CFStringCreateWithEscapingRegex(module_name, errmsg))) {
 		ModuleConditionFree(module_condition);
@@ -78,11 +79,18 @@ bail:
 
 void ModuleConditionFree(ModuleCondition *module_condition)
 {
+#if useLog
+	fprintf(stderr, "start ModuleConditionFree\n"); 
+#endif	
 	if (!module_condition) return;
 	safeRelease(module_condition->name);
 	safeRelease(module_condition->subpath);
 	VersionConditionSetFree(module_condition->required_version);
 	TXRegexFree(module_condition->pattern);
+	free(module_condition);
+#if useLog
+	fprintf(stderr, "end ModuleConditionFree\n"); 
+#endif		
 }
 
 Boolean ModuleConditionVersionIsSatisfied(ModuleCondition *module_condition, ModuleRef *module_ref)

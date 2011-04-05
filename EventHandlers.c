@@ -186,13 +186,17 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	}
 	err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths, 
 					 moduleRefPtr, &searched_paths);
+	//err = 1800;
 	if (err != noErr) {
-		CFStringRef pathlist = CFStringCreateByCombiningStrings(NULL, searched_paths, CFSTR(":"));
+		CFStringRef pathlist = NULL;
+		if (searched_paths) {
+			pathlist= CFStringCreateByCombiningStrings(NULL, searched_paths, CFSTR(":"));
+		}
 		
 		errmsg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@\" can not be found in %@"),
 												   module_name, pathlist);
 		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);
-		CFRelease(pathlist);
+		safeRelease(pathlist);
 		goto bail;
 	}
 bail:

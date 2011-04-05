@@ -4,6 +4,8 @@
 
 #include "AEUtils.h"
 
+#define useLog 0
+
 #pragma mark VersoionCondition
 
 TXRegularExpression *VersionConditionPattern(CFStringRef *errmsg)
@@ -76,8 +78,14 @@ VersionCondition *VersionConditionCreateWithString(CFStringRef condition, CFStri
 
 void VersionConditionFree(VersionCondition *vc)
 {
+#if useLog
+	fprintf(stderr, "start VersionConditionFree\n"); 
+#endif	
 	CFRelease(vc->version_string);
 	free(vc);
+#if useLog
+	fprintf(stderr, "end VersionConditionFree\n"); 
+#endif		
 }
 
 Boolean VersionConditionIsSatisfied(VersionCondition *condition, CFStringRef version)
@@ -144,18 +152,25 @@ VersionConditionSet *VersionConditionSetCreate(CFStringRef condition, CFStringRe
 	vercond_set->conditions = vercond_list;
 	
 bail:	
-	if(!array) CFRelease(array);	
+	if(array) CFRelease(array);	
 	return vercond_set;
 }
      
 void VersionConditionSetFree(VersionConditionSet *vercond_set)
 {
+#if useLog
+	fprintf(stderr, "VersionConditionSetFree\n"); 
+#endif		
 	if (!vercond_set) return;
 	VersionCondition **vclist = vercond_set->conditions;
 	for (CFIndex n = 0; n < vercond_set->length; n++) {
 		VersionConditionFree(vclist[n]);
 	}
 	free(vclist);
+	free(vercond_set);
+#if useLog
+	fprintf(stderr, "end VersionConditionSetFree\n"); 
+#endif			
 }
 
 Boolean VersionConditionSetIsSatisfied(VersionConditionSet *vercond_set, CFStringRef version)
