@@ -284,6 +284,15 @@
 			2C6B2718134B205000E765D1 /* PBXTextBookmark */ = 2C6B2718134B205000E765D1 /* PBXTextBookmark */;
 			2C6B2719134B205000E765D1 /* PBXTextBookmark */ = 2C6B2719134B205000E765D1 /* PBXTextBookmark */;
 			2C6B271A134B205000E765D1 /* PBXTextBookmark */ = 2C6B271A134B205000E765D1 /* PBXTextBookmark */;
+			2C6B272D134B238B00E765D1 /* PBXTextBookmark */ = 2C6B272D134B238B00E765D1 /* PBXTextBookmark */;
+			2C6B272E134B238B00E765D1 /* PBXTextBookmark */ = 2C6B272E134B238B00E765D1 /* PBXTextBookmark */;
+			2C6B272F134B238B00E765D1 /* PBXTextBookmark */ = 2C6B272F134B238B00E765D1 /* PBXTextBookmark */;
+			2C6B2730134B238B00E765D1 /* PBXTextBookmark */ = 2C6B2730134B238B00E765D1 /* PBXTextBookmark */;
+			2C6B2731134B238B00E765D1 /* PBXTextBookmark */ = 2C6B2731134B238B00E765D1 /* PBXTextBookmark */;
+			2C6B2732134B238B00E765D1 /* PBXTextBookmark */ = 2C6B2732134B238B00E765D1 /* PBXTextBookmark */;
+			2C6B2733134B238B00E765D1 /* PBXTextBookmark */ = 2C6B2733134B238B00E765D1 /* PBXTextBookmark */;
+			2C6B2734134B238B00E765D1 /* PBXTextBookmark */ = 2C6B2734134B238B00E765D1 /* PBXTextBookmark */;
+			2C6B2735134B238B00E765D1 /* PBXTextBookmark */ = 2C6B2735134B238B00E765D1 /* PBXTextBookmark */;
 			2C72F43F134A025700531114 = 2C72F43F134A025700531114 /* PBXTextBookmark */;
 			2C72F459134A059700531114 = 2C72F459134A059700531114 /* PBXTextBookmark */;
 			2C72F45E134A059700531114 = 2C72F45E134A059700531114 /* PBXTextBookmark */;
@@ -1075,7 +1084,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 155";
 		rLen = 23;
-		rLoc = 4648;
+		rLoc = 4654;
 		rType = 0;
 		vrLen = 1117;
 		vrLoc = 898;
@@ -1097,7 +1106,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 155";
 		rLen = 23;
-		rLoc = 4648;
+		rLoc = 4654;
 		rType = 0;
 		vrLen = 1185;
 		vrLoc = 898;
@@ -1119,7 +1128,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 155";
 		rLen = 23;
-		rLoc = 4648;
+		rLoc = 4654;
 		rType = 0;
 		vrLen = 1182;
 		vrLoc = 898;
@@ -1157,7 +1166,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 32";
 		rLen = 0;
-		rLoc = 899;
+		rLoc = 905;
 		rType = 0;
 		vrLen = 609;
 		vrLoc = 793;
@@ -1467,7 +1476,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 42";
 		rLen = 0;
-		rLoc = 1118;
+		rLoc = 1124;
 		rType = 0;
 		vrLen = 1193;
 		vrLoc = 763;
@@ -1477,7 +1486,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 30";
 		rLen = 0;
-		rLoc = 899;
+		rLoc = 905;
 		rType = 0;
 		vrLen = 471;
 		vrLoc = 790;
@@ -1499,7 +1508,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 30";
 		rLen = 0;
-		rLoc = 956;
+		rLoc = 962;
 		rType = 0;
 		vrLen = 1199;
 		vrLoc = 1562;
@@ -1509,7 +1518,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 30";
 		rLen = 0;
-		rLoc = 899;
+		rLoc = 905;
 		rType = 0;
 		vrLen = 471;
 		vrLoc = 790;
@@ -1626,7 +1635,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 42";
 		rLen = 0;
-		rLoc = 1279;
+		rLoc = 1285;
 		rType = 0;
 		vrLen = 1058;
 		vrLoc = 763;
@@ -1716,7 +1725,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 42";
 		rLen = 0;
-		rLoc = 1279;
+		rLoc = 1285;
 		rType = 0;
 		vrLen = 1058;
 		vrLoc = 763;
@@ -1785,7 +1794,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 30";
 		rLen = 0;
-		rLoc = 899;
+		rLoc = 905;
 		rType = 0;
 		vrLen = 541;
 		vrLoc = 790;
@@ -1805,7 +1814,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 30";
 		rLen = 0;
-		rLoc = 899;
+		rLoc = 905;
 		rType = 0;
 		vrLen = 541;
 		vrLoc = 790;
@@ -2059,7 +2068,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 101";
 		rLen = 69;
-		rLoc = 3100;
+		rLoc = 3106;
 		rType = 0;
 		vrLen = 1150;
 		vrLoc = 3336;
@@ -2099,7 +2108,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 73";
 		rLen = 9;
-		rLoc = 2318;
+		rLoc = 2324;
 		rType = 0;
 		vrLen = 1288;
 		vrLoc = 127;
@@ -2119,7 +2128,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 101";
 		rLen = 69;
-		rLoc = 3100;
+		rLoc = 3106;
 		rType = 0;
 		vrLen = 1150;
 		vrLoc = 3336;
@@ -2139,7 +2148,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 84";
 		rLen = 0;
-		rLoc = 3005;
+		rLoc = 3011;
 		rType = 0;
 		vrLen = 728;
 		vrLoc = 2717;
@@ -2159,7 +2168,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 101";
 		rLen = 69;
-		rLoc = 3100;
+		rLoc = 3106;
 		rType = 0;
 		vrLen = 772;
 		vrLoc = 3336;
@@ -2169,7 +2178,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 84";
 		rLen = 0;
-		rLoc = 3005;
+		rLoc = 3011;
 		rType = 0;
 		vrLen = 728;
 		vrLoc = 2717;
@@ -2189,7 +2198,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 158";
 		rLen = 0;
-		rLoc = 4774;
+		rLoc = 4780;
 		rType = 0;
 		vrLen = 659;
 		vrLoc = 4484;
@@ -2229,7 +2238,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 81";
 		rLen = 0;
-		rLoc = 2885;
+		rLoc = 2891;
 		rType = 0;
 		vrLen = 638;
 		vrLoc = 2359;
@@ -2289,7 +2298,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 81";
 		rLen = 0;
-		rLoc = 2885;
+		rLoc = 2891;
 		rType = 0;
 		vrLen = 638;
 		vrLoc = 2359;
@@ -2347,7 +2356,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 83";
 		rLen = 0;
-		rLoc = 2839;
+		rLoc = 2845;
 		rType = 0;
 		vrLen = 605;
 		vrLoc = 2556;
@@ -2365,7 +2374,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 158";
 		rLen = 0;
-		rLoc = 4774;
+		rLoc = 4780;
 		rType = 0;
 		vrLen = 659;
 		vrLoc = 4484;
@@ -2395,7 +2404,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 83";
 		rLen = 0;
-		rLoc = 2839;
+		rLoc = 2845;
 		rType = 0;
 		vrLen = 605;
 		vrLoc = 2556;
@@ -2425,7 +2434,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 91";
 		rLen = 0;
-		rLoc = 3125;
+		rLoc = 3131;
 		rType = 0;
 		vrLen = 687;
 		vrLoc = 2694;
@@ -2455,7 +2464,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 91";
 		rLen = 0;
-		rLoc = 3125;
+		rLoc = 3131;
 		rType = 0;
 		vrLen = 687;
 		vrLoc = 2694;
@@ -2465,7 +2474,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 170";
 		rLen = 0;
-		rLoc = 4982;
+		rLoc = 4988;
 		rType = 0;
 		vrLen = 625;
 		vrLoc = 4637;
@@ -2485,7 +2494,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 170";
 		rLen = 0;
-		rLoc = 4982;
+		rLoc = 4988;
 		rType = 0;
 		vrLen = 625;
 		vrLoc = 4637;
@@ -2495,7 +2504,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 91";
 		rLen = 0;
-		rLoc = 3125;
+		rLoc = 3131;
 		rType = 0;
 		vrLen = 661;
 		vrLoc = 2720;
@@ -2505,7 +2514,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 170";
 		rLen = 0;
-		rLoc = 4982;
+		rLoc = 4988;
 		rType = 0;
 		vrLen = 625;
 		vrLoc = 4637;
@@ -2515,7 +2524,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 90";
 		rLen = 0;
-		rLoc = 3092;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 657;
 		vrLoc = 2720;
@@ -2535,7 +2544,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 90";
 		rLen = 0;
-		rLoc = 3092;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 657;
 		vrLoc = 2720;
@@ -2565,7 +2574,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 90";
 		rLen = 0;
-		rLoc = 3092;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 657;
 		vrLoc = 2720;
@@ -2700,6 +2709,96 @@
 		vrLen = 871;
 		vrLoc = 0;
 	};
+	2C6B272D134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2C72F2DC13485DFE00531114 /* TXRegularExpression.c */;
+		name = "TXRegularExpression.c: 119";
+		rLen = 0;
+		rLoc = 3976;
+		rType = 0;
+		vrLen = 327;
+		vrLoc = 3916;
+	};
+	2C6B272E134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EA13434765006407F2 /* ModuleCondition.h */;
+		name = "ModuleCondition.h: 12";
+		rLen = 0;
+		rLoc = 235;
+		rType = 0;
+		vrLen = 657;
+		vrLoc = 0;
+	};
+	2C6B272F134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
+		name = "ModuleCondition.c: 65";
+		rLen = 0;
+		rLoc = 2315;
+		rType = 0;
+		vrLen = 1299;
+		vrLoc = 0;
+	};
+	2C6B2730134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
+		name = "VersionCondition.c: 7";
+		rLen = 0;
+		rLoc = 165;
+		rType = 0;
+		vrLen = 1113;
+		vrLoc = 0;
+	};
+	2C6B2731134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2C72F2DC13485DFE00531114 /* TXRegularExpression.c */;
+		name = "TXRegularExpression.c: 119";
+		rLen = 0;
+		rLoc = 3976;
+		rType = 0;
+		vrLen = 327;
+		vrLoc = 3916;
+	};
+	2C6B2732134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EA13434765006407F2 /* ModuleCondition.h */;
+		name = "ModuleCondition.h: 12";
+		rLen = 0;
+		rLoc = 235;
+		rType = 0;
+		vrLen = 657;
+		vrLoc = 0;
+	};
+	2C6B2733134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
+		name = "ModuleCondition.c: 65";
+		rLen = 0;
+		rLoc = 2315;
+		rType = 0;
+		vrLen = 1299;
+		vrLoc = 0;
+	};
+	2C6B2734134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
+		name = "VersionCondition.c: 17";
+		rLen = 0;
+		rLoc = 461;
+		rType = 0;
+		vrLen = 1119;
+		vrLoc = 0;
+	};
+	2C6B2735134B238B00E765D1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EF13434799006407F2 /* VersionCondition.h */;
+		name = "VersionCondition.h: 12";
+		rLen = 0;
+		rLoc = 409;
+		rType = 0;
+		vrLen = 158;
+		vrLoc = 0;
+	};
 	2C6F05B810D3F2CC00733C3B /* ModuleInfo.applescript */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {817, 540}}";
@@ -2726,6 +2825,7 @@
 			sepNavIntBoundsRect = "{{0, 0}, {767, 5698}}";
 			sepNavSelRange = "{3976, 0}";
 			sepNavVisRange = "{3916, 327}";
+			sepNavWindowFrame = "{{15, 92}, {1039, 781}}";
 		};
 	};
 	2C72F2DD13485DFE00531114 /* TXRegularExpression.h */ = {
@@ -2771,7 +2871,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 80";
 		rLen = 0;
-		rLoc = 3932;
+		rLoc = 3938;
 		rType = 0;
 		vrLen = 871;
 		vrLoc = 1756;
@@ -2926,30 +3026,30 @@
 	};
 	2CB5B4EA13434765006407F2 /* ModuleCondition.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {767, 299}}";
+			sepNavIntBoundsRect = "{{0, 0}, {767, 242}}";
 			sepNavSelRange = "{235, 0}";
 			sepNavVisRange = "{0, 657}";
 		};
 	};
 	2CB5B4EB13434765006407F2 /* ModuleCondition.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {767, 1680}}";
-			sepNavSelRange = "{110, 0}";
-			sepNavVisRange = "{0, 721}";
+			sepNavIntBoundsRect = "{{0, 0}, {767, 1666}}";
+			sepNavSelRange = "{2315, 0}";
+			sepNavVisRange = "{0, 1299}";
 		};
 	};
 	2CB5B4EF13434799006407F2 /* VersionCondition.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {767, 356}}";
+			sepNavIntBoundsRect = "{{0, 0}, {767, 364}}";
 			sepNavSelRange = "{409, 0}";
-			sepNavVisRange = "{0, 871}";
+			sepNavVisRange = "{0, 158}";
 		};
 	};
 	2CB5B4F013434799006407F2 /* VersionCondition.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {767, 2590}}";
-			sepNavSelRange = "{165, 0}";
-			sepNavVisRange = "{0, 514}";
+			sepNavIntBoundsRect = "{{0, 0}, {767, 2548}}";
+			sepNavSelRange = "{461, 0}";
+			sepNavVisRange = "{0, 1119}";
 			sepNavWindowFrame = "{{15, 92}, {1039, 781}}";
 		};
 	};
@@ -3090,7 +3190,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 151";
 		rLen = 23;
-		rLoc = 4648;
+		rLoc = 4654;
 		rType = 0;
 		vrLen = 711;
 		vrLoc = 4316;
@@ -3120,7 +3220,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 102";
 		rLen = 0;
-		rLoc = 3613;
+		rLoc = 3619;
 		rType = 0;
 		vrLen = 754;
 		vrLoc = 2997;
@@ -3150,7 +3250,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 153";
 		rLen = 0;
-		rLoc = 4802;
+		rLoc = 4808;
 		rType = 0;
 		vrLen = 711;
 		vrLoc = 4316;
@@ -3310,7 +3410,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 151";
 		rLen = 23;
-		rLoc = 4648;
+		rLoc = 4654;
 		rType = 0;
 		vrLen = 711;
 		vrLoc = 4316;
@@ -3340,7 +3440,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 102";
 		rLen = 0;
-		rLoc = 3613;
+		rLoc = 3619;
 		rType = 0;
 		vrLen = 654;
 		vrLoc = 3097;
@@ -3350,7 +3450,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 102";
 		rLen = 0;
-		rLoc = 3613;
+		rLoc = 3619;
 		rType = 0;
 		vrLen = 754;
 		vrLoc = 2997;
@@ -3507,7 +3607,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 112";
 		rLen = 0;
-		rLoc = 3932;
+		rLoc = 3938;
 		rType = 0;
 		vrLen = 938;
 		vrLoc = 1697;
@@ -3567,7 +3667,7 @@
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 112";
 		rLen = 0;
-		rLoc = 3932;
+		rLoc = 3938;
 		rType = 0;
 		vrLen = 938;
 		vrLoc = 1697;
@@ -3597,7 +3697,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 151";
 		rLen = 0;
-		rLoc = 4662;
+		rLoc = 4668;
 		rType = 0;
 		vrLen = 708;
 		vrLoc = 4193;
@@ -3607,7 +3707,7 @@
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
 		name = "VersionCondition.c: 151";
 		rLen = 0;
-		rLoc = 4662;
+		rLoc = 4668;
 		rType = 0;
 		vrLen = 708;
 		vrLoc = 4193;

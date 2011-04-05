@@ -14,7 +14,7 @@ TXRegularExpression *VersionConditionPattern(CFStringRef *errmsg)
 	if (!verpattern) {
 		UParseError pe;
 		UErrorCode status = U_ZERO_ERROR;
-		verpattern = TXRegexCreate(CFSTR("\\s*(<|>|>=|=<)?\\s*([0-9\\.]+)\\s*"), 0, &pe, &status);
+		verpattern = TXRegexCreate(CFSTR("\\s*(<|>|>=|=<)?\\s*([0-9\\.]+[a-z]?)\\s*"), 0, &pe, &status);
 		if (U_ZERO_ERROR != status) {
 			CFStringRef pemsg = CFStringCreateWithFormattingParseError(&pe);
 			*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, 

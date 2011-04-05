@@ -62,7 +62,7 @@ ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef requ
 	}
 	
 	verpattern = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, 
-								CFSTR("%@(-[0-9\\.]+)?(\\.(scptd|scpt|applescript|app))?"), escaped_name);
+								CFSTR("%@(-[0-9\\.]+[a-z]?)?(\\.(scptd|scpt|applescript|app))?"), escaped_name);
 	UParseError parse_error;
 	UErrorCode status = U_ZERO_ERROR;
 	module_condition->pattern = TXRegexCreate(verpattern, UREGEX_CASE_INSENSITIVE, &parse_error, &status);
