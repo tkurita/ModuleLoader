@@ -66,6 +66,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				"other paths", 'ohPh', 'bool',
 				"If tue is passed,  module search paths are restricted to  paths given in 'additional paths'.",
 				optional,
+				singleItem, notEnumerated, Reserved13,
+				"version", 'vers', 'TEXT',
+				"Required version.",
+				optional,
 				singleItem, notEnumerated, Reserved13
 			},
 
@@ -87,6 +91,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				"other paths", 'ohPh', 'bool',
 				"If tue is passed,  module search paths are restricted to  paths given in 'additional paths'.",
 				optional,
+				singleItem, notEnumerated, Reserved13,
+				"version", 'vers', 'TEXT',
+				"Required version.",
+				optional,
 				singleItem, notEnumerated, Reserved13
 			},
 
@@ -107,6 +115,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				listOfItems, notEnumerated, Reserved13,
 				"other paths", 'ohPh', 'bool',
 				"If tue is passed,  module search paths are restricted to  paths given in 'additional paths'.",
+				optional,
+				singleItem, notEnumerated, Reserved13,
+				"version", 'vers', 'TEXT',
+				"Required version.",
 				optional,
 				singleItem, notEnumerated, Reserved13
 			},
@@ -194,6 +206,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				"reloading", 'pRLo', 'bool',
 				"Whether or not to load a module ignoring module chache.",
 				optional,
+				singleItem, notEnumerated, Reserved13,
+				"version", 'vers', 'TEXT',
+				"Required version.",
+				optional,
 				singleItem, notEnumerated, Reserved13
 			},
 
@@ -255,6 +271,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 
 				"reloading", 'pRLo', 'bool',
 				"Whether or not to load a module ignoring module chache.",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12,
+
+				"version", 'vers', 'TEXT',
+				"Required version.",
 				reserved, singleItem, notEnumerated, readWrite, Reserved12
 			},
 			{

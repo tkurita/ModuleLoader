@@ -158,35 +158,47 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	OSErr err = noErr;
 	CFMutableArrayRef searched_paths = NULL;
 	CFMutableArrayRef path_array = NULL;
+	CFStringRef module_name = NULL;
+	CFStringRef required_version = NULL;
+	ModuleCondition *module_condition = NULL;
+	CFStringRef errmsg = NULL;
 	
-	CFStringRef module_name = CFStringCreateWithEvent(ev, keyDirectObject, &err);
+	module_name = CFStringCreateWithEvent(ev, keyDirectObject, &err);
 	if ((err != noErr) || (module_name == NULL)) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
 		goto bail;
 	}
 	
+	required_version = CFStringCreateWithEvent(ev, kVersionParam, &err);	
 	path_array = CFMutableArrayCreatePOSIXPathsWithEvent(ev, kInDirectoryParam, &err);
 	
 	Boolean with_other_paths = true;
 	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
 	
-	err = findModule(module_name, (CFArrayRef)path_array, !with_other_paths, 
+	module_condition = ModuleConditionCreate(module_name, required_version, &errmsg);
+	if (!module_condition) {
+		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);	
+		goto bail;
+	}
+	err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths, 
 					 moduleRefPtr, &searched_paths);
 	if (err != noErr) {
 		CFStringRef pathlist = CFStringCreateByCombiningStrings(NULL, searched_paths, CFSTR(":"));
 		
-		CFStringRef msg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@\" can not be found in %@"),
+		errmsg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@\" can not be found in %@"),
 												   module_name, pathlist);
-		putStringToEvent(reply, keyErrorString, msg, kCFStringEncodingUTF8);
+		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);
 		CFRelease(pathlist);
-		CFRelease(msg);
 		goto bail;
 	}
 bail:
 	safeRelease(module_name);
 	safeRelease(path_array);
+	safeRelease(required_version);
 	safeRelease(searched_paths);
+	ModuleConditionFree(module_condition);
+	safeRelease(errmsg);
 	return err;
 }
 
@@ -339,6 +351,8 @@ OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon ref
 	AECreateDesc(typeNull, NULL, 0, &module_name);
 	AEDesc module_spec;
 	AECreateDesc(typeNull, NULL, 0, &module_spec);
+	AEDesc required_version;
+	AECreateDesc(typeNull, NULL, 0, &required_version);
 	AEDesc with_reloading;
 	AECreateDesc(typeFalse, NULL, 0, &with_reloading);
 	AEBuildError ae_err;
@@ -351,7 +365,12 @@ OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon ref
 		err = AEBuildDesc(&module_spec, &ae_err, "MoSp{}");
 		if (err != noErr) goto bail;		
 	}
-
+	
+	err = AEGetParamDesc(ev, kVersionParam, typeUnicodeText, &required_version);
+	if ((err == noErr) && (typeNull != required_version.descriptorType)) {
+		err = AEPutKeyDesc (&module_spec, kVersionParam, &required_version);
+	}	
+	
 	err = AEGetParamDesc(ev, kReloadingParam, typeBoolean, &with_reloading);
 	if ((err == noErr) && (typeNull != with_reloading.descriptorType)) {
 		err = AEPutKeyDesc (&module_spec, kReloadingParam, &with_reloading);
@@ -362,6 +381,7 @@ OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon ref
 bail:
 	AEDisposeDesc(&module_spec);
 	AEDisposeDesc(&module_name);
+	AEDisposeDesc(&required_version);
 	AEDisposeDesc(&with_reloading);
 	gAdditionReferenceCount--;
 	return err;

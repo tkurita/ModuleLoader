@@ -1,10 +1,12 @@
 #include <CoreFoundation/CoreFoundation.h>
-#include "VersionCondition.h"
 #include "TXRegularExpression/TXRegularExpression.h"
+#include "VersionCondition.h"
+
+#include "AEUtils.h"
 
 #pragma mark VersoionCondition
 
-TXRegularExpression *VersionConditionPattern()
+TXRegularExpression *VersionConditionPattern(CFStringRef *errmsg)
 {
 	static TXRegularExpression *verpattern = NULL;
 	if (!verpattern) {
@@ -12,8 +14,11 @@ TXRegularExpression *VersionConditionPattern()
 		UErrorCode status = U_ZERO_ERROR;
 		verpattern = TXRegexCreate(CFSTR("\\s*(<|>|>=|=<)?\\s*([0-9\\.]+)\\s*"), 0, &pe, &status);
 		if (U_ZERO_ERROR != status) {
-			fprintf(stderr, "Failed to compile pattern of version with error : %d\n", status);
-			fprintParseError(stderr, &pe);
+			CFStringRef pemsg = CFStringCreateWithFormattingParseError(&pe);
+			*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, 
+												 CFSTR("Failed to compile pattern of VersionCondition. %@"),
+												 pemsg);
+			safeRelease(pemsg);
 			return NULL;
 		}
 	}
@@ -56,9 +61,9 @@ bail:
 	return vc;
 }
 
-VersionCondition *VersionCoditionCreateWithString(CFStringRef condition)
+VersionCondition *VersionConditionCreateWithString(CFStringRef condition, CFStringRef *errmsg)
 {
-	TXRegularExpression *verpattern = VersionConditionPattern();
+	TXRegularExpression *verpattern = VersionConditionPattern(errmsg);
 	if (!verpattern) return NULL;
 	UErrorCode status = U_ZERO_ERROR;
 	CFArrayRef matched = CFStringCreateArrayWithFirstMatch(condition,  verpattern, 0, &status);
@@ -75,7 +80,7 @@ void VersionConditionFree(VersionCondition *vc)
 	free(vc);
 }
 
-Boolean VersionConditionSatisfied(VersionCondition *condition, CFStringRef version)
+Boolean VersionConditionIsSatisfied(VersionCondition *condition, CFStringRef version)
 {
 	CFComparisonResult compresult = CFStringCompare(version, condition->version_string, kCFCompareNumerically);
 	Boolean is_satisfy = false;
@@ -93,29 +98,30 @@ Boolean VersionConditionSatisfied(VersionCondition *condition, CFStringRef versi
 
 #pragma mark VersionConditionSet
 
-VersionConditionSet *VersionCoditionSetCreate(CFStringRef condition)
+VersionConditionSet *VersionConditionSetCreate(CFStringRef condition, CFStringRef *errmsg)
 {
 	CFArrayRef array = NULL;
 	VersionConditionSet *vercond_set = NULL;
 	VersionCondition **vercond_list = NULL;
 	
-	TXRegularExpression *verpattern = VersionConditionPattern();
+	TXRegularExpression *verpattern = VersionConditionPattern(errmsg);
 	if (!verpattern) return NULL;
 	UErrorCode status = U_ZERO_ERROR;
 	array = CFStringCreateArrayWithAllMatches(condition, verpattern, &status);
 	if (U_ZERO_ERROR != status) {
-		fprintf(stderr, "Error in VersionCoditionSetCreate number : %d\n", status);
+		*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
+							   CFSTR("Error in VersionCoditionSetCreate number : %d"), status);
 		goto bail;
 	}
 	CFIndex len = CFArrayGetCount(array);
 	if (!len) {
-		fprintf(stderr, "No matches\n");
+		*errmsg = CFSTR("No mathes in Version condition string.");
 		goto bail;
 	}
 		
 	vercond_list = (VersionCondition **)malloc(len*sizeof(VersionCondition *));
 	if (!vercond_list) {
-		fprintf(stderr, "Failed to allocate an array of VersionCondition");
+		*errmsg = CFSTR("Failed to allocate an array of VersionCondition");
 		goto bail;
 	}
 	
@@ -127,7 +133,7 @@ VersionConditionSet *VersionCoditionSetCreate(CFStringRef condition)
 	}
 	vercond_set = malloc(sizeof(VersionConditionSet));
 	if (!vercond_set) {
-		fprintf(stderr, "Failed to allocate VersionConditionSet\n");
+		*errmsg = CFSTR("Failed to allocate VersionConditionSet");
 		for (CFIndex n=0; n < len; n++) {
 			free(vercond_list[n]);
 		}
@@ -141,9 +147,10 @@ bail:
 	if(!array) CFRelease(array);	
 	return vercond_set;
 }
-
-void VersionCoditionSetFree(VersionConditionSet *vercond_set)
+     
+void VersionConditionSetFree(VersionConditionSet *vercond_set)
 {
+	if (!vercond_set) return;
 	VersionCondition **vclist = vercond_set->conditions;
 	for (CFIndex n = 0; n < vercond_set->length; n++) {
 		VersionConditionFree(vclist[n]);
@@ -151,11 +158,11 @@ void VersionCoditionSetFree(VersionConditionSet *vercond_set)
 	free(vclist);
 }
 
-Boolean VersionConditionSetSatisfied(VersionConditionSet *vercond_set, CFStringRef version)
+Boolean VersionConditionSetIsSatisfied(VersionConditionSet *vercond_set, CFStringRef version)
 {
 	VersionCondition **vclist = vercond_set->conditions;
 	for (CFIndex n = 0; n < vercond_set->length; n++) {
-		if (!VersionConditionSatisfied(vclist[n], version)) return false;
+		if (!VersionConditionIsSatisfied(vclist[n], version)) return false;
 	}
 	return true;
 }

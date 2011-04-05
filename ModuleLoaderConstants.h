@@ -20,6 +20,7 @@
 #define kMakeModuleSpecEvent 'MkMs'
 #define kExtractDependenciesEvent 'Exdp'
 #define kReloadingParam 'pRLo'
+#define kVersionParam 'vers'
 
 enum {
 	typeModuleSpecifier = 'MoSp',

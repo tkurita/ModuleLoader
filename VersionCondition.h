@@ -6,17 +6,18 @@ typedef struct  {
 	Boolean allow_equal;
 } VersionCondition;
 
-VersionCondition *VersionCoditionCreate(CFStringRef condition);
+VersionCondition *VersionConditionCreate(CFStringRef opstring, CFStringRef verstring);
+VersionCondition *VersionConditionCreateWithString(CFStringRef condition, CFStringRef *errmsg);
 void VersionConditionFree(VersionCondition *vc);
-Boolean VersionConditionSatisfied(VersionCondition *condition, CFStringRef version);
+Boolean VersionConditionIsSatisfied(VersionCondition *condition, CFStringRef version);
 
 #pragma mark VersionConditionSet
 typedef struct {
 	VersionCondition **conditions;
 	unsigned long length;
 } VersionConditionSet;
-
-VersionConditionSet *VersionCoditionSetCreate(CFStringRef condition);
-void VersionConditionSetFree(VersionCondition *vc);
-Boolean VersionConditionSetSatisfied(VersionConditionSet *vercond_set, CFStringRef version);
+                     
+VersionConditionSet *VersionConditionSetCreate(CFStringRef condition, CFStringRef *errmsg);
+void VersionConditionSetFree(VersionConditionSet *vc);
+Boolean VersionConditionSetIsSatisfied(VersionConditionSet *vercond_set, CFStringRef version);
 
