@@ -230,6 +230,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -281,8 +283,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>14</integer>
-									<integer>7</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -376,8 +376,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -392,10 +390,6 @@
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
 										<string>VersionCondition.c</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>2C6B2734134B238B00E765D1</string>
 										<key>history</key>
 										<array>
 											<string>2C72F45E134A059700531114</string>
@@ -438,30 +432,7 @@
 											<string>2C6B2648134B080D00E765D1</string>
 											<string>2C6B264B134B080D00E765D1</string>
 											<string>2C6B264C134B080D00E765D1</string>
-											<string>2C6B26B8134B143500E765D1</string>
-											<string>2C6B26B9134B143500E765D1</string>
-											<string>2C6B26CD134B1BA700E765D1</string>
 											<string>2C6B26CE134B1BA700E765D1</string>
-											<string>2C6B26CF134B1BA700E765D1</string>
-											<string>2C6B26D0134B1BA700E765D1</string>
-											<string>2C6B26D1134B1BA700E765D1</string>
-											<string>2C6B26D6134B1D4100E765D1</string>
-											<string>2C6B26D7134B1D4100E765D1</string>
-											<string>2C6B26EF134B1D9000E765D1</string>
-											<string>2C6B26F0134B1D9000E765D1</string>
-											<string>2C6B26F1134B1D9000E765D1</string>
-											<string>2C6B26F2134B1D9000E765D1</string>
-											<string>2C6B26F8134B1EF100E765D1</string>
-											<string>2C6B26F9134B1EF100E765D1</string>
-											<string>2C6B26FE134B1F1000E765D1</string>
-											<string>2C6B2706134B1F6B00E765D1</string>
-											<string>2C6B2707134B1F6B00E765D1</string>
-											<string>2C6B2716134B205000E765D1</string>
-											<string>2C6B2717134B205000E765D1</string>
-											<string>2C6B2718134B205000E765D1</string>
-											<string>2C6B2731134B238B00E765D1</string>
-											<string>2C6B2732134B238B00E765D1</string>
-											<string>2C6B2733134B238B00E765D1</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -497,10 +468,6 @@
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
 										<string>VersionCondition.h</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>2C6B2735134B238B00E765D1</string>
 										<key>history</key>
 										<array>
 											<string>2CD4169A134AA7460036F260</string>
@@ -544,11 +511,6 @@
 											<string>2C6B264B134B080D00E765D1</string>
 											<string>2C6B264C134B080D00E765D1</string>
 											<string>2C6B26CE134B1BA700E765D1</string>
-											<string>2C6B26DE134B1D4100E765D1</string>
-											<string>2C6B26DF134B1D4100E765D1</string>
-											<string>2C6B26E0134B1D4100E765D1</string>
-											<string>2C6B26E1134B1D4100E765D1</string>
-											<string>2C6B26E2134B1D4100E765D1</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -608,9 +570,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2C6B2691134B102000E765D1</string>
+				<string>2C6B275B134B23F600E765D1</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2C6B2692134B102000E765D1</string>
+				<string>2C6B275C134B23F600E765D1</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20306471E060097A5F4</string>
@@ -744,11 +706,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D57069F1CE1000CFCEE</string>
-		<string>2C6B26A0134B10C100E765D1</string>
-		<string>2C6B26A1134B10C100E765D1</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>2C85C8BA1263E22000826180</string>
 		<string>/Users/tkurita/Dev/Projects/ModuleLoader/trunk/ModuleLoader.xcodeproj</string>
 	</array>
@@ -769,14 +726,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>ModuleCondition.c</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -796,7 +751,7 @@
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXBuildLogShowsTranscriptDefaultKey</key>
-								<string>{{0, 121}, {748, 231}}</string>
+								<string>{{0, 51}, {748, 301}}</string>
 								<key>PBXProjectModuleGUID</key>
 								<string>XCMainBuildResultsModuleGUID</string>
 								<key>PBXProjectModuleLabel</key>
@@ -834,7 +789,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2C85C8BA1263E22000826180</string>
-				<string>2C6B2693134B102000E765D1</string>
+				<string>2C6B275D134B23F600E765D1</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
