@@ -2,7 +2,7 @@
 #include "EventHandlers.h"
 #include "ModuleLoaderConstants.h"
 
-#define useLog 0
+#define useLog 1
 
 extern UInt32 gAdditionReferenceCount;
 CFBundleRef		gAdditionBundle;
@@ -74,7 +74,7 @@ static OSErr InstallMyEventHandlers()
 	for (size_t i = 0; i < kEventHandlerCount; ++i) {
 		if ((gEventUPPs[i] = NewAEEventHandlerUPP(gEventInfo[i].proc)) != NULL) {
 			#if useLog
-				printf("before AEInstallEventHandler\n");
+				fprintf(stderr, "before AEInstallEventHandler %d\n", i);
 			#endif
 			err = AEInstallEventHandler(gEventInfo[i].evClass, gEventInfo[i].evID, gEventUPPs[i], 0, true);
 		}
@@ -83,6 +83,7 @@ static OSErr InstallMyEventHandlers()
 		}
 		
 		if (err != noErr) {
+			fprintf(stderr, "Failed to Install Event handler.\n");
 			SATerminate();  // Call the termination function ourselves, because the loader won't once we fail.
 			return err;
 		}
