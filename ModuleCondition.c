@@ -47,8 +47,7 @@ ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef requ
 	module_condition->required_version = NULL;
 	module_condition->pattern = NULL;
 	module_condition->subpath = NULL;
-	module_condition->name = module_name;
-	CFRetain(module_name);
+	module_condition->name = CFRetain(module_name);
 	if (required_version) {
 		module_condition->required_version = VersionConditionSetCreate(required_version, errmsg);
 	} else {

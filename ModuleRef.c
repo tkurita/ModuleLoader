@@ -27,8 +27,7 @@ CFStringRef ModuleRefGetVersion(ModuleRef *module_ref)
 	CFDictionaryRef dict = CFBundleCopyInfoDictionaryForURL(url);
 	CFStringRef ver = CFDictionaryGetValue(dict, CFSTR("CFBundleShortVersionString"));
 	if (!ver) ver = CFDictionaryGetValue(dict, CFSTR("CFBundleVersion"));
-	if (ver) CFRetain(ver);
-	module_ref->version = ver;
+	if (ver) module_ref->version = CFRetain(ver);
 	CFRelease(url);
 	CFRelease(dict);
 	return ver;
@@ -106,11 +105,11 @@ bail:
 	return result;
 }
 
-ModuleRef *ModuleRefCreate(FSRef fsref, FSCatalogInfo *cat_info)
+ModuleRef *ModuleRefCreate(FSRef *fsref, FSCatalogInfo *cat_info)
 {
-	if (!isScript(&fsref, cat_info)) return NULL;
+	if (!isScript(fsref, cat_info)) return NULL;
 	ModuleRef *module_ref = malloc(sizeof(ModuleRef));
-	module_ref->fsref = fsref;
+	module_ref->fsref = *fsref;
 	module_ref->version = NULL;
 	module_ref->name = NULL;
 	module_ref->is_package = kIsPackageUnknown;
@@ -127,12 +126,10 @@ ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, C
 	module_ref->fsref = *fsref;
 	module_ref->is_package = is_package;
 	CFStringRef text = CFArrayGetValueAtIndex(array, 0);
-	CFRetain(text);
-	module_ref->name = text;
+	module_ref->name = CFRetain(text);
 	CFStringRef version = CFArrayGetValueAtIndex(array, 1);
 	if (CFStringGetLength(version)) {
-		CFRetain(version);
-		module_ref->version = version;
+		module_ref->version = CFRetain(version);
 	} else {
 		module_ref->version = NULL;
 	}

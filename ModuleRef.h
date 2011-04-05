@@ -6,7 +6,7 @@ typedef struct {
 } ModuleRef;
 
 CFStringRef ModuleRefGetVersion(ModuleRef *module_ref);
-ModuleRef *ModuleRefCreate(FSRef fsref, FSCatalogInfo *cat_info);
+ModuleRef *ModuleRefCreate(FSRef *fsref, FSCatalogInfo *cat_info);
 ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, CFStringRef filename,
 										Boolean is_package, ModuleCondition *module_condition);
 void ModuleRefFree(ModuleRef *module_ref);

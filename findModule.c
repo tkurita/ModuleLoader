@@ -18,7 +18,7 @@ void setAdditionalModulePaths(CFArrayRef array)
 							MODULE_PATHS,
 							BUNDLE_ID);
 	CFPreferencesAppSynchronize(BUNDLE_ID);
-	if (MODULE_PATHS) CFRetain(MODULE_PATHS);
+	if (MODULE_PATHS) MODULE_PATHS = CFRetain(MODULE_PATHS);
 }
 
 CFArrayRef additionalModulePaths()
@@ -63,6 +63,7 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 	ItemCount ict;
 	FSRef fsref;
 	CFStringRef fname = NULL;
+	CFMutableArrayRef subfolders = NULL;
 	ModuleRef *module_ref_candidate = NULL;
 	ModuleRef *module_ref = NULL;
 #if useLog
@@ -74,13 +75,9 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 	if (noErr == err) {
 		goto bail;
 	} 
-	
-	if (!searchSubFolders) {
-		err = kModuleIsNotFound;
-		goto bail;
-	}
-	
+		
 	/* start to search subfolders */
+	if (searchSubFolders) subfolders = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
 	err = FSOpenIterator(container_ref, kFSIterateFlat, &itor);
 	if (err != noErr) {
 		fprintf(stderr, "Failed to FSOpenIterator with error : %d\n", err);
@@ -91,6 +88,9 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 	while (!FSGetCatalogInfoBulk(itor, 1, &ict, NULL, whichInfo, &cat_info, &fsref, NULL, &hfs_filename[0])) {
 		Boolean is_package = false;
 		fname = CFStringCreateWithCharacters(kCFAllocatorDefault, hfs_filename[0].unicode, hfs_filename[0].length);
+#if useLog
+		CFShow(fname);
+#endif		
 		// resolving alias file
 		if (kIsAlias & ((FileInfo *)(&cat_info.finderInfo))->finderFlags) {
 			Boolean targetIsFolder;
@@ -130,8 +130,7 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 		
 		if (is_folder) {
 			if (searchSubFolders) {
-				err = scanFolder(&fsref, module_condition, outRef, searchSubFolders);
-				if (err == noErr) goto bail;
+				CFArrayAppendValue(subfolders, CFURLCreateFromFSRef(kCFAllocatorDefault, &fsref));
 			}
 		} else {
 			module_ref = ModuleRefCreateWithCondition(&fsref, &cat_info, fname, is_package, module_condition);
@@ -154,14 +153,24 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 	if (module_ref_candidate) {
 		*outRef = module_ref_candidate->fsref;
 		ModuleRefFree(module_ref_candidate);
-	} else {
-		err = kModuleIsNotFound;
+		goto bail;
 	}
+	
+	if (searchSubFolders) {
+		for (CFIndex n = 0; n < CFArrayGetCount(subfolders); n++) {
+			FSRef subfolder_ref;
+			CFURLGetFSRef(CFArrayGetValueAtIndex(subfolders, n), &subfolder_ref);
+			err = scanFolder(&fsref, module_condition, outRef, searchSubFolders);
+			if (err == noErr) goto bail;
+		}
+	} 
+	err = kModuleIsNotFound;
 bail:
 	if (itor) FSCloseIterator(itor);
 #if useLog	
 	fprintf(stderr, "scanFolder will end with err :%d.\n", err);
 #endif
+	safeRelease(subfolders);
 	safeRelease(fname);
 	return err;
 }
@@ -186,7 +195,7 @@ OSErr FSMakeFSRefChild(FSRef *parentRef, CFStringRef childName, FSRef *newRef)
 	return err;
 }
 
-OSErr pickupModuleAtFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef* out_module_ref)
+OSErr pickupModuleAtFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef *out_module_ref)
 {
 	OSErr err = noErr;
 	CFMutableStringRef filename = NULL;
@@ -194,28 +203,29 @@ OSErr pickupModuleAtFolder(FSRef *container_ref, ModuleCondition *module_conditi
 	FSCatalogInfoBitmap whichinfo = kFSCatInfoFinderInfo|kFSCatInfoNodeFlags;
 	FSCatalogInfo cat_info;
 	CFStringRef module_name = module_condition->name;
-
+	FSRef buffer_ref;
 	for (int n = 0; n < NSUFFIXES; n++) {
 		filename = CFStringCreateMutableCopy(NULL, 0, module_name);
 		CFStringAppendCString(filename, SUFFIXES[n], kCFStringEncodingUTF8);
-		err = FSMakeFSRefChild(container_ref, filename, out_module_ref);
+		err = FSMakeFSRefChild(container_ref, filename, &buffer_ref);
 		if (noErr == err) {
-			err = FSGetCatalogInfo(out_module_ref, whichinfo, &cat_info, NULL, NULL, NULL);
+			err = FSGetCatalogInfo(&buffer_ref, whichinfo, &cat_info, NULL, NULL, NULL);
 			if (noErr != err) {
 				fputs("Failed to FSGetCatalogInfo", stderr);
 				break;
 			}
-			module_ref = ModuleRefCreate(*out_module_ref, &cat_info);
+			module_ref = ModuleRefCreate(&buffer_ref, &cat_info);
 			if (module_ref) {
 				if (ModuleConditionVersionIsSatisfied(module_condition, module_ref)) break;
 			}
-			ModuleRefFree(module_ref);
+			ModuleRefFree(module_ref);module_ref = NULL;
 			err = kModuleIsNotFound;
 		}
 		
 		CFRelease(filename);filename = NULL;
 	}
 	
+	if (module_ref) *out_module_ref=module_ref->fsref;
 bail:
 	safeRelease(filename);
 	ModuleRefFree(module_ref);

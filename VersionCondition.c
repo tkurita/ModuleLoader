@@ -27,7 +27,7 @@ TXRegularExpression *VersionConditionPattern(CFStringRef *errmsg)
 
 VersionCondition *VersionConditionCreate(CFStringRef opstring, CFStringRef verstring)
 {
-	VersionCondition *vc = malloc(sizeof(VersionCondition));
+	VersionCondition *vc = malloc(sizeof(VersionCondition));	
 	if (CFStringCompare(opstring, CFSTR(""), 0) == kCFCompareEqualTo) {
 		vc->less_or_greater = kCFCompareGreaterThan;
 		vc->allow_equal = true;
@@ -38,6 +38,7 @@ VersionCondition *VersionConditionCreate(CFStringRef opstring, CFStringRef verst
 		vc->allow_equal = false;
 		goto bail;
 	}
+	
 	if (CFStringCompare(opstring, CFSTR("<"), 0) == kCFCompareEqualTo) {
 		vc->less_or_greater = kCFCompareLessThan;
 		vc->allow_equal = false;
@@ -56,8 +57,7 @@ VersionCondition *VersionConditionCreate(CFStringRef opstring, CFStringRef verst
 	free(vc);
 	return NULL;
 bail:
-	CFRetain(verstring);
-	vc->version_string = verstring;
+	vc->version_string = CFRetain(verstring);
 	return vc;
 }
 

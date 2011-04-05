@@ -2,7 +2,7 @@
 #include "EventHandlers.h"
 #include "ModuleLoaderConstants.h"
 
-#define useLog 1
+#define useLog 0
 
 extern UInt32 gAdditionReferenceCount;
 CFBundleRef		gAdditionBundle;
@@ -125,6 +125,14 @@ int main(int argc, char *argv[]) // for debugging
 	CFArrayAppendValue(array, CFSTR("/Users/tkurita/Downloads/CFPreferences/"));
 	setAdditionalModulePaths(array);
 	 */
+	
+	CFStringRef errmsg = NULL;
+	CFMutableArrayRef searchedPaths = NULL;
+	FSRef moduleRef;
+	ModuleCondition *module_condition = ModuleConditionCreate(CFSTR("FinderSelection"), CFSTR("< 3.0"), &errmsg);
+	OSErr err = findModule(module_condition, NULL, false, &moduleRef, &searchedPaths);
+	if (noErr == err) fprintf(stderr, "No error\n");
+	
 	gEventUPPs = malloc(sizeof(AEEventHandlerUPP)*kEventHandlerCount);
 	InstallMyEventHandlers();
     RunApplicationEventLoop();

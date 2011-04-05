@@ -14,6 +14,9 @@ extern const char *MODULE_SPEC_LABEL;
 
 OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
+#if useLog
+	fprintf(stderr, "start versionHandler\n");
+#endif			
 	gAdditionReferenceCount++;
 	OSErr err;
 	CFBundleRef	bundle = CFBundleGetBundleWithIdentifier(BUNDLE_ID);
@@ -204,6 +207,9 @@ bail:
 
 OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
+#if useLog
+	fprintf(stderr, "start findModuleHandler\n");
+#endif		
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	FSRef module_ref;
@@ -306,6 +312,9 @@ bail:
 
 OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
+#if useLog
+	fprintf(stderr, "start loadModuleHandler\n");
+#endif	
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	OSAID script_id = kOSANullScript;
