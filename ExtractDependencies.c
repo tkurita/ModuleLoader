@@ -82,11 +82,11 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 			if (prop_desc.descriptorType != typeModuleSpecifier) {
 				goto loopbail;
 			}
-			long count;
-			AECountItems(&prop_desc, &count);
-			if (!count) {
-				AEDisposeDesc(&prop_desc);
-				err = AEBuildDesc(&prop_desc, &ae_err, "MoSp{pnam:@}",&a_pname);
+			DescType type_code;
+			Size data_size = 0;
+			err = AESizeOfKeyDesc (&prop_desc, 'pnam', &type_code, &data_size);
+			if (!data_size) {
+				err = AEPutKeyDesc (&prop_desc, 'pnam', &a_pname);
 				if (noErr != err) goto loopbail;
 			}
 		}
