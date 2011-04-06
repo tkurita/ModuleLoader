@@ -125,14 +125,14 @@ int main(int argc, char *argv[]) // for debugging
 	CFArrayAppendValue(array, CFSTR("/Users/tkurita/Downloads/CFPreferences/"));
 	setAdditionalModulePaths(array);
 	 */
-	
+	/*
 	CFStringRef errmsg = NULL;
 	CFMutableArrayRef searchedPaths = NULL;
 	FSRef moduleRef;
-	ModuleCondition *module_condition = ModuleConditionCreate(CFSTR("ModuleA"), CFSTR("1.2"), &errmsg);
+	ModuleCondition *module_condition = ModuleConditionCreate(CFSTR("Module\\A"), NULL, &errmsg);
 	OSErr err = findModule(module_condition, NULL, false, &moduleRef, &searchedPaths);
 	if (noErr == err) fprintf(stderr, "No error\n");
-	
+	*/
 	gEventUPPs = malloc(sizeof(AEEventHandlerUPP)*kEventHandlerCount);
 	InstallMyEventHandlers();
     RunApplicationEventLoop();

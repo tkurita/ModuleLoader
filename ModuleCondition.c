@@ -10,7 +10,7 @@ CFStringRef CFStringCreateWithEscapingRegex(CFStringRef text, CFStringRef *errms
 	UErrorCode status = U_ZERO_ERROR;
 	if (!regexp) {
 		UParseError parse_error;
-		regexp = TXRegexCreate(CFSTR("([\\.\\+\\(\\)\\*\\?])"), 0, &parse_error, &status);
+		regexp = TXRegexCreate(CFSTR("([\\.\\+\\(\\)\\*\\?\\[\\]\\^\\$\\\\])"), 0, &parse_error, &status);
 		if (U_ZERO_ERROR != status) {
 			CFStringRef parse_error_msg = CFStringCreateWithFormattingParseError(&parse_error);
 			*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
@@ -19,7 +19,7 @@ CFStringRef CFStringCreateWithEscapingRegex(CFStringRef text, CFStringRef *errms
 			return NULL;
 		}
 	}
-	CFStringRef result = CFStringCreateByReplacingAllMatches(text, regexp, CFSTR("\\$1"), &status);
+	CFStringRef result = CFStringCreateByReplacingAllMatches(text, regexp, CFSTR("\\\\$1"), &status);
 	if (U_ZERO_ERROR != status) {
 		*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
 										  CFSTR("Failed to regex escaping with error : %d"), status);

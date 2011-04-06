@@ -142,6 +142,7 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 					CFComparisonResult cr = ModuleRefCompareVersion(module_ref, module_ref_candidate);
 					if (cr ==  kCFCompareGreaterThan) {
 						ModuleRefFree(module_ref_candidate);
+						module_ref_candidate = module_ref;
 					} else {
 						ModuleRefFree(module_ref);
 					}
