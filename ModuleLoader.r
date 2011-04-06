@@ -203,12 +203,12 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			directParamOptional,
 			singleItem, notEnumerated, Reserved13,
 			{
-				"reloading", 'pRLo', 'bool',
-				"Whether or not to load a module ignoring module chache.",
-				optional,
-				singleItem, notEnumerated, Reserved13,
 				"version", 'vers', 'TEXT',
 				"Required version.",
+				optional,
+				singleItem, notEnumerated, Reserved13,
+				"reloading", 'pRLo', 'bool',
+				"Whether or not to load a module ignoring module chache.",
 				optional,
 				singleItem, notEnumerated, Reserved13
 			},

@@ -66,8 +66,8 @@
 		</command>
 		<command name="module" code="MoloMkMs" description="Make a module specifier record. Must be placed in a user defined propery statement or in an argument of load handler of a loader object. If a module name is ommited, property name is used as a module name.">
 			<direct-parameter description="A module name." type="text" optional="yes"/>
-			<parameter name="reloading" code="pRLo" description="Whether or not to load a module ignoring module chache." type="boolean" optional="yes"/>
 			<parameter name="version" code="vers" description="Required version." type="text" optional="yes"/>
+			<parameter name="reloading" code="pRLo" description="Whether or not to load a module ignoring module chache." type="boolean" optional="yes"/>
 			<result description="A module specifer record" type="module specifier"/>
 		</command>
 		<command name="extract dependencies from" code="MoloExdp" description="Extarct module specifier records from a module script.">

@@ -173,7 +173,7 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	switch (direct_object.descriptorType) {
 		case typeAERecord:
 		case typeModuleSpecifier:
-			module_name = CFStringCreateWithEvent(&direct_object, 'pnam', &err);
+			module_name = CFStringCreateWithEvent(&direct_object, keyAEName, &err);
 			ev = &direct_object;
 			break;
 		default:
@@ -200,7 +200,6 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	}
 	err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths, 
 					 moduleRefPtr, &searched_paths);
-	//err = 1800;
 	if (err != noErr) {
 		CFStringRef pathlist = NULL;
 		if (searched_paths) {

@@ -110,9 +110,9 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 			}
 			DescType type_code;
 			Size data_size = 0;
-			err = AESizeOfKeyDesc (&prop_desc, 'pnam', &type_code, &data_size);
+			err = AESizeOfKeyDesc (&prop_desc, keyAEName, &type_code, &data_size);
 			if (!data_size) {
-				err = AEPutKeyDesc (&prop_desc, 'pnam', &a_pname);
+				err = AEPutKeyDesc (&prop_desc, keyAEName, &a_pname);
 				if (noErr != err) goto loopbail;
 			}
 		}
