@@ -3,7 +3,7 @@
 #include "ExtractDependencies.h"
 #include "AEUtils.h"
 
-#define useLog 0
+#define useLog 1
 
 const char *MODULE_SPEC_LABEL = "__module_specifier__";
 const char *MODULE_DEPENDENCIES_LABEL = "__module_dependencies__";
@@ -36,8 +36,13 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	fprintf(stderr, "Not Found __module_dependencies__\n");
 #endif	
 	err = OSAGetPropertyNames(component, kOSAModeNull, scriptID, &property_names);
-	if (err != noErr) goto bail;
-
+	if (err != noErr) {
+		fprintf(stderr, "Failed to OSAGetPropertyName in extractDependencies\n");
+		goto bail;
+	}
+#if useLog
+	showAEDesc(&property_names);
+#endif	
 	long count = 0;
 	err = AECountItems(&property_names, &count);
 	if (err != noErr) goto bail;
@@ -52,18 +57,39 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AECreateDesc(typeNull, NULL, 0, &dep_info);
 		AEDesc prop_desc;
 		AECreateDesc(typeNull, NULL, 0, &prop_desc);
+		/*
+		CFStringRef pname_string  = NULL;
+		CFMutableStringRef pname_string_mutable = NULL;
+		AEDesc lpname;
+		AECreateDesc(typeNull, NULL, 0, &lpname);
+		*/
 		
 		err = AEGetNthDesc(&property_names, n, typeWildCard, &a_keyword, &a_pname);
 		if (err != noErr) goto loopbail;
-		//showAEDesc(&a_pname);
+#if useLog
+		showAEDesc(&a_pname);
+#endif		
 		if (typeType == a_pname.descriptorType) {
 			// if a_pname is not user defined property, skip
 			goto loopbail;
 		}
-		err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &prop_value_id);
+		/*
+		pname_string = CFStringCreateWithAEDesc(&a_pname, &err);
+		if (noErr != err) goto loopbail;
 		
-		if (err != noErr) goto loopbail;
-
+		pname_string_mutable = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, pname_string);
+		CFStringLowercase(pname_string_mutable, CFLocaleGetSystem());
+		CFShow(pname_string_mutable);
+		err = AEDescCreateWithCFString(pname_string_mutable, kCFStringEncodingUnicode, &lpname);
+		if (noErr != err) goto loopbail;
+		showAEDesc(&lpname);
+		 */
+		//err = OSAGetProperty(component, kOSAModeNull, scriptID, &lpname, &prop_value_id);	
+		err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &prop_value_id);	
+		if (noErr != err) { 
+			fprintf(stderr, "Failed to OSAGetProperty in extractDependencies with error %d\n", err);
+			goto loopbail;
+		}
 		long is_script;
 		err = OSAGetScriptInfo(component, prop_value_id, kOSAScriptIsTypeScriptContext, &is_script);			
 		if (err != noErr) goto loopbail;
@@ -96,6 +122,11 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AEPutDesc(dependencies, 0, &dep_info);
 		
 	loopbail:
+		/*
+		safeRelease(pname_string);
+		safeRelease(pname_string_mutable);
+		AEDisposeDesc(&lpname);
+		 */
 		AEDisposeDesc(&a_pname);
 		AEDisposeDesc(&prop_desc);
 		AEDisposeDesc(&dep_info);
