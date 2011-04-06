@@ -2,7 +2,11 @@
 #include "ModuleCondition.h"
 
 #include "AEUtils.h"
+
+#define useLog 0
+
 #define kIsPackageUnknown 2
+
 CFStringRef ModuleRefGetVersion(ModuleRef *module_ref)
 {
 	if (module_ref->version) {
@@ -116,10 +120,19 @@ ModuleRef *ModuleRefCreate(FSRef *fsref, FSCatalogInfo *cat_info)
 	return module_ref;
 }
 
+void ShowModuleRef(ModuleRef *module_ref)
+{
+	CFShow(CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
+					CFSTR("name : %@, version : %@"), module_ref->name, module_ref->version));
+}
+
 ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, CFStringRef filename, Boolean is_package,
 										ModuleCondition *module_condition)
 {
 	CFArrayRef array = ModuleConditionParseName(module_condition, filename);
+#if useLog
+	CFShow(array);
+#endif
 	if (!array) return NULL;
 	if (!isScript(fsref, cat_info)) return NULL;
 	ModuleRef *module_ref = malloc(sizeof(ModuleRef));
@@ -127,7 +140,7 @@ ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, C
 	module_ref->is_package = is_package;
 	CFStringRef text = CFArrayGetValueAtIndex(array, 0);
 	module_ref->name = CFRetain(text);
-	CFStringRef version = CFArrayGetValueAtIndex(array, 1);
+	CFStringRef version = CFArrayGetValueAtIndex(array, 2);
 	if (CFStringGetLength(version)) {
 		module_ref->version = CFRetain(version);
 	} else {

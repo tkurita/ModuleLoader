@@ -11,3 +11,4 @@ ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, C
 										Boolean is_package, ModuleCondition *module_condition);
 void ModuleRefFree(ModuleRef *module_ref);
 CFComparisonResult ModuleRefCompareVersion(ModuleRef *module_ref1, ModuleRef *module_ref2);
+void ShowModuleRef(ModuleRef *module_ref);

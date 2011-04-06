@@ -135,6 +135,9 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 		} else {
 			module_ref = ModuleRefCreateWithCondition(&fsref, &cat_info, fname, is_package, module_condition);
 			if (module_ref) {
+#if useLog
+				ShowModuleRef(module_ref);
+#endif
 				if (module_ref_candidate) {
 					CFComparisonResult cr = ModuleRefCompareVersion(module_ref, module_ref_candidate);
 					if (cr ==  kCFCompareGreaterThan) {
@@ -160,7 +163,7 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 		for (CFIndex n = 0; n < CFArrayGetCount(subfolders); n++) {
 			FSRef subfolder_ref;
 			CFURLGetFSRef(CFArrayGetValueAtIndex(subfolders, n), &subfolder_ref);
-			err = scanFolder(&fsref, module_condition, outRef, searchSubFolders);
+			err = scanFolder(&subfolder_ref, module_condition, outRef, searchSubFolders);
 			if (err == noErr) goto bail;
 		}
 	} 
