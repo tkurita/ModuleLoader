@@ -165,8 +165,22 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	CFStringRef required_version = NULL;
 	ModuleCondition *module_condition = NULL;
 	CFStringRef errmsg = NULL;
+	AEDesc direct_object;
+	AECreateDesc(typeNull, NULL, 0, &direct_object);
 	
-	module_name = CFStringCreateWithEvent(ev, keyDirectObject, &err);
+	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &direct_object);
+	if (noErr != err) goto bail;
+	switch (direct_object.descriptorType) {
+		case typeAERecord:
+		case typeModuleSpecifier:
+			module_name = CFStringCreateWithEvent(&direct_object, 'pnam', &err);
+			ev = &direct_object;
+			break;
+		default:
+			module_name = CFStringCreateWithEvent(ev, keyDirectObject, &err);
+			break;
+	}
+	
 	if ((err != noErr) || (module_name == NULL)) {
 		putStringToEvent(reply, keyErrorString, 
 						 CFSTR("Failed to get a module name."), kCFStringEncodingUTF8);
@@ -206,6 +220,7 @@ bail:
 	safeRelease(searched_paths);
 	ModuleConditionFree(module_condition);
 	safeRelease(errmsg);
+	AEDisposeDesc(&direct_object);
 	return err;
 }
 
