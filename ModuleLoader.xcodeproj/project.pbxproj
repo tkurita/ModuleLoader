@@ -251,6 +251,7 @@
 		08FB77ADFE841716C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				08FB77B2FE8417CDC02AAC07 /* main.c */,
 				2CB5B4EA13434765006407F2 /* ModuleCondition.h */,
 				2CB5B4EB13434765006407F2 /* ModuleCondition.c */,
 				2C72F3D21349CC5200531114 /* ModuleRef.h */,
@@ -258,7 +259,6 @@
 				32BAE0B30371A71500C91783 /* ModuleLoader_Prefix.pch */,
 				2CB5B4EF13434799006407F2 /* VersionCondition.h */,
 				2CB5B4F013434799006407F2 /* VersionCondition.c */,
-				08FB77B2FE8417CDC02AAC07 /* main.c */,
 				2C813B820B4CAC4F000FF2FE /* findModule.h */,
 				2C813B830B4CAC4F000FF2FE /* findModule.c */,
 				2C003D7810A8F7C7003C3066 /* findModuleMain.c */,

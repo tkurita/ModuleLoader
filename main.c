@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) // for debugging
 	CFStringRef errmsg = NULL;
 	CFMutableArrayRef searchedPaths = NULL;
 	FSRef moduleRef;
-	ModuleCondition *module_condition = ModuleConditionCreate(CFSTR("Module\\A"), NULL, &errmsg);
+	ModuleCondition *module_condition = ModuleConditionCreate(CFSTR("Module$V"), CFSTR("<= 1.2"), &errmsg);
 	OSErr err = findModule(module_condition, NULL, false, &moduleRef, &searchedPaths);
 	if (noErr == err) fprintf(stderr, "No error\n");
 	*/
