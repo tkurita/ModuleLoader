@@ -262,11 +262,15 @@ OSErr findModuleWithSubPath(FSRef *container_ref, ModuleCondition *module_condit
 }
 
 
-OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, Boolean ingoreDefaultPaths,
+OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, Boolean ignoreDefaultPaths,
 				 FSRef *moduleRef, CFMutableArrayRef* searchedPaths)
 {
 	OSErr err = noErr;
 	OSErr (*findModuleAtFolder)(FSRef *container_ref, ModuleCondition *module_condition, FSRef* moduleRef);
+#if useLog
+	fprintf(stderr, "ignoreDefaultPaths : %d\n", ignoreDefaultPaths);
+	CFShow(additionalPaths);
+#endif	
 	if (ModuleConditionHasSubpath(module_condition)) {
 		findModuleAtFolder = findModuleWithSubPath;
 	} else {
@@ -281,14 +285,13 @@ OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, 
 						   CFRangeMake(0, CFArrayGetCount(additionalPaths)));		
 	}
 	
-	if (!ingoreDefaultPaths) {
+	if (!ignoreDefaultPaths) {
 		CFArrayRef tmp_pathlist = additionalModulePaths();
 		if (tmp_pathlist) {
 			CFArrayAppendArray(path_list, tmp_pathlist, 
 							   CFRangeMake(0, CFArrayGetCount(tmp_pathlist)));
 		}
 	}
-
 	for (int n=0; n < CFArrayGetCount(path_list); n++) {
 		CFStringRef cf_path = CFArrayGetValueAtIndex(path_list, n);
 		CFIndex buff_size = CFStringGetMaximumSizeOfFileSystemRepresentation(cf_path);
@@ -296,18 +299,27 @@ OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, 
 		CFStringGetFileSystemRepresentation(cf_path, buffer, buff_size);
 		Boolean isDirectory;
 		err = FSPathMakeRef((const UInt8 *)buffer, &modules_folder, &isDirectory);
-		if (err == noErr) {
+		if (noErr == noErr) {
 			err = findModuleAtFolder(&modules_folder, module_condition, moduleRef);
+		} else {
+			fprintf(stderr, "Failed to FSPathMakeRef\n");
+			CFShow(cf_path);
 		}
 		free(buffer);
 		if (err == noErr) {
+#if useLog			
+			fprintf(stderr, "Module is found\n");
+#endif			
 			goto bail;
 		}
 	}
 	
 	*searchedPaths = path_list;
 	
-	if (ingoreDefaultPaths) goto bail;
+	if (ignoreDefaultPaths) {
+		err = kModuleIsNotFound;
+		goto bail;
+	}
 	
 	int domains[3] = {kUserDomain, kLocalDomain, kNetworkDomain};
 	for (int n=0; n < 3; n++) {

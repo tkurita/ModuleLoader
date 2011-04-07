@@ -21,8 +21,8 @@
 			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
 				<type type="file" list="yes"/>
 			</parameter>
-			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<parameter name="version" code="vers" description="Required version." type="text" optional="yes"/>
+			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<result description="A reference to a module." type="file"/>
 		</command>
 		<command name="load module" code="MololoMo" description="Load a module from module paths. If specified module can not be forund, the error number 1800 will raise.">
@@ -30,8 +30,8 @@
 			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
 				<type type="file" list="yes"/>
 			</parameter>
-			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<parameter name="version" code="vers" description="Required version." type="text" optional="yes"/>
+			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<result description="A loaded module." type="script"/>
 		</command>
 		<command name="_load module_" code="MoloPloM" description="A command for private use.">
@@ -39,8 +39,8 @@
 			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
 				<type type="file" list="yes"/>
 			</parameter>
-			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<parameter name="version" code="vers" description="Required version." type="text" optional="yes"/>
+			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes"/>
 			<result description="A loaded module." type="record"/>
 		</command>
 		<command name="module loader" code="MoloMKlo" description="Obtain a loader object which is a script object to manage loaded modules.">

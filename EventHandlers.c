@@ -167,6 +167,12 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	CFStringRef errmsg = NULL;
 	AEDesc direct_object;
 	AECreateDesc(typeNull, NULL, 0, &direct_object);
+#if useLog
+	showAEDesc(ev);
+#endif
+	Boolean with_other_paths = true;
+	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
+	path_array = CFMutableArrayCreatePOSIXPathsWithEvent(ev, kInDirectoryParam, &err);
 	
 	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &direct_object);
 	if (noErr != err) goto bail;
@@ -188,10 +194,6 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* module
 	}
 	
 	required_version = CFStringCreateWithEvent(ev, kVersionParam, &err);	
-	path_array = CFMutableArrayCreatePOSIXPathsWithEvent(ev, kInDirectoryParam, &err);
-	
-	Boolean with_other_paths = true;
-	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
 	
 	module_condition = ModuleConditionCreate(module_name, required_version, &errmsg);
 	if (!module_condition) {
