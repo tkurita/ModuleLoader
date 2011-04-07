@@ -242,7 +242,7 @@ OSErr findModuleWithSubPath(FSRef *container_ref, ModuleCondition *module_condit
 	Boolean is_exists = true;
 	FSRef parentdir_ref = *container_ref;
 	CFArrayRef path_comps = module_condition->subpath;
-	for (CFIndex n=0; n<(CFArrayGetCount(path_comps) -2); n++) {
+	for (CFIndex n=0; n<(CFArrayGetCount(path_comps) -1); n++) {
 		CFStringRef path_elem = CFArrayGetValueAtIndex(path_comps, n);
 		if (!CFStringGetLength(path_elem)) continue;
 		FSRef subdir_ref;
