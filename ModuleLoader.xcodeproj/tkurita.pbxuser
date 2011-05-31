@@ -3,7 +3,7 @@
 	089C1669FE841209C02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = 2C85C519125F850300826180 /* ModuleLoaderTestApp */;
-		activeTarget = 2C5B3B6910B98242004396E4 /* ModuleLoader */;
+		activeTarget = 8D01CCC60486CAD60068D4B7 /* ModuleLoader for 10.5 */;
 		codeSenseManager = 2C85C527125F850800826180 /* Code sense */;
 		executables = (
 			2C85C519125F850300826180 /* ModuleLoaderTestApp */,
@@ -54,8 +54,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 320988910;
-			PBXWorkspaceStateSaveDate = 320988910;
+			PBXPerProjectTemplateStateSaveDate = 328540989;
+			PBXWorkspaceStateSaveDate = 328540989;
 		};
 		perUserProjectItems = {
 			2C401AB7131BA9430039AD70 = 2C401AB7131BA9430039AD70 /* PlistBookmark */;
@@ -70,6 +70,8 @@
 			2C499E4212BA7A8300747D01 = 2C499E4212BA7A8300747D01 /* PBXTextBookmark */;
 			2C51AFD7131BCFBF00D5C1E9 = 2C51AFD7131BCFBF00D5C1E9 /* PBXTextBookmark */;
 			2C51AFDB131BCFBF00D5C1E9 = 2C51AFDB131BCFBF00D5C1E9 /* PBXTextBookmark */;
+			2C64ECAE1395237E00D54244 /* PlistBookmark */ = 2C64ECAE1395237E00D54244 /* PlistBookmark */;
+			2C64ECAF1395237E00D54244 /* PlistBookmark */ = 2C64ECAF1395237E00D54244 /* PlistBookmark */;
 			2C812DF012F0F9B5003998B3 = 2C812DF012F0F9B5003998B3 /* PBXTextBookmark */;
 			2C812DF112F0F9B5003998B3 = 2C812DF112F0F9B5003998B3 /* PBXTextBookmark */;
 			2C812DF212F0F9B5003998B3 = 2C812DF212F0F9B5003998B3 /* PBXTextBookmark */;
@@ -264,6 +266,28 @@
 	};
 	2C5B3B6910B98242004396E4 /* ModuleLoader */ = {
 		activeExec = 0;
+	};
+	2C64ECAE1395237E00D54244 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/Release_2_2_4/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2C64ECAF1395237E00D54244 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/Release_2_2_4/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
 	};
 	2C6F05B810D3F2CC00733C3B /* ModuleInfo.applescript */ = {
 		uiCtxt = {
