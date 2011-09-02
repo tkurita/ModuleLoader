@@ -8,13 +8,13 @@
 
 #pragma mark VersoionCondition
 
-TXRegularExpression *VersionConditionPattern(CFStringRef *errmsg)
+TXRegexRef VersionConditionPattern(CFStringRef *errmsg)
 {
-	static TXRegularExpression *verpattern = NULL;
+	static TXRegexRef verpattern = NULL;
 	if (!verpattern) {
 		UParseError pe;
 		UErrorCode status = U_ZERO_ERROR;
-		verpattern = TXRegexCreate(CFSTR("\\s*(<|>|>=|<=)?\\s*([0-9\\.]+[a-z]?)\\s*"), 0, &pe, &status);
+		verpattern = TXRegexCreate(kCFAllocatorDefault, CFSTR("\\s*(<|>|>=|<=)?\\s*([0-9\\.]+[a-z]?)\\s*"), 0, &pe, &status);
 		if (U_ZERO_ERROR != status) {
 			CFStringRef pemsg = CFStringCreateWithFormattingParseError(&pe);
 			*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, 
@@ -24,7 +24,15 @@ TXRegularExpression *VersionConditionPattern(CFStringRef *errmsg)
 			return NULL;
 		}
 	}
-	return verpattern;
+	
+	UErrorCode status = U_ZERO_ERROR;
+	TXRegexRef verpattern_wk = TXRegexCreateCopy(kCFAllocatorDefault, verpattern, U_ZERO_ERROR);
+	if (U_ZERO_ERROR != status) {
+		*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, 
+										   CFSTR("Failed to make pattern of with error : %d"),
+										   status);		
+	}
+	return verpattern_wk;
 }
 
 VersionCondition *VersionConditionCreate(CFStringRef opstring, CFStringRef verstring)
@@ -65,7 +73,7 @@ bail:
 
 VersionCondition *VersionConditionCreateWithString(CFStringRef condition, CFStringRef *errmsg)
 {
-	TXRegularExpression *verpattern = VersionConditionPattern(errmsg);
+	TXRegexRef verpattern = VersionConditionPattern(errmsg);
 	if (!verpattern) return NULL;
 	UErrorCode status = U_ZERO_ERROR;
 	CFArrayRef matched = CFStringCreateArrayWithFirstMatch(condition,  verpattern, 0, &status);
@@ -112,7 +120,7 @@ VersionConditionSet *VersionConditionSetCreate(CFStringRef condition, CFStringRe
 	VersionConditionSet *vercond_set = NULL;
 	VersionCondition **vercond_list = NULL;
 	
-	TXRegularExpression *verpattern = VersionConditionPattern(errmsg);
+	TXRegexRef verpattern = VersionConditionPattern(errmsg);
 	if (!verpattern) return NULL;
 	UErrorCode status = U_ZERO_ERROR;
 	array = CFStringCreateArrayWithAllMatches(condition, verpattern, &status);

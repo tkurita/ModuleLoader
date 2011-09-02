@@ -6,11 +6,12 @@
 
 CFStringRef CFStringCreateWithEscapingRegex(CFStringRef text, CFStringRef *errmsg)
 {
-	static TXRegularExpression *regexp = NULL;
+	static TXRegexRef regexp = NULL;
+	CFStringRef result = NULL;
 	UErrorCode status = U_ZERO_ERROR;
 	if (!regexp) {
 		UParseError parse_error;
-		regexp = TXRegexCreate(CFSTR("([\\.\\+\\(\\)\\*\\?\\[\\]\\^\\$\\\\])"), 0, &parse_error, &status);
+		regexp = TXRegexCreate(kCFAllocatorDefault, CFSTR("([\\.\\+\\(\\)\\*\\?\\[\\]\\^\\$\\\\])"), 0, &parse_error, &status);
 		if (U_ZERO_ERROR != status) {
 			CFStringRef parse_error_msg = CFStringCreateWithFormattingParseError(&parse_error);
 			*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
@@ -18,13 +19,17 @@ CFStringRef CFStringCreateWithEscapingRegex(CFStringRef text, CFStringRef *errms
 			if (!parse_error_msg) CFRelease(parse_error_msg);
 			return NULL;
 		}
-	}
-	CFStringRef result = CFStringCreateByReplacingAllMatches(text, regexp, CFSTR("\\\\$1"), &status);
-	if (U_ZERO_ERROR != status) {
-		*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
-										  CFSTR("Failed to regex escaping with error : %d"), status);
-		return NULL;
-	}
+	} 
+	TXRegexRef regexp_wk = TXRegexCreateCopy(kCFAllocatorDefault, regexp, &status);
+	if (U_ZERO_ERROR != status) goto error;
+	result = CFStringCreateByReplacingAllMatches(text, regexp_wk, CFSTR("\\\\$1"), &status);
+	if (U_ZERO_ERROR != status) goto error;
+	
+	goto bail;
+error:	
+	*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
+									   CFSTR("Failed to regex escaping with error : %d"), status);
+bail:
 	return result;
 }
 
@@ -65,7 +70,7 @@ ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef requ
 								CFSTR("%@(-([0-9\\.]*\\d[a-z]?))?(\\.(scptd|scpt|applescript|app))?$"), escaped_name);
 	UParseError parse_error;
 	UErrorCode status = U_ZERO_ERROR;
-	module_condition->pattern = TXRegexCreate(verpattern, UREGEX_CASE_INSENSITIVE, &parse_error, &status);
+	module_condition->pattern = TXRegexCreate(kCFAllocatorDefault, verpattern, UREGEX_CASE_INSENSITIVE, &parse_error, &status);
 	if (U_ZERO_ERROR != status) {
 		ModuleConditionFree(module_condition);
 		module_condition = NULL;
@@ -86,7 +91,7 @@ void ModuleConditionFree(ModuleCondition *module_condition)
 	safeRelease(module_condition->name);
 	safeRelease(module_condition->subpath);
 	VersionConditionSetFree(module_condition->required_version);
-	TXRegexFree(module_condition->pattern);
+	CFRelease(module_condition->pattern);
 	free(module_condition);
 #if useLog
 	fprintf(stderr, "end ModuleConditionFree\n"); 

@@ -5,7 +5,7 @@ typedef struct {
 	CFStringRef name;
 	CFArrayRef subpath;
 	VersionConditionSet *required_version;
-	TXRegularExpression *pattern;
+	TXRegexRef pattern;
 } ModuleCondition;
 
 #include "ModuleRef.h"
