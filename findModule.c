@@ -55,7 +55,7 @@ CFArrayRef copyDefaultModulePaths()
 
 
 
-OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef *outRef, Boolean searchSubFolders)
+OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition,  Boolean searchSubFolders, ModuleRef **outRef)
 {
 	OSErr err = noErr;
 	FSIterator itor = NULL;
@@ -155,8 +155,7 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 	}
 	
 	if (module_ref_candidate) {
-		*outRef = module_ref_candidate->fsref;
-		ModuleRefFree(module_ref_candidate);
+		*outRef = module_ref_candidate;
 		goto bail;
 	}
 	
@@ -164,7 +163,7 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef 
 		for (CFIndex n = 0; n < CFArrayGetCount(subfolders); n++) {
 			FSRef subfolder_ref;
 			CFURLGetFSRef(CFArrayGetValueAtIndex(subfolders, n), &subfolder_ref);
-			err = scanFolder(&subfolder_ref, module_condition, outRef, searchSubFolders);
+			err = scanFolder(&subfolder_ref, module_condition, searchSubFolders, outRef);
 			if (err == noErr) goto bail;
 		}
 	} 
@@ -179,9 +178,9 @@ bail:
 	return err;
 }
 
-OSErr findModuleWithName(FSRef *container_ref, ModuleCondition *module_condition, FSRef* module_ref)
+OSErr findModuleWithName(FSRef *container_ref, ModuleCondition *module_condition, ModuleRef** module_ref)
 {
-	return scanFolder(container_ref, module_condition, module_ref ,true);
+	return scanFolder(container_ref, module_condition, true, module_ref);
 }
 
 OSErr FSMakeFSRefChild(FSRef *parentRef, CFStringRef childName, FSRef *newRef)
@@ -199,7 +198,7 @@ OSErr FSMakeFSRefChild(FSRef *parentRef, CFStringRef childName, FSRef *newRef)
 	return err;
 }
 
-OSErr pickupModuleAtFolder(FSRef *container_ref, ModuleCondition *module_condition, FSRef *out_module_ref)
+OSErr pickupModuleAtFolder(FSRef *container_ref, ModuleCondition *module_condition, ModuleRef **out_module_ref)
 {
 	OSErr err = noErr;
 	CFMutableStringRef filename = NULL;
@@ -229,14 +228,14 @@ OSErr pickupModuleAtFolder(FSRef *container_ref, ModuleCondition *module_conditi
 		CFRelease(filename);filename = NULL;
 	}
 	
-	if (module_ref) *out_module_ref=module_ref->fsref;
+	if (module_ref) *out_module_ref=module_ref;
 bail:
 	safeRelease(filename);
-	ModuleRefFree(module_ref);
+	//ModuleRefFree(module_ref);
 	return err;
 }
 
-OSErr findModuleWithSubPath(FSRef *container_ref, ModuleCondition *module_condition, FSRef* module_ref)
+OSErr findModuleWithSubPath(FSRef *container_ref, ModuleCondition *module_condition, ModuleRef** module_ref)
 {
 	OSErr err;
 	Boolean is_exists = true;
@@ -253,8 +252,8 @@ OSErr findModuleWithSubPath(FSRef *container_ref, ModuleCondition *module_condit
 	}
 	if (is_exists) {
 		err = pickupModuleAtFolder(&parentdir_ref, module_condition, module_ref);
-		if (err != noErr) {
-			err = scanFolder(&parentdir_ref, module_condition, module_ref, false);
+		if (err != noErr) {			
+			err = scanFolder(&parentdir_ref, module_condition, false, module_ref);
 		}
 		if (err == noErr) return err;
 	}
@@ -263,10 +262,10 @@ OSErr findModuleWithSubPath(FSRef *container_ref, ModuleCondition *module_condit
 
 
 OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, Boolean ignoreDefaultPaths,
-				 FSRef *moduleRef, CFMutableArrayRef* searchedPaths)
+				 ModuleRef** moduleRef, CFMutableArrayRef* searchedPaths)
 {
 	OSErr err = noErr;
-	OSErr (*findModuleAtFolder)(FSRef *container_ref, ModuleCondition *module_condition, FSRef* moduleRef);
+	OSErr (*findModuleAtFolder)(FSRef *container_ref, ModuleCondition *module_condition, ModuleRef** moduleRef);
 #if useLog
 	fprintf(stderr, "ignoreDefaultPaths : %d\n", ignoreDefaultPaths);
 	CFShow(additionalPaths);

@@ -93,6 +93,14 @@ on load(mspec)
 	return a_moduleinfo's module_script()
 end load
 
+on current_location()
+	set a_path to path to me
+	tell application "Finder"
+		set a_folder to container of a_path as alias
+	end tell
+	return a_folder
+end current_location
+
 on load_module(mspec)
 	--log "start load_module"
 	--do_log("start load_module " & a_name)
@@ -231,6 +239,7 @@ on boot loader for a_script
 	return loader
 end boot
 
+(** for paths **)
 on set_additional_paths(a_list)
 	set my _additional_paths to a_list
 	return me
@@ -249,26 +258,6 @@ on module_paths()
 	return my _additional_paths & (module paths)
 end module_paths
 
-on set_loadonly(a_flat)
-	set my _loadonly to a_flag
-	return me
-end set_loadonly
-
-on set_logging(a_flag, loader_name)
-	if a_flag then
-		set my _logger to ConsoleLog's make_with(loader_name)
-	else
-		set my _logger to missing value
-	end if
-	
-	return a reference to me
-end set_logging
-
-(** AppleMods handler **)
-on loadLib(a_name)
-	return load(a_name)
-end loadLib
-
 (** Handlers for local loader **)
 
 on set_localonly(a_flag)
@@ -281,18 +270,21 @@ on collecting_modules(a_flag)
 	return me
 end collecting_modules
 
-on current_location()
-	set a_path to path to me
-	tell application "Finder"
-		set a_folder to container of a_path as alias
-	end tell
-	return a_folder
-end current_location
-
 on set_local(a_flag)
 	set my _is_local to true
 	return me
 end set_local
+
+(** misc **)
+on module_version_of(a_script)
+	try
+		set a_moduleinfo to my _module_cache's module_for_script(a_script)
+	on error number 900
+		return missing value
+	end try
+	
+	a_moduleinfo's module_version()
+end module_version_of
 
 on try_collect(mspec, adpaths)
 	set a_record to _load module_ mspec additional paths adpaths
@@ -310,10 +302,30 @@ on try_collect(mspec, adpaths)
 	return a_record
 end try_collect
 
+on set_loadonly(a_flat)
+	set my _loadonly to a_flag
+	return me
+end set_loadonly
+
+on set_logging(a_flag, loader_name)
+	if a_flag then
+		set my _logger to ConsoleLog's make_with(loader_name)
+	else
+		set my _logger to missing value
+	end if
+	
+	return a reference to me
+end set_logging
+
 on clear_cache()
 	set my _module_cache to make ModuleCache
 	return me
 end clear_cache
+
+(** AppleMods handler **)
+on loadLib(a_name)
+	return load(a_name)
+end loadLib
 
 (*
 on start_log()

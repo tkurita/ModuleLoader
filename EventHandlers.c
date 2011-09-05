@@ -156,7 +156,7 @@ bail:
 	return err;
 }
 
-OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, FSRef* moduleRefPtr)
+OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** moduleRefPtr)
 {
 	OSErr err = noErr;
 	CFMutableArrayRef searched_paths = NULL;
@@ -232,12 +232,13 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 #endif		
 	gAdditionReferenceCount++;
 	OSErr err = noErr;
-	FSRef module_ref;
+	ModuleRef* module_ref = NULL;
 	err = findModuleWithEvent(ev, reply, &module_ref);
 	if (err != noErr) goto bail;
 	AliasHandle an_alias;
-	err = FSNewAlias(NULL, &module_ref, &an_alias);
+	err = FSNewAlias(NULL, &(module_ref->fsref), &an_alias);
 	err = putAliasToReply(an_alias, reply);
+	ModuleRefFree(module_ref);
 	DisposeHandle((Handle) an_alias);
 bail:
 	gAdditionReferenceCount--;
@@ -274,10 +275,12 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	AECreateDesc(typeNull, NULL, 0, &alias_desc);
 	AEDesc script_desc;
 	AECreateDesc(typeNull, NULL, 0, &script_desc);
+	AEDesc version_desc;
+	AECreateDesc(typeType, NULL, 0, &version_desc);
 	AEDesc result_desc;
 	AECreateDesc(typeNull, NULL, 0, &result_desc);
 	
-	FSRef module_ref;
+	ModuleRef* module_ref = NULL;
 	err = findModuleWithEvent(ev, reply, &module_ref);
 	if (err != noErr) goto bail;
 	
@@ -285,7 +288,7 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 	
-	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeCompileIntoContext, &script_id);
+	osa_err = OSALoadFile(scriptingComponent, &(module_ref->fsref), NULL, kOSAModeCompileIntoContext, &script_id);
 	if (osa_err != noErr) {
 		err = osa_err;
 		putStringToEvent(reply, keyErrorString, 
@@ -295,7 +298,7 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	
 	// path
 	AliasHandle an_alias;
-	err = FSNewAlias(NULL, &module_ref, &an_alias);
+	err = FSNewAlias(NULL, &(module_ref->fsref), &an_alias);
 	HLock((Handle)an_alias);
 	err = AECreateDesc(typeAlias, (Ptr) (*an_alias),
 					   GetHandleSize((Handle) an_alias), &alias_desc);
@@ -311,10 +314,25 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 		err = osa_err;
 		putStringToEvent(reply, keyErrorString, CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
 		goto bail;
-	}	
+	}
+	
+	if (module_ref->version) {
+		err = AEDescCreateWithCFString(module_ref->version, kCFStringEncodingUTF8, &version_desc);
+		if (noErr != err) {
+			putStringToEvent(reply, keyErrorString, CFSTR("Fail to AEDescCreateWithCFString."), kCFStringEncodingUTF8);
+			goto bail;
+		}
+	} else {
+		err = AEDescCreateMissingValue(&version_desc);
+		if (noErr != err) {
+			putStringToEvent(reply, keyErrorString, CFSTR("Fail to AEDescCreateMissingValue."), kCFStringEncodingUTF8);
+			goto bail;
+		}		
+	}
+	
 	AEBuildError ae_err;
-	err = AEBuildDesc(&result_desc, &ae_err, "{file:@, scpt:@, DpIf:@}",
-									&alias_desc, &script_desc, &dependencies);
+	err = AEBuildDesc(&result_desc, &ae_err, "{file:@, scpt:@, DpIf:@, vers:@}",
+									&alias_desc, &script_desc, &dependencies, &version_desc);
 	if (noErr != err) goto bail;
 	
 	err = AEPutParamDesc(reply, keyAEResult, &result_desc);
@@ -322,9 +340,11 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 bail:
 	AEDisposeDesc(&result_desc);
 	AEDisposeDesc(&script_desc);
+	AEDisposeDesc(&version_desc);
 	AEDisposeDesc(&alias_desc);
 	AEDisposeDesc(&module_spec);
 	AEDisposeDesc(&dependencies);
+	ModuleRefFree(module_ref);
 	OSADispose(scriptingComponent, script_id);
 	gAdditionReferenceCount--;
 	return err;	
@@ -339,7 +359,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 	OSErr err = noErr;
 	OSAID script_id = kOSANullScript;
 	
-	FSRef module_ref;
+	ModuleRef *module_ref=NULL;
 	err = findModuleWithEvent(ev, reply, &module_ref);
 	if (err != noErr) goto bail;
 	
@@ -347,7 +367,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 	if (!scriptingComponent)
 		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
 
-	osa_err = OSALoadFile(scriptingComponent, &module_ref, NULL, kOSAModeCompileIntoContext, &script_id);
+	osa_err = OSALoadFile(scriptingComponent, &(module_ref->fsref), NULL, kOSAModeCompileIntoContext, &script_id);
 	if (osa_err != noErr) {
 		err = osa_err;
 		putStringToEvent(reply, keyErrorString, 
@@ -367,6 +387,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 	AEDisposeDesc(&result);
 	
 bail:
+	ModuleRefFree(module_ref);
 	OSADispose(scriptingComponent, script_id);
 	gAdditionReferenceCount--;
 	return err;

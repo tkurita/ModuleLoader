@@ -30,7 +30,7 @@ error:
 	*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
 									   CFSTR("Failed to regex escaping with error : %d"), status);
 bail:
-	CFRelease(regexp_wk);
+	safeRelease(regexp_wk);
 	return result;
 }
 
@@ -101,8 +101,8 @@ void ModuleConditionFree(ModuleCondition *module_condition)
 
 Boolean ModuleConditionVersionIsSatisfied(ModuleCondition *module_condition, ModuleRef *module_ref)
 {
-	if (!module_condition->required_version) return true;
 	CFStringRef version = ModuleRefGetVersion(module_ref);
+	if (!module_condition->required_version) return true;
 	if (!version) return false;
 	return VersionConditionSetIsSatisfied(module_condition->required_version, version);
 }

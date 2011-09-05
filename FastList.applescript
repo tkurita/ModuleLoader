@@ -75,7 +75,7 @@ on count_items()
 end count_items
 
 on count
-	return count my _contents
+	return continue count my _contents
 end count
 
 on delete_at(indexes)

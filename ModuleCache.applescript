@@ -50,6 +50,18 @@ on module_for_path(a_path)
 	return search_value(a_path, my _paths, my _values)
 end module_for_path
 
+on module_for_script(a_script)
+	set an_index to 0
+	repeat with n from 1 to (my _values's count_items())
+		set a_moduleinfo to my _values's item_at(n)
+		if a_script is a_moduleinfo's module_script() then
+			return a_moduleinfo
+		end if
+	end repeat
+	
+	error number 900
+end module_for_script
+
 on replace_module(a_name, a_path, a_moduleinfo)
 	set an_index to my _names's index_of(a_name)
 	if an_index is 0 then
