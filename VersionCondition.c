@@ -26,7 +26,7 @@ TXRegexRef VersionConditionPattern(CFStringRef *errmsg)
 	}
 	
 	UErrorCode status = U_ZERO_ERROR;
-	TXRegexRef verpattern_wk = TXRegexCreateCopy(kCFAllocatorDefault, verpattern, U_ZERO_ERROR);
+	TXRegexRef verpattern_wk = TXRegexCreateCopy(kCFAllocatorDefault, verpattern, &status);
 	if (U_ZERO_ERROR != status) {
 		*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, 
 										   CFSTR("Failed to make pattern of with error : %d"),
