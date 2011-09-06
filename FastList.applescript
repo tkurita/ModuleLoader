@@ -68,6 +68,11 @@ on push(an_item)
 	set my _length to (my _length) + 1
 end push
 
+on unshift(a_item)
+	set beginning of my _contents to an_item
+	set my _length to (my _length) + 1
+end unshift
+
 
 (*!@group Accessing List Items *)
 on count_items()

@@ -81,6 +81,11 @@
 			<parameter name="for" code="forM" description="A top-level script which need to load modules" type="script"/>
 			<result type="script"/>
 		</command>
+		<command name="meet the version" code="MoloMeVe" description="check wheter the version numver meet the condition.">
+			<direct-parameter description="A version number." type="text"/>
+			<parameter name="condition" code="ConD" description="A required version condition." type="text"/>
+			<result description="True if the version meet the condition." type="boolean"/>
+		</command>
 		<event name="module loaded" code="MolowlLd" description="Called when a module is loaded by a loader object. It&apos;s a place to customize modules.">
 			<direct-parameter type="script"/>
 			<parameter name="by" code="whLD" description="A loader object" type="script" optional="yes"/>

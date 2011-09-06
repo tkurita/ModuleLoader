@@ -1,4 +1,5 @@
 #define kModuleIsNotFound 1800
+#define kFailedToParseVersionCondition 1803
 
 #define BUNDLE_ID CFSTR("Scriptfactory.osax.ModuleLoader")
 #define MODULE_PATHS_KEY CFSTR("AdditionalModulePaths")
@@ -21,6 +22,7 @@
 #define kExtractDependenciesEvent 'Exdp'
 #define kReloadingParam 'pRLo'
 #define kVersionParam 'vers'
+#define kConditionParam 'ConD'
 
 enum {
 	typeModuleSpecifier = 'MoSp',

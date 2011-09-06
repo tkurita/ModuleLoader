@@ -50,20 +50,23 @@ ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef requ
 	module_condition = malloc(sizeof(ModuleCondition));
 	if (!module_condition) {
 		fprintf(stderr, "Failed to allocate ModuleCondition.\n");
-		goto bail;;
+		goto bail;
 	}
 	module_condition->required_version = NULL;
 	module_condition->pattern = NULL;
 	module_condition->subpath = subpath;
 	module_condition->name = CFRetain(module_name);
 	if (required_version) {
-		module_condition->required_version = VersionConditionSetCreate(required_version, errmsg);
+		if (! (module_condition->required_version = VersionConditionSetCreate(required_version, errmsg))) {
+			ModuleConditionFree(module_condition);module_condition = NULL;
+			goto bail;
+		}
 	} else {
 		module_condition->required_version = NULL;
 	}
-	
+		
 	if (! (escaped_name = CFStringCreateWithEscapingRegex(module_name, errmsg))) {
-		ModuleConditionFree(module_condition);
+		ModuleConditionFree(module_condition);module_condition = NULL;
 		goto bail;
 	}
 	
@@ -73,8 +76,7 @@ ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef requ
 	UErrorCode status = U_ZERO_ERROR;
 	module_condition->pattern = TXRegexCreate(kCFAllocatorDefault, verpattern, UREGEX_CASE_INSENSITIVE, &parse_error, &status);
 	if (U_ZERO_ERROR != status) {
-		ModuleConditionFree(module_condition);
-		module_condition = NULL;
+		ModuleConditionFree(module_condition);module_condition = NULL;
 	}
 	
 bail:	

@@ -50,6 +50,43 @@ on module_for_path(a_path)
 	return search_value(a_path, my _paths, my _values)
 end module_for_path
 
+on module_for_specifier(mspec)
+	set an_index to 0
+	set required_name to mspec's name
+	try
+		set required_version to mspec's version
+	on error
+		return module_for_name(required_name)
+	end try
+	repeat with n from 1 to (my _values's count_items())
+		set a_name to my _names's item_at(n)
+		set a_moduleinfo to my _values's item_at(n)
+		if a_name is required_name then
+			if meet the version (a_moduleinfo's version) condition required_version then
+				return a_moduleinfo
+			end if
+		end if
+	end repeat
+	
+	error number 900
+end module_for_specifier
+
+on module_for_name_version(required_name, required_version)
+	set an_index to 0
+	repeat with n from 1 to (my _values's count_items())
+		set a_name to my _names's item_at(n)
+		set a_moduleinfo to my _values's item_at(n)
+		if a_name is required_name then
+			if (a_moduleinfo's version is not missing value) ¬
+				and (meet the version (a_moduleinfo's version) condition required_version) then
+				return a_moduleinfo
+			end if
+		end if
+	end repeat
+	
+	error number 900
+end module_for_name_version
+
 on module_for_script(a_script)
 	set an_index to 0
 	repeat with n from 1 to (my _values's count_items())
@@ -78,3 +115,9 @@ on add_module(a_name, a_path, a_moduleinfo)
 	my _paths's push(a_path)
 	my _values's push(a_moduleinfo)
 end add_module
+
+on prepend_module(a_name, a_path, a_moduleinfo)
+	my _names's unshift(a_name)
+	my _paths's unshift(a_path)
+	my _values's unshift(a_moduleinfo)
+end prepend_module

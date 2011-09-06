@@ -106,10 +106,14 @@ on load_module(mspec)
 	--do_log("start load_module " & a_name)
 	set force_reload to false
 	set a_class to class of mspec
+	set required_version to missing value
 	if a_class is in {record, module specifier} then
-		set a_name to name of mspec
+		set a_name to mspec's name
 		try
 			set force_reload to reloading of mspec
+		end try
+		try
+			set required_version to mspec's version
 		end try
 	else if a_class is list then
 		set a_name to item 1 of mspec
@@ -121,12 +125,16 @@ on load_module(mspec)
 	end if
 	
 	if a_name is in {":", "", "/", "."} then
-		error (quoted form of a_name) & " is invald form to specify a module." number 1801
+		error (quoted form of mspec's name) & " is invald form to specify a module." number 1801
 	end if
 	
 	if not force_reload then
 		try
-			set a_moduleinfo to my _module_cache's module_for_name(a_name)
+			if required_version is missing value then
+				set a_moduleinfo to my _module_cache's module_for_name(a_name)
+			else
+				set a_moduleinfo to my _module_cache's module_for_name_version(a_name, required_version)
+			end if
 			set has_exported to true
 		on error number 900
 			set has_exported to false

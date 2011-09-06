@@ -54,6 +54,8 @@
 			<string>makeModuleSpecHandler</string>
 			<key>MoloExdp</key>
 			<string>extractDependenciesHandler</string>
+			<key>MoloMeVe</key>
+			<string>meetVersionHandler</string>
 		</dict>
 	</dict>
 </dict>

@@ -131,6 +131,15 @@
 				<key>Context</key>
 				<string>Machine</string>
 			</dict>
+			<key>MoloMeVe</key>
+			<dict>
+				<key>Handler</key>
+				<string>meetVersionHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+				<key>Context</key>
+				<string>Machine</string>
+			</dict>
 		</dict>
 	</dict>
 </dict>

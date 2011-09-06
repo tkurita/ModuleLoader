@@ -244,6 +244,23 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 				singleItem, notEnumerated, Reserved13
 			},
 
+			"meet the version",
+			"check wheter the version numver meet the condition.",
+			'Molo', 'MeVe',
+			'bool',
+			"True if the version meet the condition.",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			'TEXT',
+			"A version number.",
+			directParamRequired,
+			singleItem, notEnumerated, Reserved13,
+			{
+				"condition", 'ConD', 'TEXT',
+				"A required version condition.",
+				required,
+				singleItem, notEnumerated, Reserved13
+			},
+
 			"module loaded",
 			"Called when a module is loaded by a loader object. It's a place to customize modules.",
 			'Molo', 'wlLd',

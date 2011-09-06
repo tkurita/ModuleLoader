@@ -470,3 +470,42 @@ bail:
 	gAdditionReferenceCount--;
 	return err;
 }
+
+OSErr meetVersionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
+{
+	gAdditionReferenceCount++;
+	OSErr err = noErr;
+	CFStringRef version = NULL;
+	CFStringRef condition = NULL;
+	VersionConditionSet *vercond_set = NULL;
+	CFStringRef errmsg = NULL;
+	
+	version = CFStringCreateWithEvent(ev, keyDirectObject, &err);
+	if (noErr != err) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Failed to get version number."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	condition = CFStringCreateWithEvent(ev, kConditionParam, &err);
+	if (noErr != err) {
+		putStringToEvent(reply, keyErrorString, 
+						 CFSTR("Failed to get condition parameter."), kCFStringEncodingUTF8);
+		goto bail;
+	}
+	
+	vercond_set = VersionConditionSetCreate(condition, &errmsg);
+	if (errmsg) {
+		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);
+		err = kFailedToParseVersionCondition;
+		goto bail;
+	}
+	Boolean result = VersionConditionSetIsSatisfied(vercond_set, version);
+	err = putBooleanToEvent(reply, keyAEResult, result);
+	
+bail:
+	safeRelease(version);
+	safeRelease(condition);
+	VersionConditionSetFree(vercond_set);
+	gAdditionReferenceCount--;
+	return err;
+}
