@@ -12,3 +12,4 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon);
 OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon);
 OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon);
+OSErr meetVersionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon);

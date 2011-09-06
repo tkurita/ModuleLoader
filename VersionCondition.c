@@ -129,9 +129,12 @@ VersionConditionSet *VersionConditionSetCreate(CFStringRef condition, CFStringRe
 							   CFSTR("Error in VersionCoditionSetCreate number : %d"), status);
 		goto bail;
 	}
-	CFIndex len = CFArrayGetCount(array);
+	CFIndex len = 0;
+	if (array) len = CFArrayGetCount(array);
 	if (!len) {
-		*errmsg = CFSTR("No mathes in Version condition string.");
+		//*errmsg = CFSTR("No mathes in Version condition string.");
+		*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
+										CFSTR("Failed to parse the version condition \"%@\"."), condition);
 		goto bail;
 	}
 		

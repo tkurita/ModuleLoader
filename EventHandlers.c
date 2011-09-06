@@ -197,7 +197,8 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** m
 	
 	module_condition = ModuleConditionCreate(module_name, required_version, &errmsg);
 	if (!module_condition) {
-		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);	
+		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);
+		err = kFailedToParseVersionCondition;
 		goto bail;
 	}
 	err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths, 
@@ -208,8 +209,13 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** m
 			pathlist= CFStringCreateByCombiningStrings(NULL, searched_paths, CFSTR(":"));
 		}
 		
-		errmsg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@\" can not be found in %@"),
-												   module_name, pathlist);
+		if (required_version) {
+			errmsg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@ (%@)\" can not be found in %@"),
+												   module_name,required_version, pathlist);
+		} else {
+			errmsg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@\" can not be found in %@"),
+											  module_name, pathlist);
+		}			
 		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);
 		safeRelease(pathlist);
 		goto bail;
