@@ -218,6 +218,13 @@
 			2CA259531415F7DD00560A59 /* PBXTextBookmark */ = 2CA259531415F7DD00560A59 /* PBXTextBookmark */;
 			2CA259551415F7E400560A59 /* PBXTextBookmark */ = 2CA259551415F7E400560A59 /* PBXTextBookmark */;
 			2CA259561415F7E400560A59 /* PBXTextBookmark */ = 2CA259561415F7E400560A59 /* PBXTextBookmark */;
+			2CA2595C1415FA7E00560A59 /* PBXTextBookmark */ = 2CA2595C1415FA7E00560A59 /* PBXTextBookmark */;
+			2CA2595D1415FA7E00560A59 /* PlistBookmark */ = 2CA2595D1415FA7E00560A59 /* PlistBookmark */;
+			2CA2595E1415FA7E00560A59 /* PBXTextBookmark */ = 2CA2595E1415FA7E00560A59 /* PBXTextBookmark */;
+			2CA2595F1415FA7E00560A59 /* PBXTextBookmark */ = 2CA2595F1415FA7E00560A59 /* PBXTextBookmark */;
+			2CA259601415FA7E00560A59 /* PlistBookmark */ = 2CA259601415FA7E00560A59 /* PlistBookmark */;
+			2CA259611415FA7E00560A59 /* PBXTextBookmark */ = 2CA259611415FA7E00560A59 /* PBXTextBookmark */;
+			2CA259621415FA7E00560A59 /* PBXTextBookmark */ = 2CA259621415FA7E00560A59 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2C58C162141141F100F43CB2 /* Source Control */;
 		userBuildSettings = {
@@ -352,6 +359,11 @@
 	};
 	2C5B3B6910B98242004396E4 /* ModuleLoader */ = {
 		activeExec = 0;
+	};
+	2C5B3B8210B982BE004396E4 /* Info_10_6.plist */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{61, 289}, {697, 542}}";
+		};
 	};
 	2C6F05B810D3F2CC00733C3B /* ModuleInfo.applescript */ = {
 		uiCtxt = {
@@ -816,7 +828,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 492";
 		rLen = 25;
-		rLoc = 15197;
+		rLoc = 15210;
 		rType = 0;
 		vrLen = 1187;
 		vrLoc = 14060;
@@ -870,7 +882,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 495";
 		rLen = 0;
-		rLoc = 15372;
+		rLoc = 15385;
 		rType = 0;
 		vrLen = 1069;
 		vrLoc = 14281;
@@ -954,7 +966,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 486";
 		rLen = 0;
-		rLoc = 14914;
+		rLoc = 14927;
 		rType = 0;
 		vrLen = 1370;
 		vrLoc = 14146;
@@ -1004,7 +1016,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 486";
 		rLen = 0;
-		rLoc = 14914;
+		rLoc = 14927;
 		rType = 0;
 		vrLen = 1370;
 		vrLoc = 14146;
@@ -1028,7 +1040,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 486";
 		rLen = 0;
-		rLoc = 14914;
+		rLoc = 14927;
 		rType = 0;
 		vrLen = 1370;
 		vrLoc = 14146;
@@ -1114,7 +1126,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 508";
 		rLen = 0;
-		rLoc = 15584;
+		rLoc = 15597;
 		rType = 0;
 		vrLen = 1215;
 		vrLoc = 14437;
@@ -1154,7 +1166,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 508";
 		rLen = 0;
-		rLoc = 15584;
+		rLoc = 15597;
 		rType = 0;
 		vrLen = 1215;
 		vrLoc = 14437;
@@ -1319,7 +1331,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 508";
 		rLen = 0;
-		rLoc = 15584;
+		rLoc = 15597;
 		rType = 0;
 		vrLen = 1215;
 		vrLoc = 14437;
@@ -1336,7 +1348,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 508";
 		rLen = 0;
-		rLoc = 15584;
+		rLoc = 15597;
 		rType = 0;
 		vrLen = 1215;
 		vrLoc = 14437;
@@ -1497,7 +1509,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 508";
 		rLen = 23;
-		rLoc = 15572;
+		rLoc = 15585;
 		rType = 0;
 		vrLen = 1215;
 		vrLoc = 14437;
@@ -1537,7 +1549,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 508";
 		rLen = 23;
-		rLoc = 15572;
+		rLoc = 15585;
 		rType = 0;
 		vrLen = 1215;
 		vrLoc = 14437;
@@ -2078,7 +2090,7 @@
 		isa = PBXTextBookmark;
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		rLen = 11;
-		rLoc = 15245;
+		rLoc = 15258;
 		rType = 0;
 	};
 	2CA259531415F7DD00560A59 /* PBXTextBookmark */ = {
@@ -2086,7 +2098,7 @@
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 497";
 		rLen = 11;
-		rLoc = 15245;
+		rLoc = 15258;
 		rType = 0;
 		vrLen = 1010;
 		vrLoc = 14642;
@@ -2110,6 +2122,78 @@
 		rType = 0;
 		vrLen = 1191;
 		vrLoc = 1080;
+	};
+	2CA2595C1415FA7E00560A59 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
+		name = "ModuleCondition.c: 64";
+		rLen = 0;
+		rLoc = 2332;
+		rType = 0;
+		vrLen = 1520;
+		vrLoc = 1626;
+	};
+	2CA2595D1415FA7E00560A59 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2CA2595E1415FA7E00560A59 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8010AA4801002C5D32 /* EventHandlers.h */;
+		name = "EventHandlers.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 966;
+		vrLoc = 0;
+	};
+	2CA2595F1415FA7E00560A59 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
+		name = "ModuleCondition.c: 64";
+		rLen = 0;
+		rLoc = 2332;
+		rType = 0;
+		vrLen = 1520;
+		vrLoc = 1626;
+	};
+	2CA259601415FA7E00560A59 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/tkurita/Dev/Projects/ModuleLoader/trunk/Info_10_5.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	2CA259611415FA7E00560A59 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8010AA4801002C5D32 /* EventHandlers.h */;
+		name = "EventHandlers.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 966;
+		vrLoc = 0;
+	};
+	2CA259621415FA7E00560A59 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		name = "EventHandlers.c: 459";
+		rLen = 5;
+		rLoc = 14026;
+		rType = 0;
+		vrLen = 1327;
+		vrLoc = 13205;
 	};
 	2CAFFE0A10C6257C002B217C /* DummyDictionary */ = {
 		activeExec = 0;
@@ -2153,9 +2237,9 @@
 	};
 	2CB99B8110AA4801002C5D32 /* EventHandlers.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {846, 7042}}";
-			sepNavSelRange = "{15245, 11}";
-			sepNavVisRange = "{14642, 1010}";
+			sepNavIntBoundsRect = "{{0, 0}, {869, 7140}}";
+			sepNavSelRange = "{14026, 5}";
+			sepNavVisRange = "{13205, 1327}";
 			sepNavWindowFrame = "{{299, 94}, {925, 784}}";
 		};
 	};
@@ -2187,7 +2271,7 @@
 	};
 	8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */ = {
 		uiCtxt = {
-			sepNavWindowFrame = "{{15, 89}, {925, 784}}";
+			sepNavWindowFrame = "{{563, 63}, {925, 784}}";
 		};
 	};
 }

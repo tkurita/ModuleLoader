@@ -466,7 +466,7 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCo
 bail:
 	AEDisposeDesc(&script_data);
 	AEDisposeDesc(&dependencies);
-	AEDisposeDesc(&dependencies);
+	OSADispose(scriptingComponent, script_id);
 	gAdditionReferenceCount--;
 	return err;
 }
