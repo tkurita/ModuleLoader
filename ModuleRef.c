@@ -131,6 +131,7 @@ ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, C
 {
 	CFArrayRef array = ModuleConditionParseName(module_condition, filename);
 #if useLog
+	CFShow(filename);
 	CFShow(array);
 #endif
 	if (!array) return NULL;

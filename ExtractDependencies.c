@@ -3,7 +3,7 @@
 #include "ExtractDependencies.h"
 #include "AEUtils.h"
 
-#define useLog 1
+#define useLog 0
 
 const char *MODULE_SPEC_LABEL = "__module_specifier__";
 const char *MODULE_DEPENDENCIES_LABEL = "__module_dependencies__";

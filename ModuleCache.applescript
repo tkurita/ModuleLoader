@@ -62,7 +62,8 @@ on module_for_specifier(mspec)
 		set a_name to my _names's item_at(n)
 		set a_moduleinfo to my _values's item_at(n)
 		if a_name is required_name then
-			if meet the version (a_moduleinfo's version) condition required_version then
+			set a_version to a_moduleinfo's module_version()
+			if meet the version a_version condition required_version then
 				return a_moduleinfo
 			end if
 		end if
@@ -77,8 +78,9 @@ on module_for_name_version(required_name, required_version)
 		set a_name to my _names's item_at(n)
 		set a_moduleinfo to my _values's item_at(n)
 		if a_name is required_name then
-			if (a_moduleinfo's version is not missing value) ¬
-				and (meet the version (a_moduleinfo's version) condition required_version) then
+			set a_version to a_moduleinfo's module_version()
+			if (a_version is not missing value) ¬
+				and (meet the version a_version condition required_version) then
 				return a_moduleinfo
 			end if
 		end if
