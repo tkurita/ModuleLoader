@@ -937,10 +937,13 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=*]" = 10.4;
 				PREBINDING = NO;
 				PRODUCT_VERSION = 2.4;
 				REZ_SHOW_DEBUG_OUTPUT = NO;
 				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 			};
 			name = Debug;
 		};
@@ -1084,10 +1087,7 @@
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
 				INFOPLIST_FILE = Info_10_5.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4]" = 10.4;
 				PRODUCT_NAME = ModuleLoader;
-				"SDKROOT[arch=i386]" = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.4;
 				SYMROOT = build_10_5;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = osax;
@@ -1101,9 +1101,12 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=*]" = 10.4;
 				PREBINDING = NO;
 				PRODUCT_VERSION = 2.4;
 				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 			};
 			name = Release;
 		};
