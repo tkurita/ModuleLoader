@@ -3,7 +3,7 @@
 	089C1669FE841209C02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = 2C58C150141141DA00F43CB2 /* ModuleLoaderTestApp */;
-		activeTarget = 2C5B3B6910B98242004396E4 /* ModuleLoader */;
+		activeTarget = 8D01CCC60486CAD60068D4B7 /* ModuleLoader for 10.5 */;
 		breakpoints = (
 			2CA2591A1415F54700560A59 /* EventHandlers.c:173 */,
 			2CA259311415F5C100560A59 /* EventHandlers.c:198 */,
@@ -60,17 +60,18 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 337584934;
-			PBXWorkspaceStateSaveDate = 337584934;
+			PBXPerProjectTemplateStateSaveDate = 337698799;
+			PBXWorkspaceStateSaveDate = 337698799;
 		};
 		perUserProjectItems = {
 			2C0310261414BC750001BB8F = 2C0310261414BC750001BB8F /* PBXTextBookmark */;
 			2C0310271414BC750001BB8F = 2C0310271414BC750001BB8F /* PBXTextBookmark */;
-			2C9CB1FD141EECEC00B4DF34 = 2C9CB1FD141EECEC00B4DF34 /* PBXTextBookmark */;
-			2C9CB1FE141EECEC00B4DF34 = 2C9CB1FE141EECEC00B4DF34 /* PBXTextBookmark */;
-			2C9CB1FF141EECEC00B4DF34 = 2C9CB1FF141EECEC00B4DF34 /* PBXTextBookmark */;
-			2C9CB200141EECEC00B4DF34 = 2C9CB200141EECEC00B4DF34 /* PBXTextBookmark */;
-			2C9CB201141EECEC00B4DF34 = 2C9CB201141EECEC00B4DF34 /* PBXTextBookmark */;
+			2C423572141F672000F32206 = 2C423572141F672000F32206 /* PBXTextBookmark */;
+			2C423573141F672000F32206 = 2C423573141F672000F32206 /* PBXTextBookmark */;
+			2C646C491420DFE600651A2D = 2C646C491420DFE600651A2D /* PBXTextBookmark */;
+			2C646C4A1420DFE600651A2D = 2C646C4A1420DFE600651A2D /* PBXTextBookmark */;
+			2C9CB21D141F2D7500B4DF34 = 2C9CB21D141F2D7500B4DF34 /* PBXTextBookmark */;
+			2C9CB221141F2D7500B4DF34 = 2C9CB221141F2D7500B4DF34 /* PBXTextBookmark */;
 			2CA258881415343800560A59 = 2CA258881415343800560A59 /* PBXTextBookmark */;
 			2CA2588C1415343800560A59 = 2CA2588C1415343800560A59 /* PBXTextBookmark */;
 			2CA258901415343800560A59 = 2CA258901415343800560A59 /* PBXTextBookmark */;
@@ -104,7 +105,6 @@
 			2CA259BF1417119200560A59 = 2CA259BF1417119200560A59 /* PBXTextBookmark */;
 			2CA259D014171B0D00560A59 = 2CA259D014171B0D00560A59 /* PBXTextBookmark */;
 			2CA259D214171B0D00560A59 = 2CA259D214171B0D00560A59 /* PBXTextBookmark */;
-			2CA25A14141E1BFC00560A59 = 2CA25A14141E1BFC00560A59 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2C58C162141141F100F43CB2 /* Source Control */;
 		userBuildSettings = {
@@ -161,6 +161,26 @@
 	};
 	2C2CD69710BCB79C008CA461 /* ModuleLoader for 10.4 */ = {
 		activeExec = 0;
+	};
+	2C423572141F672000F32206 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		name = "EventHandlers.c: 173";
+		rLen = 0;
+		rLoc = 4926;
+		rType = 0;
+		vrLen = 88;
+		vrLoc = 10807;
+	};
+	2C423573141F672000F32206 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
+		name = "ModuleCondition.c: 39";
+		rLen = 0;
+		rLoc = 1410;
+		rType = 0;
+		vrLen = 1454;
+		vrLoc = 337;
 	};
 	2C58C150141141DA00F43CB2 /* ModuleLoaderTestApp */ = {
 		isa = PBXExecutable;
@@ -232,6 +252,26 @@
 		uiCtxt = {
 			sepNavWindowFrame = "{{61, 289}, {697, 542}}";
 		};
+	};
+	2C646C491420DFE600651A2D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
+		name = "EventHandlers.c: 173";
+		rLen = 0;
+		rLoc = 4926;
+		rType = 0;
+		vrLen = 88;
+		vrLoc = 10807;
+	};
+	2C646C4A1420DFE600651A2D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
+		name = "ModuleCondition.c: 39";
+		rLen = 0;
+		rLoc = 1410;
+		rType = 0;
+		vrLen = 1454;
+		vrLoc = 337;
 	};
 	2C6F05B810D3F2CC00733C3B /* ModuleInfo.applescript */ = {
 		uiCtxt = {
@@ -328,7 +368,7 @@
 			sepNavWindowFrame = "{{79, 94}, {925, 784}}";
 		};
 	};
-	2C9CB1FD141EECEC00B4DF34 /* PBXTextBookmark */ = {
+	2C9CB21D141F2D7500B4DF34 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
 		name = "EventHandlers.c: 173";
@@ -338,37 +378,7 @@
 		vrLen = 88;
 		vrLoc = 10807;
 	};
-	2C9CB1FE141EECEC00B4DF34 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
-		name = "ModuleCondition.c: 39";
-		rLen = 0;
-		rLoc = 1410;
-		rType = 0;
-		vrLen = 1454;
-		vrLoc = 337;
-	};
-	2C9CB1FF141EECEC00B4DF34 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
-		name = "ModuleCondition.c: 39";
-		rLen = 0;
-		rLoc = 1410;
-		rType = 0;
-		vrLen = 1454;
-		vrLoc = 337;
-	};
-	2C9CB200141EECEC00B4DF34 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
-		name = "ModuleCondition.c: 39";
-		rLen = 0;
-		rLoc = 1410;
-		rType = 0;
-		vrLen = 1454;
-		vrLoc = 337;
-	};
-	2C9CB201141EECEC00B4DF34 /* PBXTextBookmark */ = {
+	2C9CB221141F2D7500B4DF34 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */;
 		name = "ModuleCondition.c: 39";
@@ -766,16 +776,6 @@
 		vrLen = 1008;
 		vrLoc = 4092;
 	};
-	2CA25A14141E1BFC00560A59 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.c */;
-		name = "EventHandlers.c: 173";
-		rLen = 0;
-		rLoc = 4926;
-		rType = 0;
-		vrLen = 88;
-		vrLoc = 10807;
-	};
 	2CAFFE0A10C6257C002B217C /* DummyDictionary */ = {
 		activeExec = 0;
 	};
@@ -788,9 +788,9 @@
 	};
 	2CB5B4EB13434765006407F2 /* ModuleCondition.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {869, 1736}}";
+			sepNavIntBoundsRect = "{{0, 0}, {869, 1722}}";
 			sepNavSelRange = "{1410, 0}";
-			sepNavVisRange = "{337, 1653}";
+			sepNavVisRange = "{337, 1454}";
 		};
 	};
 	2CB5B4EF13434799006407F2 /* VersionCondition.h */ = {
@@ -818,7 +818,7 @@
 	};
 	2CB99B8110AA4801002C5D32 /* EventHandlers.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {869, 7210}}";
+			sepNavIntBoundsRect = "{{0, 0}, {869, 7196}}";
 			sepNavSelRange = "{4926, 0}";
 			sepNavVisRange = "{10807, 88}";
 			sepNavWindowFrame = "{{299, 94}, {925, 784}}";
