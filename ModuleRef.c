@@ -44,8 +44,9 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 	OSStatus err;
 	LSItemInfoRecord iteminfo;
 	iteminfo.extension = NULL;
-	
-	if (kIsAlias & ((FileInfo *)(&cat_info->finderInfo))->finderFlags) {
+	CFStringRef uti = nil;
+
+	if (kIsAlias & ((FileInfo *)(&cat_info->finderInfo))->finderFlags) { // resolve alias
 		Boolean targetIsFolder;
 		Boolean wasAliased;
 		err = FSResolveAliasFile(fsref, true, &targetIsFolder, &wasAliased);
@@ -57,7 +58,7 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 		err = FSGetCatalogInfo(fsref, whichInfo, cat_info, NULL, NULL, NULL);
 		if (err != noErr) {
 			fprintf(stderr, "Failed to FSGetCatalogInfo with error : %d\n", (int)err);
-			goto bail;;
+			goto bail;
 		}
 	}
 	
@@ -77,7 +78,8 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 			CFStringRef creator = UTCreateStringForOSType(iteminfo.creator);
 			CFShow(creator);
 #endif
-			result = ((iteminfo.creator == 'aplt') || (iteminfo.creator == 'dplt'));
+			result = ((iteminfo.creator == 'aplt') || (iteminfo.creator == 'dplt')); 
+			// if true, AppleScript Application
 			goto bail;
 		}
 		
@@ -87,24 +89,21 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 		}
 	}
 	
-	if (((FileInfo *)(&cat_info->finderInfo))->fileType == 'osas' ) {
-		result = true;
-		goto bail;
-	}
-	
-	err = LSCopyItemInfoForRef(fsref, kLSRequestAllInfo & ~kLSRequestIconAndKind, 
-							   &iteminfo);
+	err = LSCopyItemAttribute(fsref, kLSRolesAll, kLSItemContentType,  (CFTypeRef *)&uti );
 	if (err != noErr) {
-		fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", (int)err);
+		fprintf(stderr, "Failed to LSCopyItemAttribute with error : %d\n", (int)err);
 		goto bail;
 	}
 	
-	if (kCFCompareEqualTo ==  CFStringCompare(iteminfo.extension, CFSTR("scpt"), 0)) {
-		result = true;
+	if (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.script"))) {
 		goto bail;
 	}
 	
+	if (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.text"))) {
+		goto bail;
+	}
 bail:
+	safeRelease(uti);
 	safeRelease(iteminfo.extension);
 	return result;
 }
