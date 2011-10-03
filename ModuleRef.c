@@ -38,14 +38,12 @@ CFStringRef ModuleRefGetVersion(ModuleRef *module_ref)
 }
 
 
-Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
+Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info, LSItemInfoRecord* iteminfo_p)
 {
 	Boolean result = false;
-	OSStatus err;
-	LSItemInfoRecord iteminfo;
-	iteminfo.extension = NULL;
+	OSStatus err = noErr;
 	CFStringRef uti = nil;
-
+	Boolean alias_resolved = false;
 	if (kIsAlias & ((FileInfo *)(&cat_info->finderInfo))->finderFlags) { // resolve alias
 		Boolean targetIsFolder;
 		Boolean wasAliased;
@@ -60,30 +58,34 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 			fprintf(stderr, "Failed to FSGetCatalogInfo with error : %d\n", (int)err);
 			goto bail;
 		}
+		alias_resolved = true;
 	}
 	
 	if (0 != (cat_info->nodeFlags & kFSNodeIsDirectoryMask)) { // is directory
-		err = LSCopyItemInfoForRef(fsref, kLSRequestAllInfo & ~kLSRequestIconAndKind, 
-								   &iteminfo);
-		if (err != noErr) {
-			fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", (int)err);
-			goto bail;
+		if (alias_resolved) {
+			safeRelease(iteminfo_p->extension);
+			err = LSCopyItemInfoForRef(fsref, kLSRequestAllInfo, iteminfo_p);
+			if (err != noErr) {
+				fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", (int)err);
+				goto bail;
+			}			
 		}
 		
-		if (! (iteminfo.flags & kLSItemInfoIsPackage)) {
+		
+		if (! (iteminfo_p->flags & kLSItemInfoIsPackage)) {
 			goto bail;
 		} 
-		if ((iteminfo.flags & kLSItemInfoIsApplication) ) {
+		if ((iteminfo_p->flags & kLSItemInfoIsApplication) ) {
 #if useLog
-			CFStringRef creator = UTCreateStringForOSType(iteminfo.creator);
+			CFStringRef creator = UTCreateStringForOSType(iteminfo_p->creator);
 			CFShow(creator);
 #endif
-			result = ((iteminfo.creator == 'aplt') || (iteminfo.creator == 'dplt')); 
+			result = ((iteminfo_p->creator == 'aplt') || (iteminfo_p->creator == 'dplt')); 
 			// if true, AppleScript Application
 			goto bail;
 		}
 		
-		if (kCFCompareEqualTo ==  CFStringCompare(iteminfo.extension, CFSTR("scptd"), 0)) {
+		if (kCFCompareEqualTo ==  CFStringCompare(iteminfo_p->extension, CFSTR("scptd"), 0)) {
 			result = true;
 			goto bail;
 		}
@@ -104,18 +106,28 @@ Boolean isScript(FSRef *fsref, FSCatalogInfo* cat_info)
 	}
 bail:
 	safeRelease(uti);
-	safeRelease(iteminfo.extension);
 	return result;
 }
 
 ModuleRef *ModuleRefCreate(FSRef *fsref, FSCatalogInfo *cat_info)
 {
-	if (!isScript(fsref, cat_info)) return NULL;
-	ModuleRef *module_ref = malloc(sizeof(ModuleRef));
+	ModuleRef *module_ref = NULL;
+	LSItemInfoRecord iteminfo;
+	iteminfo.extension = NULL;
+	OSStatus err = LSCopyItemInfoForRef(fsref, kLSRequestAllInfo, &iteminfo);
+	if (err != noErr) {
+		fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", (int)err);
+		return NULL;
+	}			
+	
+	if (!isScript(fsref, cat_info, &iteminfo)) return NULL;
+	module_ref = malloc(sizeof(ModuleRef));
 	module_ref->fsref = *fsref;
 	module_ref->version = NULL;
 	module_ref->name = NULL;
-	module_ref->is_package = kIsPackageUnknown;
+	module_ref->is_package = iteminfo.flags & kLSItemInfoIsPackage;
+bail:
+	safeRelease(iteminfo.extension);
 	return module_ref;
 }
 
@@ -125,8 +137,8 @@ void ShowModuleRef(ModuleRef *module_ref)
 					CFSTR("name : %@, version : %@"), module_ref->name, module_ref->version));
 }
 
-ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, CFStringRef filename, Boolean is_package,
-										ModuleCondition *module_condition)
+ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, CFStringRef filename, 
+										LSItemInfoRecord* iteminfo_p, ModuleCondition *module_condition)
 {
 	CFArrayRef array = ModuleConditionParseName(module_condition, filename);
 #if useLog
@@ -134,10 +146,10 @@ ModuleRef *ModuleRefCreateWithCondition(FSRef *fsref, FSCatalogInfo *cat_info, C
 	CFShow(array);
 #endif
 	if (!array) return NULL;
-	if (!isScript(fsref, cat_info)) return NULL;
+	if (!isScript(fsref, cat_info, iteminfo_p)) return NULL;
 	ModuleRef *module_ref = malloc(sizeof(ModuleRef));
 	module_ref->fsref = *fsref;
-	module_ref->is_package = is_package;
+	module_ref->is_package = iteminfo_p->flags & kLSItemInfoIsPackage;
 	CFStringRef text = CFArrayGetValueAtIndex(array, 0);
 	module_ref->name = CFRetain(text);
 	CFStringRef version = CFArrayGetValueAtIndex(array, 2);

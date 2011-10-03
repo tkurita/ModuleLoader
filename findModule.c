@@ -86,7 +86,6 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition,  Boole
 	HFSUniStr255 hfs_filename[1];
 	FSCatalogInfoBitmap whichInfo = kFSCatInfoFinderInfo|kFSCatInfoNodeFlags;
 	while (!FSGetCatalogInfoBulk(itor, 1, &ict, NULL, whichInfo, &cat_info, &fsref, NULL, &hfs_filename[0])) {
-		Boolean is_package = false;
 		fname = CFStringCreateWithCharacters(kCFAllocatorDefault, hfs_filename[0].unicode, hfs_filename[0].length);
 #if useLog
 		CFShow(fname);
@@ -107,24 +106,26 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition,  Boole
 				continue;
 			}
 		}
-				
+		
+		Boolean is_package = false;
 		Boolean is_folder = false;
+		LSItemInfoRecord iteminfo;
+		iteminfo.extension = NULL;
+		err = LSCopyItemInfoForRef(&fsref, kLSRequestAllInfo, &iteminfo);
+		if (noErr != err) {
+			fprintf(stderr, "Faild to LSCopyItemInfoForRef with error : %d\n", (int)err);
+		}
+
 		if (0 != (cat_info.nodeFlags & kFSNodeIsDirectoryMask)) {
-			LSItemInfoRecord iteminfo;
-			err = LSCopyItemInfoForRef(&fsref, kLSRequestBasicFlagsOnly, &iteminfo);
-			if (noErr == err) {
-				if (! (iteminfo.flags & kLSItemInfoIsPackage)) {
+			if (! (iteminfo.flags & kLSItemInfoIsPackage)) {
 #if useLog
-					UInt8 subfolder_path[PATH_MAX];
-					FSRefMakePath(&fsref, subfolder_path, PATH_MAX);
-					fprintf(stderr, "subfolder : %s \n", (char *)subfolder_path);
+				UInt8 subfolder_path[PATH_MAX];
+				FSRefMakePath(&fsref, subfolder_path, PATH_MAX);
+				fprintf(stderr, "subfolder : %s \n", (char *)subfolder_path);
 #endif				
-					is_folder = true;
-				} else {
-					is_package = true;
-				}
+				is_folder = true;
 			} else {
-				fprintf(stderr, "Faild to LSCopyItemInfoForRef with error : %d\n", (int)err);
+				is_package = true;
 			}
 		}
 		
@@ -133,7 +134,7 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition,  Boole
 				CFArrayAppendValue(subfolders, CFURLCreateFromFSRef(kCFAllocatorDefault, &fsref));
 			}
 		} else {
-			module_ref = ModuleRefCreateWithCondition(&fsref, &cat_info, fname, is_package, module_condition);
+			module_ref = ModuleRefCreateWithCondition(&fsref, &cat_info, fname, &iteminfo, module_condition);
 			if (module_ref) {
 #if useLog
 				ShowModuleRef(module_ref);
@@ -152,6 +153,7 @@ OSErr scanFolder(FSRef *container_ref, ModuleCondition *module_condition,  Boole
 			}		
 		}
 		CFRelease(fname); fname = NULL;
+		safeRelease(iteminfo.extension); iteminfo.extension = NULL;
 	}
 	
 	if (module_ref_candidate) {
