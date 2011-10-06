@@ -6,6 +6,8 @@
 
 #define useLog 0
 
+#define SafeRelease(v) if(v) CFRetain(v)
+
 #pragma mark VersoionCondition
 
 TXRegexRef VersionConditionPattern(CFStringRef *errmsg)
@@ -73,14 +75,19 @@ bail:
 
 VersionCondition *VersionConditionCreateWithString(CFStringRef condition, CFStringRef *errmsg)
 {
-	TXRegexRef verpattern = VersionConditionPattern(errmsg);
-	if (!verpattern) return NULL;
+	VersionCondition *vc = NULL;
+	TXRegexRef verpattern =NULL;
+	CFArrayRef matched = NULL;
+	verpattern = VersionConditionPattern(errmsg);
+	if (!verpattern) goto bail;
 	UErrorCode status = U_ZERO_ERROR;
-	CFArrayRef matched = CFStringCreateArrayWithFirstMatch(condition,  verpattern, 0, &status);
-	if (!matched) return NULL;
+	 matched = CFStringCreateArrayWithFirstMatch(condition,  verpattern, 0, &status);
+	if (!matched) goto bail;
 	
-	VersionCondition *vc = VersionConditionCreate(CFArrayGetValueAtIndex(matched, 1), CFArrayGetValueAtIndex(matched, 2));	
-	CFRelease(matched);
+	vc = VersionConditionCreate(CFArrayGetValueAtIndex(matched, 1), CFArrayGetValueAtIndex(matched, 2));	
+bail:
+	SafeRelease(matched);
+	SafeRelease(verpattern);
     return vc;
 }
 
@@ -121,7 +128,7 @@ VersionConditionSet *VersionConditionSetCreate(CFStringRef condition, CFStringRe
 	VersionCondition **vercond_list = NULL;
 	
 	TXRegexRef verpattern = VersionConditionPattern(errmsg);
-	if (!verpattern) return NULL;
+	if (!verpattern) goto bail;
 	UErrorCode status = U_ZERO_ERROR;
 	array = CFStringCreateArrayWithAllMatches(condition, verpattern, &status);
 	if (U_ZERO_ERROR != status) {
@@ -150,6 +157,7 @@ VersionConditionSet *VersionConditionSetCreate(CFStringRef condition, CFStringRe
 														   CFArrayGetValueAtIndex(subarray, 2));
 		vercond_list[n] = vercond;
 	}
+	
 	vercond_set = malloc(sizeof(VersionConditionSet));
 	if (!vercond_set) {
 		*errmsg = CFSTR("Failed to allocate VersionConditionSet");
@@ -163,7 +171,8 @@ VersionConditionSet *VersionConditionSetCreate(CFStringRef condition, CFStringRe
 	vercond_set->conditions = vercond_list;
 	
 bail:	
-	if(array) CFRelease(array);	
+	SafeRelease(array);
+	SafeRelease(verpattern);
 	return vercond_set;
 }
      

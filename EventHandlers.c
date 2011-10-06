@@ -329,6 +329,7 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 			goto bail;
 		}
 	} else {
+		AEDisposeDesc(&version_desc); // required to avoid memory leak. the reason is unknown.
 		err = AEDescCreateMissingValue(&version_desc);
 		if (noErr != err) {
 			putStringToEvent(reply, keyErrorString, CFSTR("Fail to AEDescCreateMissingValue."), kCFStringEncodingUTF8);
@@ -342,7 +343,6 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	if (noErr != err) goto bail;
 	
 	err = AEPutParamDesc(reply, keyAEResult, &result_desc);
-
 bail:
 	AEDisposeDesc(&result_desc);
 	AEDisposeDesc(&script_desc);

@@ -57,12 +57,6 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AECreateDesc(typeNull, NULL, 0, &dep_info);
 		AEDesc prop_desc;
 		AECreateDesc(typeNull, NULL, 0, &prop_desc);
-		/*
-		CFStringRef pname_string  = NULL;
-		CFMutableStringRef pname_string_mutable = NULL;
-		AEDesc lpname;
-		AECreateDesc(typeNull, NULL, 0, &lpname);
-		*/
 		
 		err = AEGetNthDesc(&property_names, n, typeWildCard, &a_keyword, &a_pname);
 		if (err != noErr) goto loopbail;
@@ -73,18 +67,6 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 			// if a_pname is not user defined property, skip
 			goto loopbail;
 		}
-		/*
-		pname_string = CFStringCreateWithAEDesc(&a_pname, &err);
-		if (noErr != err) goto loopbail;
-		
-		pname_string_mutable = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, pname_string);
-		CFStringLowercase(pname_string_mutable, CFLocaleGetSystem());
-		CFShow(pname_string_mutable);
-		err = AEDescCreateWithCFString(pname_string_mutable, kCFStringEncodingUnicode, &lpname);
-		if (noErr != err) goto loopbail;
-		showAEDesc(&lpname);
-		 */
-		//err = OSAGetProperty(component, kOSAModeNull, scriptID, &lpname, &prop_value_id);	
 		err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &prop_value_id);	
 		if (noErr != err) { 
 			fprintf(stderr, "Failed to OSAGetProperty in extractDependencies with error %d\n", err);
@@ -122,11 +104,6 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AEPutDesc(dependencies, 0, &dep_info);
 		
 	loopbail:
-		/*
-		safeRelease(pname_string);
-		safeRelease(pname_string_mutable);
-		AEDisposeDesc(&lpname);
-		 */
 		AEDisposeDesc(&a_pname);
 		AEDisposeDesc(&prop_desc);
 		AEDisposeDesc(&dep_info);
@@ -137,6 +114,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 bail:
 	AEDisposeDesc(&property_names);
 	AEDisposeDesc(&moduleSpecLabel);
+	AEDisposeDesc(&moduleDependenciesLabel);
 	return err;				
 }
 
