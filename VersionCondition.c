@@ -6,7 +6,7 @@
 
 #define useLog 0
 
-#define SafeRelease(v) if(v) CFRetain(v)
+#define SafeRelease(v) if(v) CFRelease(v)
 
 #pragma mark VersoionCondition
 
@@ -22,7 +22,7 @@ TXRegexRef VersionConditionPattern(CFStringRef *errmsg)
 			*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, 
 												 CFSTR("Failed to compile pattern of VersionCondition. %@"),
 												 pemsg);
-			safeRelease(pemsg);
+			SafeRelease(pemsg);
 			return NULL;
 		}
 	}

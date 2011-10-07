@@ -275,8 +275,6 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	
 	AEDescList dependencies;
 	AECreateDesc(typeNull, NULL, 0, &dependencies);
-	AEDesc module_spec;
-	AECreateDesc(typeNull, NULL, 0, &module_spec);
 	AEDesc alias_desc;
 	AECreateDesc(typeNull, NULL, 0, &alias_desc);
 	AEDesc script_desc;
@@ -323,6 +321,7 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	}
 	
 	if (module_ref->version) {
+		AEDisposeDesc(&version_desc); // required to avoid memory leak. the reason is unknown.
 		err = AEDescCreateWithCFString(module_ref->version, kCFStringEncodingUTF8, &version_desc);
 		if (noErr != err) {
 			putStringToEvent(reply, keyErrorString, CFSTR("Fail to AEDescCreateWithCFString."), kCFStringEncodingUTF8);
@@ -348,7 +347,6 @@ bail:
 	AEDisposeDesc(&script_desc);
 	AEDisposeDesc(&version_desc);
 	AEDisposeDesc(&alias_desc);
-	AEDisposeDesc(&module_spec);
 	AEDisposeDesc(&dependencies);
 	ModuleRefFree(module_ref);
 	OSADispose(scriptingComponent, script_id);
