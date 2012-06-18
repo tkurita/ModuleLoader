@@ -44,19 +44,6 @@ on setup_script(a_moduleinfo)
 			error msg number errno
 		end if
 	end try
-	
-	if (not sucess_setup) then
-		-- for compatibility to ModuleLoader 1.x
-		try
-			a_script's __load__(me)
-		on error msg number errno
-			--do_log("error on calling __load__")
-			if errno is not -1708 then
-				error msg number errno
-			end if
-			--display dialog msg & return & errno
-		end try
-	end if
 end setup_script
 
 on raise_error(a_name, a_location)
@@ -146,7 +133,7 @@ on load_module(mspec)
 	end if
 	
 	set adpaths to my _additional_paths
-	if (my _is_local and (length of adpaths is 0)) then
+	if (my _is_local and ((count adpaths) is 0)) then
 		set adpaths to {current_location()}
 	end if
 	
@@ -329,11 +316,6 @@ on clear_cache()
 	set my _module_cache to make ModuleCache
 	return me
 end clear_cache
-
-(** AppleMods handler **)
-on loadLib(a_name)
-	return load(a_name)
-end loadLib
 
 (*
 on start_log()

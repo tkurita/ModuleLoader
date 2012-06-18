@@ -395,6 +395,7 @@
 				2C5B3B7110B98242004396E4 /* Sources */,
 				2C5B3B7510B98242004396E4 /* Frameworks */,
 				2C5B3B7710B98242004396E4 /* Rez */,
+				2CC81885153FA3E800DCA187 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -474,7 +475,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 4FADC23708B4156C00ABE55E /* Build configuration list for PBXProject "ModuleLoader" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* LoadModule */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -730,6 +738,21 @@
 			shellPath = /bin/sh;
 			shellScript = "DICT_FRAMEWORK=\"build/${BUILD_STYLE}/DummyDictionary.framework\"\nosacompile -d -i ${DICT_FRAMEWORK} -o loader.scpt loader.applescript\nosacompile -d -i ${DICT_FRAMEWORK} -o LocalLoader.scpt LocalLoader.applescript";
 		};
+		2CC81885153FA3E800DCA187 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Info_10_5.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Info_10_5.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "plist=`cat \"${SCRIPT_INPUT_FILE_0}\"`\neval echo \\\"$plist\\\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -884,7 +907,11 @@
 		2C5B3B7B10B98242004396E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					ppc64,
+					ppc,
+					"$(ARCHS_STANDARD_32_64_BIT)",
+				);
 				CURRENT_PROJECT_VERSION = 43;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
