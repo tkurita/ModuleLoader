@@ -12,18 +12,17 @@ static ComponentInstance scriptingComponent = NULL;
 
 extern const char *MODULE_SPEC_LABEL;
 
+#define STR(s) _STR(s)
+#define _STR(s) #s 
+
 OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 #if useLog
 	fprintf(stderr, "start versionHandler\n");
 #endif			
 	gAdditionReferenceCount++;
-	OSErr err;
-	CFBundleRef	bundle = CFBundleGetBundleWithIdentifier(BUNDLE_ID);
-	CFDictionaryRef info = CFBundleGetInfoDictionary(bundle);
-	
-	CFStringRef vers = CFDictionaryGetValue(info, CFSTR("CFBundleShortVersionString"));
-	err = putStringToEvent(reply, keyAEResult, vers, kCFStringEncodingUnicode);
+	OSErr err;	
+	err = putStringToEvent(reply, keyAEResult, CFSTR(STR(ModuleLoader_VERSION)), kCFStringEncodingUnicode);
 	gAdditionReferenceCount--;
 	return err;
 }

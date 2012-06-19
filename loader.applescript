@@ -30,11 +30,12 @@ property _only_local : false
 
 on setup_script(a_moduleinfo)
 	set a_script to a_moduleinfo's module_script()
-	--do_log("start setup_script" & " for " & name of a_script)
+	--log ("start setup_script" & " for " & name of a_script)
 	a_moduleinfo's set_setupped(true)
 	resolve_dependencies(a_moduleinfo, false)
 	set sucess_setup to false
 	try
+		--log "before module loaded : " & (name of a_script)
 		module loaded a_script by me
 		set sucess_setup to true
 	on error msg number errno
@@ -44,6 +45,7 @@ on setup_script(a_moduleinfo)
 			error msg number errno
 		end if
 	end try
+	--log "end setup_script"
 end setup_script
 
 on raise_error(a_name, a_location)
@@ -90,7 +92,6 @@ end current_location
 
 on load_module(mspec)
 	--log "start load_module"
-	--do_log("start load_module " & a_name)
 	set force_reload to false
 	set a_class to class of mspec
 	set required_version to missing value
@@ -128,6 +129,7 @@ on load_module(mspec)
 		end try
 		
 		if has_exported then
+			--log "end load_module with has_exported"
 			return a_moduleinfo
 		end if
 	end if
@@ -150,9 +152,10 @@ on load_module(mspec)
 	else
 		set a_loadinfo to _load module_ mspec additional paths adpaths
 	end if
-	-- log "after _load_module_"
+	--log "after _load_module_"
 	
 	set a_path to file of a_loadinfo
+	--log a_path
 	if force_reload then
 		set a_moduleinfo to ModuleInfo's make_with_loadinfo(a_loadinfo)
 		my _module_cache's replace_module(a_name, a_path, a_moduleinfo)
@@ -165,11 +168,12 @@ on load_module(mspec)
 			my _module_cache's add_module(a_name, a_path, a_moduleinfo)
 		end try
 	end if
-	-- log "end of load_module"
+	--log "end of load_module"
 	return a_moduleinfo
 end load_module
 
 on resolve_dependencies(a_moduleinfo)
+	--log "start reslove dependencies"
 	repeat with a_dep in a_moduleinfo's dependencies()
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
 		set dep_moduleinfo to load_module(module specifier of a_dep)
@@ -178,6 +182,7 @@ on resolve_dependencies(a_moduleinfo)
 		end if
 		an_accessor's set_value(a_moduleinfo's module_script(), dep_moduleinfo's module_script())
 	end repeat
+	--log "end reslove dependencies"
 end resolve_dependencies
 
 on boot loader for a_script

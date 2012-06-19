@@ -917,6 +917,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[sdk=macosx10.4][arch=*]" = 4.0;
 				INFOPLIST_FILE = Info_10_6.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
 				PRODUCT_NAME = ModuleLoader;
@@ -987,6 +989,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=*]" = 10.4;
+				ModuleLoader_VERSION = 2.3.4b;
+				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
 				PREBINDING = NO;
 				PRODUCT_VERSION = 2.3.3;
 				REZ_SHOW_DEBUG_OUTPUT = NO;
@@ -1152,6 +1156,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=*]" = 10.4;
+				ModuleLoader_VERSION = 2.3.4b;
+				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
 				PREBINDING = NO;
 				PRODUCT_VERSION = 2.3.3;
 				SDKROOT = macosx10.5;
