@@ -216,7 +216,7 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 			"extract dependencies from",
 			"Extarct module specifier records from a module script.",
 			'Molo', 'Exdp',
-			'****',
+			'DpIf',
 			"",
 			replyRequired, listOfItems, notEnumerated, Reserved13,
 			'scpt',

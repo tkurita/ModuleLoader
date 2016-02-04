@@ -73,7 +73,7 @@
 		<command name="extract dependencies from" code="MoloExdp" description="Extarct module specifier records from a module script.">
 			<direct-parameter description="A module script" type="script"/>
 			<result>
-				<type type="dependency infomation" list="yes"/>
+				<type type="dependency info" list="yes"/>
 			</result>
 		</command>
 		<command name="boot" code="MoloBoot" description="Set up modules depending on. This command must be sent to a loader object. returned from &quot;module loader&quot; command.">
