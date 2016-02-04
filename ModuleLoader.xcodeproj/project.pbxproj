@@ -151,7 +151,7 @@
 		2C8E295510BFD835008C44A9 /* ModuleCache.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ModuleCache.applescript; sourceTree = "<group>"; };
 		2C8E296110BFD9B6008C44A9 /* ConsoleLog.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ConsoleLog.applescript; sourceTree = "<group>"; };
 		2CAFFE0B10C6257C002B217C /* DummyDictionary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DummyDictionary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2CAFFE0C10C6257C002B217C /* DummyDIctionary-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DummyDIctionary-Info.plist"; sourceTree = "<group>"; };
+		2CAFFE0C10C6257C002B217C /* DummyDictionary-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DummyDictionary-Info.plist"; sourceTree = "<group>"; };
 		2CB5B4EA13434765006407F2 /* ModuleCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleCondition.h; sourceTree = "<group>"; };
 		2CB5B4EB13434765006407F2 /* ModuleCondition.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ModuleCondition.c; sourceTree = "<group>"; };
 		2CB5B4EF13434799006407F2 /* VersionCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionCondition.h; sourceTree = "<group>"; };
@@ -228,7 +228,7 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
-				2CAFFE0C10C6257C002B217C /* DummyDIctionary-Info.plist */,
+				2CAFFE0C10C6257C002B217C /* DummyDictionary-Info.plist */,
 			);
 			name = LoadModule;
 			sourceTree = "<group>";
@@ -912,7 +912,8 @@
 					ppc,
 					"$(ARCHS_STANDARD_32_64_BIT)",
 				);
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 44;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1134,7 +1135,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 44;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1156,10 +1158,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=*]" = 10.4;
-				ModuleLoader_VERSION = 2.3.4b;
+				ModuleLoader_VERSION = 2.3.4;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
 				PREBINDING = NO;
-				PRODUCT_VERSION = 2.3.3;
+				PRODUCT_VERSION = 2.3.4;
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.4;
 				"SDKROOT[arch=ppc]" = macosx10.4;
