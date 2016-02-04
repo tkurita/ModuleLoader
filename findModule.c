@@ -304,7 +304,7 @@ OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, 
 		CFStringGetFileSystemRepresentation(cf_path, buffer, buff_size);
 		Boolean isDirectory;
 		err = FSPathMakeRef((const UInt8 *)buffer, &modules_folder, &isDirectory);
-		if (noErr == noErr) {
+		if (noErr == err) {
 			err = findModuleAtFolder(&modules_folder, module_condition, moduleRef);
 		} else {
 			fprintf(stderr, "Failed to FSPathMakeRef\n");
