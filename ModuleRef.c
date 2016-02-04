@@ -36,7 +36,7 @@ Boolean isScript(TXFileRef txfile)
 	
 	err = TXFileResolveAlias(txfile, &wasAliased);
 	if (noErr != err) {
-		fprintf(stderr, "Failed to TXFileResolveAlias with error : %d\n", err);
+		fprintf(stderr, "Failed to TXFileResolveAlias with error : %d\n", (int)err);
 		goto bail;
 	}
 	
@@ -75,11 +75,11 @@ Boolean isScript(TXFileRef txfile)
 		goto bail;
 	}
 	
-	if (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.script"))) {
+	if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.script"))) ) {
 		goto bail;
 	}
 	
-	if (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.text"))) {
+	if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.text"))) ) {
 		goto bail;
 	}
 bail:
