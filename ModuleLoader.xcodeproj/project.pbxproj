@@ -688,7 +688,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DICT_FRAMEWORK=\"build/${BUILD_STYLE}/DummyDictionary.framework\"\nosacompile -dx -i ${DICT_FRAMEWORK} -o loader.scpt loader.applescript\nosacompile -dx -i ${DICT_FRAMEWORK} -o LocalLoader.scpt LocalLoader.applescript";
+			shellScript = "DICT_FRAMEWORK=\"build/${CONFIGURATION}/DummyDictionary.framework\"\nosacompile -dx -i ${DICT_FRAMEWORK} -o loader.scpt loader.applescript\nosacompile -dx -i ${DICT_FRAMEWORK} -o LocalLoader.scpt LocalLoader.applescript";
 		};
 		2CAFFE7210C636C4002B217C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -916,7 +916,6 @@
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
 				GCC_VERSION = 4.2;
@@ -991,14 +990,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = TXRegularExpression;
-				ModuleLoader_VERSION = 2.3.4;
+				ModuleLoader_VERSION = 2.3.5b;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
-				PREBINDING = NO;
-				PRODUCT_VERSION = 2.3.4;
+				PRODUCT_VERSION = 2.3.4b;
 				REZ_SHOW_DEBUG_OUTPUT = NO;
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.5;
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -1009,14 +1005,11 @@
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
 				INFOPLIST_FILE = Info_10_6.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
-				ModuleLoader_VERSION = 2.3.4;
 				PRODUCT_NAME = ModuleLoader;
-				PRODUCT_VERSION = 2.3.4;
 				SYMROOT = build;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = osax;
@@ -1166,13 +1159,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = TXRegularExpression;
-				ModuleLoader_VERSION = 2.3.4;
+				ModuleLoader_VERSION = 2.3.5b;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
-				PREBINDING = NO;
-				PRODUCT_VERSION = 2.3.4;
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.5;
+				PRODUCT_VERSION = 2.3.4b;
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};

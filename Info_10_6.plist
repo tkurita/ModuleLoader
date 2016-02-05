@@ -6,139 +6,139 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleVersion</key>
-	<string>44</string>
-	<key>CFBundleShortVersionString</key>
-	<string>${PRODUCT_VERSION}</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>for 10.6. copyright 2006-2016, Tetsuro KURITA</string>
 	<key>CFBundleGetInfoString</key>
-	<string>${PRODUCT_VERSION} for 10.6. copyright 2006-2016, Tetsuro KURITA</string>
+	<string>${PRODUCT_VERSION} copyright 2006-2016, Tetsuro KURITA</string>
 	<key>CFBundleIdentifier</key>
 	<string>Scriptfactory.osax.ModuleLoader</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>osax</string>
-	<key>CFBundleSignature</key>
-	<string>ascr</string>
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>osax</string>
+	<key>CFBundleShortVersionString</key>
+	<string>${PRODUCT_VERSION}</string>
+	<key>CFBundleSignature</key>
+	<string>ascr</string>
+	<key>CFBundleVersion</key>
+	<string>44</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>copyright 2006-2016, Tetsuro KURITA</string>
 	<key>OSAScriptingDefinition</key>
 	<string>${PRODUCT_NAME}.sdef</string>
 	<key>OSAXHandlers</key>
 	<dict>
 		<key>Events</key>
 		<dict>
-			<key>MoloPloM</key>
-			<dict>
-				<key>Handler</key>
-				<string>_loadModuleHandler_</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
-			<key>MolofdMo</key>
-			<dict>
-				<key>Handler</key>
-				<string>findModuleHandler</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
-			<key>MololoMo</key>
-			<dict>
-				<key>Handler</key>
-				<string>loadModuleHandler</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
-			<key>MoloMKlo</key>
-			<dict>
-				<key>Handler</key>
-				<string>makeLoaderHandler</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
-			<key>MoloPMKl</key>
-			<dict>
-				<key>Handler</key>
-				<string>makeLoaderHandler</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
-			<key>MologtPH</key>
-			<dict>
-				<key>Handler</key>
-				<string>modulePathsHandler</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
-			<key>MoloadMp</key>
-			<dict>
-				<key>Handler</key>
-				<string>setAdditionalModulePathsHandler</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
-			<key>MoloMkLl</key>
-			<dict>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-				<key>Handler</key>
-				<string>makeLocalLoaderHandler</string>
-			</dict>
-			<key>MoloVers</key>
-			<dict>
-				<key>Handler</key>
-				<string>versionHandler</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
-			<key>MoloMkMs</key>
-			<dict>
-				<key>Handler</key>
-				<string>makeModuleSpecHandler</string>
-				<key>ThreadSafe</key>
-				<true/>
-				<key>Context</key>
-				<string>Machine</string>
-			</dict>
 			<key>MoloExdp</key>
 			<dict>
+				<key>Context</key>
+				<string>Machine</string>
 				<key>Handler</key>
 				<string>extractDependenciesHandler</string>
 				<key>ThreadSafe</key>
 				<true/>
+			</dict>
+			<key>MoloMKlo</key>
+			<dict>
 				<key>Context</key>
 				<string>Machine</string>
+				<key>Handler</key>
+				<string>makeLoaderHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
 			</dict>
 			<key>MoloMeVe</key>
 			<dict>
+				<key>Context</key>
+				<string>Machine</string>
 				<key>Handler</key>
 				<string>meetVersionHandler</string>
 				<key>ThreadSafe</key>
 				<true/>
+			</dict>
+			<key>MoloMkLl</key>
+			<dict>
 				<key>Context</key>
 				<string>Machine</string>
+				<key>Handler</key>
+				<string>makeLocalLoaderHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+			</dict>
+			<key>MoloMkMs</key>
+			<dict>
+				<key>Context</key>
+				<string>Machine</string>
+				<key>Handler</key>
+				<string>makeModuleSpecHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+			</dict>
+			<key>MoloPMKl</key>
+			<dict>
+				<key>Context</key>
+				<string>Machine</string>
+				<key>Handler</key>
+				<string>makeLoaderHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+			</dict>
+			<key>MoloPloM</key>
+			<dict>
+				<key>Context</key>
+				<string>Machine</string>
+				<key>Handler</key>
+				<string>_loadModuleHandler_</string>
+				<key>ThreadSafe</key>
+				<true/>
+			</dict>
+			<key>MoloVers</key>
+			<dict>
+				<key>Context</key>
+				<string>Machine</string>
+				<key>Handler</key>
+				<string>versionHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+			</dict>
+			<key>MoloadMp</key>
+			<dict>
+				<key>Context</key>
+				<string>Machine</string>
+				<key>Handler</key>
+				<string>setAdditionalModulePathsHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+			</dict>
+			<key>MolofdMo</key>
+			<dict>
+				<key>Context</key>
+				<string>Machine</string>
+				<key>Handler</key>
+				<string>findModuleHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+			</dict>
+			<key>MologtPH</key>
+			<dict>
+				<key>Context</key>
+				<string>Machine</string>
+				<key>Handler</key>
+				<string>modulePathsHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
+			</dict>
+			<key>MololoMo</key>
+			<dict>
+				<key>Context</key>
+				<string>Machine</string>
+				<key>Handler</key>
+				<string>loadModuleHandler</string>
+				<key>ThreadSafe</key>
+				<true/>
 			</dict>
 		</dict>
 	</dict>
