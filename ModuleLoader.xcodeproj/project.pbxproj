@@ -989,15 +989,14 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=*]" = 10.4;
-				ModuleLoader_VERSION = 2.3.4b;
+				ModuleLoader_VERSION = 2.3.4;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
 				PREBINDING = NO;
-				PRODUCT_VERSION = 2.3.3;
+				PRODUCT_VERSION = 2.3.4;
 				REZ_SHOW_DEBUG_OUTPUT = NO;
 				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -1005,14 +1004,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 44;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
 				INFOPLIST_FILE = Info_10_6.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
+				ModuleLoader_VERSION = 2.3.4;
 				PRODUCT_NAME = ModuleLoader;
+				PRODUCT_VERSION = 2.3.4;
 				SYMROOT = build;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = osax;
@@ -1026,7 +1028,8 @@
 					ppc,
 					i386,
 				);
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 44;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1153,18 +1156,20 @@
 		4FADC23908B4156C00ABE55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = (
+					ppc,
+					"$(ARCHS_STANDARD_32_64_BIT)",
+				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=*]" = 10.4;
 				ModuleLoader_VERSION = 2.3.4;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
 				PREBINDING = NO;
 				PRODUCT_VERSION = 2.3.4;
 				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.4;
-				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.5;
 			};
 			name = Release;
 		};

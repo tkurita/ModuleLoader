@@ -66,7 +66,7 @@ Boolean isScript(TXFileRef txfile)
 		}
 	} else {
 		if (noErr != err) 
-			fprintf(stderr, "Faild to TXFileIsDirectory with error : %d\n", err);
+			fprintf(stderr, "Faild to TXFileIsDirectory with error : %d\n", (int)err);
 	}
 	
 	err = LSCopyItemAttribute(TXFileGetFSRefPtr(txfile), kLSRolesAll, kLSItemContentType, (CFTypeRef *)&uti );
