@@ -1139,7 +1139,6 @@
 		4FADC23508B4156C00ABE55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1163,16 +1162,18 @@
 					"$(ARCHS_STANDARD_32_64_BIT)",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
+				"GCC_VERSION[sdk=macosx10.4][arch=*]" = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = TXRegularExpression;
+				"MACOSX_DEPLOYMENT_TARGET[sdk=macosx10.4][arch=*]" = 10.4;
 				ModuleLoader_VERSION = 2.3.4;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
 				PREBINDING = NO;
 				PRODUCT_VERSION = 2.3.4;
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 			};
 			name = Release;
 		};

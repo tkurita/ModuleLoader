@@ -54,12 +54,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 476345199;
-			PBXWorkspaceStateSaveDate = 476345199;
+			PBXPerProjectTemplateStateSaveDate = 476370015;
+			PBXWorkspaceStateSaveDate = 476370015;
 		};
 		perUserProjectItems = {
-			2C319BCD1C6474AA00D9F5C7 /* XCBuildMessageTextBookmark */ = 2C319BCD1C6474AA00D9F5C7 /* XCBuildMessageTextBookmark */;
-			2C319BD41C6474EE00D9F5C7 /* PBXTextBookmark */ = 2C319BD41C6474EE00D9F5C7 /* PBXTextBookmark */;
+			2C319BCD1C6474AA00D9F5C7 = 2C319BCD1C6474AA00D9F5C7 /* PBXTextBookmark */;
+			2C319BD41C6474EE00D9F5C7 = 2C319BD41C6474EE00D9F5C7 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2C28A2FD14A09A7500951830 /* Source Control */;
 		userBuildSettings = {
@@ -163,11 +163,10 @@
 	2C2CD69710BCB79C008CA461 /* ModuleLoader for 10.4 */ = {
 		activeExec = 0;
 	};
-	2C319BCD1C6474AA00D9F5C7 /* XCBuildMessageTextBookmark */ = {
+	2C319BCD1C6474AA00D9F5C7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		comments = "Expected '=', ',', ';', 'asm' or '__attribute__' before 'VersionConditionPattern'";
 		fRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */;
-		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
 		rLoc = 12;
 		rType = 1;
