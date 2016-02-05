@@ -1,0 +1,6 @@
+[submodule "TXRegularExpression"]
+	path = TXRegularExpression
+	url = https://github.com/tkurita/TXRegularExpression.git
+[submodule "AEUtils"]
+	path = AEUtils
+	url = https://github.com/tkurita/AEUtils.git

@@ -300,7 +300,8 @@
 				2C72F2DD13485DFE00531114 /* TXRegularExpression.h */,
 				2C72F2DE13485DFE00531114 /* UErrorCode.h */,
 			);
-			path = TXRegularExpression;
+			name = TXRegularExpression;
+			path = TXRegularExpression/TXRegularExpression;
 			sourceTree = "<group>";
 		};
 		2C8E294E10BFD810008C44A9 /* Scripts */ = {
@@ -989,6 +990,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = TXRegularExpression;
 				ModuleLoader_VERSION = 2.3.4;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
 				PREBINDING = NO;
@@ -1163,6 +1165,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = TXRegularExpression;
 				ModuleLoader_VERSION = 2.3.4;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
 				PREBINDING = NO;
