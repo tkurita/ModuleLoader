@@ -9,3 +9,4 @@ OSErr TXFileResolveAlias(TXFileRef txfile, Boolean *wasAliased);
 Boolean TXFileIsDirectory(TXFileRef txfile, OSErr *err);
 Boolean TXFileIsPackage(TXFileRef txfile, OSErr *err);
 FSRef *TXFileGetFSRefPtr(TXFileRef txfile);
+CFURLRef CFURLGetFromTXFile(TXFileRef txfile);

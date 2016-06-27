@@ -10,6 +10,7 @@ typedef struct  {
 	FSRef fsref;
 	LSItemInfoRecord *lsInfo;
 	FSCatalogInfo *catInfo;
+    CFURLRef urlref;
 } TXFileStruct;
 
 static void TXFileDeallocate(void *ptr, void *info)
@@ -25,6 +26,7 @@ static void TXFileDeallocate(void *ptr, void *info)
 	
 	free(txf_struct->catInfo);
 	free(txf_struct);
+    CFRelease(txf_struct->urlref);
 }
 
 static CFAllocatorRef CreateTXFileDeallocator(void) {
@@ -53,7 +55,10 @@ TXFileRef TXFileCreate(CFAllocatorRef allocator, FSRef *fsref)
 #endif		
 	TXFileStruct *txf_struct = malloc(sizeof(TXFileStruct));
 	if (!txf_struct) return NULL;
-	if (fsref) txf_struct->fsref = *fsref;
+    if (fsref) {
+        txf_struct->fsref = *fsref;
+        txf_struct->urlref = CFURLCreateFromFSRef(kCFAllocatorDefault, fsref);
+    }
 	txf_struct->lsInfo = NULL;
 	txf_struct->catInfo = NULL;
 	
@@ -62,6 +67,12 @@ TXFileRef TXFileCreate(CFAllocatorRef allocator, FSRef *fsref)
 	TXFileRef txfile = CFDataCreateWithBytesNoCopy(allocator, (const UInt8 *)txf_struct, 
 													sizeof(TXFileStruct), deallocator);
 	return txfile;
+}
+
+CFURLRef CFURLGetFromTXFile(TXFileRef txfile)
+{
+    TXFileStruct *txf_struct = TXFileGetStruct(txfile);
+    return txf_struct->urlref;
 }
 
 FSRef *TXFileGetFSRefPtr(TXFileRef txfile)
