@@ -144,7 +144,7 @@
 		2C813B820B4CAC4F000FF2FE /* findModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = findModule.h; sourceTree = "<group>"; };
 		2C813B830B4CAC4F000FF2FE /* findModule.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = findModule.c; sourceTree = "<group>"; };
 		2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = ModuleLoader.sdef; sourceTree = "<group>"; };
-		2C813BD00B4CC5E6000FF2FE /* History.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = History.rtf; sourceTree = "<group>"; };
+		2C813BD00B4CC5E6000FF2FE /* History.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = History.rtf; path = ../History.rtf; sourceTree = "<group>"; };
 		2C813C750B4CD75C000FF2FE /* ModuleLoaderTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModuleLoaderTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C813C770B4CD75C000FF2FE /* ModuleLoaderTestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ModuleLoaderTestApp-Info.plist"; sourceTree = "<group>"; };
 		2C8E295410BFD82B008C44A9 /* FastList.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = FastList.applescript; sourceTree = "<group>"; };
