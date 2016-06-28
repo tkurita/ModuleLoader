@@ -271,8 +271,8 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	
 	AEDescList dependencies;
 	AECreateDesc(typeNull, NULL, 0, &dependencies);
-	AEDesc alias_desc;
-	AECreateDesc(typeNull, NULL, 0, &alias_desc);
+	AEDesc furl_desc;
+	AECreateDesc(typeNull, NULL, 0, &furl_desc);
 	AEDesc script_desc;
 	AECreateDesc(typeNull, NULL, 0, &script_desc);
 	AEDesc version_desc;
@@ -296,16 +296,9 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 		goto bail;
 	}
 	
-	// path
-	AliasHandle an_alias;
-	err = FSNewAlias(NULL, &(module_ref->fsref), &an_alias);
-	HLock((Handle)an_alias);
-	err = AECreateDesc(typeAlias, (Ptr) (*an_alias),
-					   GetHandleSize((Handle) an_alias), &alias_desc);
-	HUnlock((Handle)an_alias);
-	if (noErr != err) goto bail;
-	DisposeHandle((Handle) an_alias);
-	
+    err = AEDescCreateWithCFURL(module_ref->url, &furl_desc);
+    if (noErr != err) goto bail;
+    
 	err = extractDependencies(scriptingComponent, script_id, &dependencies);
 	if (noErr != err) goto bail;
 	
@@ -334,7 +327,7 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	
 	AEBuildError ae_err;
 	err = AEBuildDesc(&result_desc, &ae_err, "{file:@, scpt:@, DpIf:@, vers:@}",
-									&alias_desc, &script_desc, &dependencies, &version_desc);
+									&furl_desc, &script_desc, &dependencies, &version_desc);
 	if (noErr != err) goto bail;
 	
 	err = AEPutParamDesc(reply, keyAEResult, &result_desc);
@@ -342,7 +335,7 @@ bail:
 	AEDisposeDesc(&result_desc);
 	AEDisposeDesc(&script_desc);
 	AEDisposeDesc(&version_desc);
-	AEDisposeDesc(&alias_desc);
+	AEDisposeDesc(&furl_desc);
 	AEDisposeDesc(&dependencies);
 	ModuleRefFree(module_ref);
 	OSADispose(scriptingComponent, script_id);
