@@ -100,11 +100,6 @@ FSRef *TXFileGetFSRefPtr(TXFileRef txfile)
 	return &(txf_struct->fsref);
 }
 
-void TXFileReleaseInfo(TXFileRef txfile)
-{
-	TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-}
-
 Boolean TXFileResolveAlias(TXFileRef txfile, CFErrorRef *error)
 {
     if (! TXFileIsAliasFile(txfile, error)) {
