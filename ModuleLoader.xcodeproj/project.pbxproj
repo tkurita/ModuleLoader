@@ -629,6 +629,7 @@
 		2C5B3B7B10B98242004396E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -706,13 +707,14 @@
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${PRODUCT_VERSION}";
 				PRODUCT_VERSION = 2.4b;
 				REZ_SHOW_DEBUG_OUTPUT = NO;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		2CAFFE3E10C63528002B217C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -807,7 +809,7 @@
 				HEADER_SEARCH_PATHS = TXRegularExpression;
 				OTHER_CFLAGS = "-DModuleLoader_VERSION=${PRODUCT_VERSION}";
 				PRODUCT_VERSION = 2.4b;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
