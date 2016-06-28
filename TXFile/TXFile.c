@@ -112,35 +112,6 @@ FSRef *TXFileGetFSRefPtr(TXFileRef txfile)
 	return &(txf_struct->fsref);
 }
 
-LSItemInfoRecord *TXFileAllocateLSItemInfo(TXFileRef txfile)
-{
-	TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-	if (! txf_struct->lsInfo) {
-		txf_struct->lsInfo = (LSItemInfoRecord *)malloc(sizeof(LSItemInfoRecord));
-		txf_struct->lsInfo->extension = NULL;
-	}
-	return txf_struct->lsInfo;
-}
-
-
-LSItemInfoRecord *TXFileGetLSItemInfo(TXFileRef txfile, Boolean refresh, OSErr *err)
-{
-	TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-	if (txf_struct->lsInfo) {
-		if (refresh) {
-			CFRelease(txf_struct->lsInfo->extension);
-		} else {
-			goto bail;
-		}
-	} else {
-		txf_struct->lsInfo = (LSItemInfoRecord *)malloc(sizeof(LSItemInfoRecord));
-		txf_struct->lsInfo->extension = NULL;
-	}
-	*err = LSCopyItemInfoForRef(&(txf_struct->fsref), kLSRequestAllInfo & ~kLSRequestIconAndKind, txf_struct->lsInfo);
-bail:	
-	return txf_struct->lsInfo;
-}
-
 FSCatalogInfo *TXFileAllocateFSCtalogInfo(TXFileRef txfile)
 {
 	TXFileStruct *txf_struct = TXFileGetStruct(txfile);

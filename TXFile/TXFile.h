@@ -2,8 +2,6 @@ typedef CFDataRef TXFileRef;
 
 TXFileRef TXFileCreate(CFAllocatorRef allocator, FSRef *fsref);
 TXFileRef TXFileCreateWithURL(CFAllocatorRef allocator, CFURLRef url);
-LSItemInfoRecord *TXFileAllocateLSItemInfo(TXFileRef txfile);
-LSItemInfoRecord *TXFileGetLSItemInfo(TXFileRef txfile, Boolean refresh, OSErr *err);
 FSCatalogInfo *TXFileAllocateFSCtalogInfo(TXFileRef txfile);
 FSCatalogInfo *TXFileGetFSCatalogInfo(TXFileRef txfile, FSCatalogInfoBitmap whichinfo, Boolean refresh, OSErr *err);
 Boolean TXFileResolveAlias(TXFileRef txfile, CFErrorRef *error);
