@@ -8,8 +8,6 @@
 
 typedef struct  {
 	FSRef fsref;
-	LSItemInfoRecord *lsInfo;
-	FSCatalogInfo *catInfo;
     CFURLRef url;
 } TXFileStruct;
 
@@ -19,12 +17,7 @@ static void TXFileDeallocate(void *ptr, void *info)
 	fputs("TXFileDeallocate\n", stderr);
 #endif	
 	TXFileStruct *txf_struct = (TXFileStruct *)ptr;
-	if (txf_struct->lsInfo) {
-		SafeRelease(txf_struct->lsInfo->extension);
-		free(txf_struct->lsInfo);
-	}
-	
-	free(txf_struct->catInfo);
+    
     if (txf_struct->url) CFRelease(txf_struct->url);
     free(txf_struct);
 }
@@ -63,8 +56,6 @@ TXFileRef TXFileCreateWithURL(CFAllocatorRef allocator, CFURLRef url)
         }
         
     }
-    txf_struct->lsInfo = NULL;
-    txf_struct->catInfo = NULL;
     
     CFAllocatorRef deallocator = CreateTXFileDeallocator();
     TXFileRef txfile = CFDataCreateWithBytesNoCopy(allocator, (const UInt8 *)txf_struct,
@@ -83,9 +74,6 @@ TXFileRef TXFileCreate(CFAllocatorRef allocator, FSRef *fsref)
         txf_struct->fsref = *fsref;
         txf_struct->url = CFURLCreateFromFSRef(kCFAllocatorDefault, fsref);
     }
-	txf_struct->lsInfo = NULL;
-	txf_struct->catInfo = NULL;
-	
 	
 	CFAllocatorRef deallocator = CreateTXFileDeallocator();
 	TXFileRef txfile = CFDataCreateWithBytesNoCopy(allocator, (const UInt8 *)txf_struct, 
@@ -112,43 +100,9 @@ FSRef *TXFileGetFSRefPtr(TXFileRef txfile)
 	return &(txf_struct->fsref);
 }
 
-FSCatalogInfo *TXFileAllocateFSCtalogInfo(TXFileRef txfile)
-{
-	TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-	if (! txf_struct->catInfo) {
-		txf_struct->catInfo = (FSCatalogInfo *)malloc(sizeof(FSCatalogInfo));
-	}
-	return txf_struct->catInfo;	
-}
-
-FSCatalogInfo *TXFileGetFSCatalogInfo(TXFileRef txfile, FSCatalogInfoBitmap whichinfo, Boolean refresh, OSErr *err)
-{
-	TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-	if (txf_struct->catInfo) {
-		if (! refresh) goto bail;
-	} else {
-		txf_struct->catInfo = (FSCatalogInfo *)malloc(sizeof(FSCatalogInfo));	
-	}
-	
-	*err = FSGetCatalogInfo(&(txf_struct->fsref), whichinfo, txf_struct->catInfo, NULL, NULL, NULL);
-	if (noErr != *err) {
-		return NULL;
-	}
-	
-bail:	
-	return txf_struct->catInfo;
-}
-
 void TXFileReleaseInfo(TXFileRef txfile)
 {
 	TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-	free(txf_struct->catInfo);
-	txf_struct->catInfo = NULL;
-	if (txf_struct->lsInfo) {
-		SafeRelease(txf_struct->lsInfo->extension);
-		free(txf_struct->lsInfo);
-		txf_struct->lsInfo = NULL;
-	}
 }
 
 Boolean TXFileResolveAlias(TXFileRef txfile, CFErrorRef *error)
