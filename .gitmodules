@@ -4,3 +4,6 @@
 [submodule "AEUtils"]
 	path = AEUtils
 	url = https://github.com/tkurita/AEUtils.git
+[submodule "AppleEventExtra"]
+	path = AppleEventExtra
+	url = https://github.com/tkurita/AppleEventExtra.git
