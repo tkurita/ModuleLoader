@@ -240,11 +240,8 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 	ModuleRef* module_ref = NULL;
 	err = findModuleWithEvent(ev, reply, &module_ref);
 	if (err != noErr) goto bail;
-	AliasHandle an_alias;
-	err = FSNewAlias(NULL, &(module_ref->fsref), &an_alias);
-	err = putAliasToReply(an_alias, reply);
+    putFileURLToEvent(reply, keyAEResult, module_ref->url);
 	ModuleRefFree(module_ref);
-	DisposeHandle((Handle) an_alias);
 bail:
 	gAdditionReferenceCount--;
 	return err;

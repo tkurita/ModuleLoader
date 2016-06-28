@@ -146,6 +146,7 @@ void ModuleRefFree(ModuleRef *module_ref)
 	if (!module_ref) return;
 	safeRelease(module_ref->name);
 	safeRelease(module_ref->version);
+    safeRelease(module_ref->url);
 	free(module_ref);
 }
 
