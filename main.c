@@ -4,9 +4,7 @@
 
 #define useLog 0
 
-extern UInt32 gAdditionReferenceCount;
 CFBundleRef		gAdditionBundle;
-
 
 struct AEEventHandlerInfo {
 	FourCharCode			evClass, evID;
@@ -59,11 +57,6 @@ void SATerminate()
 {
 	RemoveMyEventHandlers();
 	free(gEventUPPs);
-}
-
-Boolean SAIsBusy()
-{
-	return gAdditionReferenceCount != 0;
 }
 
 static OSErr InstallMyEventHandlers()

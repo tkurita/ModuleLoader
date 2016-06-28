@@ -6,8 +6,6 @@
 
 #define useLog 0
 
-UInt32 gAdditionReferenceCount = 0;
-
 static ComponentInstance scriptingComponent = NULL;
 
 extern const char *MODULE_SPEC_LABEL;
@@ -19,17 +17,14 @@ OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 #if useLog
 	fprintf(stderr, "start versionHandler\n");
-#endif			
-	gAdditionReferenceCount++;
+#endif
 	OSErr err;	
 	err = putStringToEvent(reply, keyAEResult, CFSTR(STR(ModuleLoader_VERSION)), kCFStringEncodingUnicode);
-	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	gAdditionReferenceCount++;
 	OSErr err;
 	CFMutableArrayRef all_paths = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
 	CFArrayRef additional_paths = additionalModulePaths();
@@ -47,13 +42,11 @@ OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon
 	
 	err = putStringListToEvent(reply, keyAEResult, all_paths, kCFStringEncodingUTF8);
 	CFRelease(all_paths);
-	gAdditionReferenceCount--;
 	return noErr;
 }
 
 OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	gAdditionReferenceCount++;
 	OSErr err;
 	CFMutableArrayRef module_paths = NULL;
 	Boolean ismsg;
@@ -69,7 +62,6 @@ OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, S
 	}
 bail:
 	safeRelease(module_paths);
-	gAdditionReferenceCount--;	
 	return err;
 }
 
@@ -102,7 +94,6 @@ bail:
 
 OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	OSAID loader_id = kOSANullScript;
 	
@@ -124,13 +115,11 @@ OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon re
 	AEDisposeDesc(&result);
 bail:
 	OSADispose(scriptingComponent, loader_id);
-	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	gAdditionReferenceCount++;
 	OSErr err;
 	OSAID loader_id = kOSANullScript;
 	err = loadBundleScript(CFSTR("loader"), &loader_id);
@@ -151,7 +140,6 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 	AEDisposeDesc(&result);
 bail:
 	OSADispose(scriptingComponent, loader_id);
-	gAdditionReferenceCount--;
 	return err;
 }
 
@@ -234,8 +222,7 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 #if useLog
 	fprintf(stderr, "start findModuleHandler\n");
-#endif		
-	gAdditionReferenceCount++;
+#endif
 	OSErr err = noErr;
 	ModuleRef* module_ref = NULL;
 	err = findModuleWithEvent(ev, reply, &module_ref);
@@ -243,7 +230,6 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
     putFileURLToEvent(reply, keyAEResult, module_ref->url);
 	ModuleRefFree(module_ref);
 bail:
-	gAdditionReferenceCount--;
 	return err;
 }
 
@@ -265,7 +251,6 @@ bail:
 
 OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	OSAID script_id = kOSANullScript;
 	
@@ -339,7 +324,6 @@ bail:
 	AEDisposeDesc(&dependencies);
 	ModuleRefFree(module_ref);
 	OSADispose(scriptingComponent, script_id);
-	gAdditionReferenceCount--;
 	return err;	
 }
 
@@ -347,8 +331,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 #if useLog
 	fprintf(stderr, "start loadModuleHandler\n");
-#endif	
-	gAdditionReferenceCount++;
+#endif
 	OSErr err = noErr;
 	OSAID script_id = kOSANullScript;
 	
@@ -382,13 +365,11 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 bail:
 	ModuleRefFree(module_ref);
 	OSADispose(scriptingComponent, script_id);
-	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	gAdditionReferenceCount++;
 	OSErr err;
 	AEDesc module_name;
 	AECreateDesc(typeNull, NULL, 0, &module_name);
@@ -426,13 +407,11 @@ bail:
 	AEDisposeDesc(&module_name);
 	AEDisposeDesc(&required_version);
 	AEDisposeDesc(&with_reloading);
-	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	gAdditionReferenceCount++;
 #if useLog
 	fprintf(stderr, "start extractDependenciesHandler\n");
 #endif
@@ -460,13 +439,11 @@ bail:
 	AEDisposeDesc(&script_data);
 	AEDisposeDesc(&dependencies);
 	OSADispose(scriptingComponent, script_id);
-	gAdditionReferenceCount--;
 	return err;
 }
 
 OSErr meetVersionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	gAdditionReferenceCount++;
 	OSErr err = noErr;
 	CFStringRef version = NULL;
 	CFStringRef condition = NULL;
@@ -499,6 +476,5 @@ bail:
 	safeRelease(version);
 	safeRelease(condition);
 	VersionConditionSetFree(vercond_set);
-	gAdditionReferenceCount--;
 	return err;
 }
