@@ -3,6 +3,8 @@
 #include "findModule.h"
 #include "ModuleLoaderConstants.h"
 #include "ExtractDependencies.h"
+#import <Cocoa/Cocoa.h>
+#import "AppleEventExtra.h"
 
 #define useLog 0
 
@@ -26,23 +28,21 @@ OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 OSErr modulePathsHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	OSErr err;
-	CFMutableArrayRef all_paths = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-	CFArrayRef additional_paths = additionalModulePaths();
-	if (additional_paths) {
-		CFArrayAppendArray(all_paths, additional_paths, 
-						   CFRangeMake(0, CFArrayGetCount(additional_paths)));
-	}
-	
-	CFArrayRef default_paths = copyDefaultModulePaths();
-	if (default_paths) {
-		CFArrayAppendArray(all_paths, default_paths, 
-						   CFRangeMake(0, CFArrayGetCount(default_paths)));
-		CFRelease(default_paths);
-	}
-	
-	err = putStringListToEvent(reply, keyAEResult, all_paths, kCFStringEncodingUTF8);
-	CFRelease(all_paths);
-	return noErr;
+    @autoreleasepool {
+        NSMutableArray *all_paths = [NSMutableArray arrayWithCapacity:6];
+        NSArray *additional_paths = additionalModulePaths();
+        if (additional_paths) {
+            [all_paths addObjectsFromArray:additional_paths];
+        }
+        
+        NSArray *default_paths = copyDefaultModulePaths();
+        if (default_paths) {
+            [all_paths addObjectsFromArray:default_paths];
+        }
+        NSAppleEventDescriptor *list_desc = [all_paths appleEventDescriptor];
+        err = AEPutParamDesc(reply, keyAEResult, [list_desc aeDesc]);
+    }
+	return err;
 }
 
 OSErr setAdditionalModulePathsHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
@@ -188,8 +188,10 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** m
 		err = kFailedToParseVersionCondition;
 		goto bail;
 	}
-	err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths, 
-					 moduleRefPtr, &searched_paths);
+    @autoreleasepool{
+        err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths,
+                         moduleRefPtr, &searched_paths);
+    }
 	if (err != noErr) {
 		CFStringRef pathlist = NULL;
 		if (searched_paths) {

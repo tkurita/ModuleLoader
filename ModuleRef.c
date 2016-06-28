@@ -11,7 +11,7 @@ CFStringRef ModuleRefGetVersion(ModuleRef *module_ref)
 	}
 	if (! module_ref->is_package) return NULL;
 	
-	CFURLRef url = CFURLCreateFromFSRef(NULL, &module_ref->fsref);	
+	CFURLRef url = module_ref->url;
 #if useLog
 	fputs("In ModuleRefGetVersion", stderr);
 	CFShow(url);

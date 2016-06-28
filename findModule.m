@@ -21,7 +21,7 @@ void setAdditionalModulePaths(CFArrayRef array)
 	if (MODULE_PATHS) MODULE_PATHS = CFRetain(MODULE_PATHS);
 }
 
-CFArrayRef additionalModulePaths()
+NSArray *additionalModulePaths()
 {
 	if (MODULE_PATHS) goto bail;
 	MODULE_PATHS = CFPreferencesCopyAppValue(MODULE_PATHS_KEY, BUNDLE_ID);
@@ -29,31 +29,33 @@ CFArrayRef additionalModulePaths()
 	CFShow(MODULE_PATHS);
 #endif
 bail:
-	return MODULE_PATHS;
+	return CFBridgingRelease(MODULE_PATHS);
 }
 
-CFArrayRef copyDefaultModulePaths()
+void traverseDefaultLocations(BOOL (^block)(NSURL *))
 {
-	OSErr err;
-	CFMutableArrayRef paths = CFArrayCreateMutable(kCFAllocatorDefault, 3, &kCFTypeArrayCallBacks);
-	FSRef scripts_folder;
-	FSRef modules_folder;
-	int domains[3] = {kUserDomain, kLocalDomain, kNetworkDomain};
-	for (int n=0; n < 3; n++) {
-		err = FSFindFolder(domains[n], kScriptsFolderType, false, &scripts_folder);
-		if (noErr != err) continue;
-		err = FSMakeFSRefChild(&scripts_folder, CFSTR("Modules"), &modules_folder);
-		if (noErr != err) continue;
-		CFURLRef url = CFURLCreateFromFSRef(kCFAllocatorDefault, &modules_folder);
-		CFStringRef path = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-		CFArrayAppendValue(paths, path);
-		CFRelease(url);
-		CFRelease(path);
-	}
-	return paths;
+    static NSUInteger domains[3] = {NSUserDomainMask, NSLocalDomainMask, NSNetworkDomainMask};
+    NSArray *sub_pathes = @[@"Scripts/Modules", @"Script Libraries"];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    for (NSUInteger n=0; n < 3; n++) {
+        NSArray *dirs = [fm URLsForDirectory:NSLibraryDirectory inDomains:domains[n]];
+        for (NSString *a_path in sub_pathes) {
+            NSURL *url = [(NSURL *)dirs.lastObject URLByAppendingPathComponent:a_path];
+            if (!block(url)) return;
+        }
+    }
 }
 
-
+NSArray *copyDefaultModulePaths()
+{
+    __block NSMutableArray *array = [NSMutableArray arrayWithCapacity:6];
+    traverseDefaultLocations(^(NSURL *url) {
+        [array addObject:url];
+        return YES;
+    });
+    
+    return array;
+}
 
 OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
                  Boolean searchSubFolders, ModuleRef **outRef)
@@ -159,26 +161,9 @@ bail:
 	return err;
 }
 
-OSErr findModuleWithName(FSRef *container_ref, ModuleCondition *module_condition, ModuleRef** module_ref)
+OSErr findModuleWithName(NSURL *container_url, ModuleCondition *module_condition, ModuleRef** module_ref)
 {
-	CFURLRef container_url = CFURLCreateFromFSRef(kCFAllocatorDefault,
-                                                  container_ref);
-    return scanFolder(container_url, module_condition, true, module_ref);
-}
-
-OSErr FSMakeFSRefChild(FSRef *parentRef, CFStringRef childName, FSRef *newRef)
-{
-	UniCharCount length = CFStringGetLength(childName);
-	const UniChar *name = CFStringGetCharactersPtr(childName);
-	UniChar *buffer = NULL;
-	if (! name) {
-        buffer = malloc(length * sizeof(UniChar));
-        CFStringGetCharacters(childName, CFRangeMake(0, length), buffer);
-        name = buffer;
-	}
-	OSErr err = FSMakeFSRefUnicode(parentRef, length, name, kCFStringEncodingUnicode, newRef);	
-	if (buffer) free(buffer);
-	return err;
+    return scanFolder((__bridge CFURLRef)(container_url), module_condition, true, module_ref);
 }
 
 OSErr pickupModuleAtFolder(CFURLRef container_url, ModuleCondition *module_condition, ModuleRef **out_module_ref)
@@ -217,40 +202,32 @@ bail:
 	return err;
 }
 
-OSErr findModuleWithSubPath(FSRef *container_ref, ModuleCondition *module_condition, ModuleRef** module_ref)
+OSErr findModuleWithSubPath(NSURL *container_url, ModuleCondition *module_condition, ModuleRef** module_ref)
 {
 	OSErr err;
-	Boolean is_exists = true;
-	FSRef parentdir_ref = *container_ref;
 	CFArrayRef path_comps = module_condition->subpath;
 	for (CFIndex n=0; n<(CFArrayGetCount(path_comps) -1); n++) {
 		CFStringRef path_elem = CFArrayGetValueAtIndex(path_comps, n);
 		if (!CFStringGetLength(path_elem)) continue;
-		FSRef subdir_ref;
-		err = FSMakeFSRefChild(&parentdir_ref, path_elem, &subdir_ref);
-		is_exists = (err == noErr);
-		if (!is_exists) break;
-		parentdir_ref = subdir_ref;
+        container_url = [container_url URLByAppendingPathComponent:(__bridge NSString * _Nonnull)(path_elem)];
 	}
-	if (is_exists) {
-        CFURLRef parent_url = CFURLCreateFromFSRef(kCFAllocatorDefault,
-                                                   &parentdir_ref);
-        err = pickupModuleAtFolder(parent_url, module_condition, module_ref);
-		if (err != noErr) {			
-			err = scanFolder(parent_url, module_condition, false, module_ref);
-		}
-        CFRelease(parent_url);
-		if (err == noErr) return err;
-	}
+    if ([container_url checkResourceIsReachableAndReturnError:NULL]) {
+        err = pickupModuleAtFolder((__bridge CFURLRef)(container_url), module_condition, module_ref);
+        if (err != noErr) {
+            err = scanFolder((__bridge CFURLRef)(container_url), module_condition, false, module_ref);
+        }
+        if (err == noErr) return err;
+    }
+    
 	return kModuleIsNotFound;
 }
+
 
 
 OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, Boolean ignoreDefaultPaths,
 				 ModuleRef** moduleRef, CFMutableArrayRef* searchedPaths)
 {
-	OSErr err = noErr;
-	OSErr (*findModuleAtFolder)(FSRef *container_ref, ModuleCondition *module_condition, ModuleRef** moduleRef);
+	OSErr (*findModuleAtFolder)(NSURL *container_url, ModuleCondition *module_condition, ModuleRef** moduleRef);
 #if useLog
 	fprintf(stderr, "ignoreDefaultPaths : %d\n", ignoreDefaultPaths);
 	CFShow(additionalPaths);
@@ -260,36 +237,24 @@ OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, 
 	} else {
 		findModuleAtFolder = findModuleWithName;
 	}
-	
-	FSRef scripts_folder;
-	FSRef modules_folder;
-	CFMutableArrayRef path_list = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-	if (additionalPaths) {
-		CFArrayAppendArray(path_list, additionalPaths, 
-						   CFRangeMake(0, CFArrayGetCount(additionalPaths)));		
+    __block ModuleRef *found_moduleref = NULL;
+    __block NSMutableArray *path_list = [NSMutableArray arrayWithCapacity:6];
+    
+    if (additionalPaths) {
+        [path_list addObjectsFromArray:CFBridgingRelease(additionalPaths)];
 	}
 	
 	if (!ignoreDefaultPaths) {
-		CFArrayRef tmp_pathlist = additionalModulePaths();
+		NSArray *tmp_pathlist = additionalModulePaths();
 		if (tmp_pathlist) {
-			CFArrayAppendArray(path_list, tmp_pathlist, 
-							   CFRangeMake(0, CFArrayGetCount(tmp_pathlist)));
+            [path_list addObjectsFromArray:tmp_pathlist];
 		}
 	}
-	for (int n=0; n < CFArrayGetCount(path_list); n++) {
-		CFStringRef cf_path = CFArrayGetValueAtIndex(path_list, n);
-		CFIndex buff_size = CFStringGetMaximumSizeOfFileSystemRepresentation(cf_path);
-		char *buffer = malloc(buff_size);
-		CFStringGetFileSystemRepresentation(cf_path, buffer, buff_size);
-		Boolean isDirectory;
-		err = FSPathMakeRef((const UInt8 *)buffer, &modules_folder, &isDirectory);
-		if (noErr == err) {
-			err = findModuleAtFolder(&modules_folder, module_condition, moduleRef);
-		} else {
-			fprintf(stderr, "Failed to FSPathMakeRef\n");
-			CFShow(cf_path);
-		}
-		free(buffer);
+    
+    __block OSErr err = kModuleIsNotFound;
+    for (NSString *path in path_list) {
+        NSURL *url = [NSURL fileURLWithPath:path];
+        err = findModuleAtFolder(url, module_condition, &found_moduleref);
 		if (err == noErr) {
 #if useLog			
 			fprintf(stderr, "Module is found\n");
@@ -298,33 +263,27 @@ OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, 
 		}
 	}
 	
-	*searchedPaths = path_list;
-	
 	if (ignoreDefaultPaths) {
-		err = kModuleIsNotFound;
 		goto bail;
 	}
-	
-	int domains[3] = {kUserDomain, kLocalDomain, kNetworkDomain};
-	for (int n=0; n < 3; n++) {
-		err = FSFindFolder(domains[n], kScriptsFolderType, false, &scripts_folder);
-		if (noErr != err) continue;
-		err = FSMakeFSRefChild(&scripts_folder, CFSTR("Modules"), &modules_folder);
-		if (noErr != err) continue;
-		err = findModuleAtFolder(&modules_folder, module_condition, moduleRef);
-		CFURLRef modulefolder_url = CFURLCreateFromFSRef(NULL, &modules_folder);
-		CFStringRef modulefolder_path = CFURLCopyFileSystemPath(modulefolder_url, kCFURLPOSIXPathStyle);
-		CFArrayAppendValue(*searchedPaths, modulefolder_path);
-		CFRelease(modulefolder_url);
-		CFRelease(modulefolder_path);
-		if (err == noErr) {
+    
+    traverseDefaultLocations(^(NSURL *url) {
+        if ([url checkResourceIsReachableAndReturnError:NULL]) {
+            err = findModuleAtFolder(url, module_condition, &found_moduleref);
+        }
+        [path_list addObject:[url path]];
+        if (err == noErr) {
 #if useLog
-			fprintf(stderr, "Module Found\n");
+            fprintf(stderr, "Module Found\n");
 #endif
-			break;
-		}
-		
-	}
+            return NO;
+        } else {
+            return YES;
+        }
+    });
+    
 bail:
+    if ([path_list count] > 0) *searchedPaths = CFBridgingRetain(path_list);
+    *moduleRef = found_moduleref;
 	return err;
 }
