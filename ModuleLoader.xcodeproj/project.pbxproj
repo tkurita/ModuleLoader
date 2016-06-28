@@ -629,11 +629,6 @@
 		2C5B3B7B10B98242004396E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc64,
-					ppc,
-					"$(ARCHS_STANDARD_32_64_BIT)",
-				);
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -708,9 +703,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = TXRegularExpression;
-				ModuleLoader_VERSION = 2.3.5b;
-				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
-				PRODUCT_VERSION = 2.3.4b;
+				OTHER_CFLAGS = "-DModuleLoader_VERSION=${PRODUCT_VERSION}";
+				PRODUCT_VERSION = 2.4b;
 				REZ_SHOW_DEBUG_OUTPUT = NO;
 				SDKROOT = macosx10.11;
 			};
@@ -719,7 +713,6 @@
 		2CAFFE3E10C63528002B217C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -808,14 +801,12 @@
 		4FADC23908B4156C00ABE55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = TXRegularExpression;
-				ModuleLoader_VERSION = 2.3.5b;
-				OTHER_CFLAGS = "-DModuleLoader_VERSION=${ModuleLoader_VERSION}";
-				PRODUCT_VERSION = 2.3.4b;
+				OTHER_CFLAGS = "-DModuleLoader_VERSION=${PRODUCT_VERSION}";
+				PRODUCT_VERSION = 2.4b;
 				SDKROOT = macosx10.11;
 			};
 			name = Release;
