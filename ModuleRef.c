@@ -29,60 +29,50 @@ CFStringRef ModuleRefGetVersion(ModuleRef *module_ref)
 Boolean isScript(TXFileRef txfile)
 {
 	Boolean result = false;
-	OSStatus err = noErr;
-	CFStringRef uti = nil;
+	CFStringRef uti = NULL;
 	
-	Boolean wasAliased = false;
-	
-	err = TXFileResolveAlias(txfile, &wasAliased);
-	if (noErr != err) {
-		fprintf(stderr, "Failed to TXFileResolveAlias with error : %d\n", (int)err);
-		goto bail;
-	}
-	
-	if (TXFileIsDirectory(txfile, (OSErr *)&err) ){
-		LSItemInfoRecord *iteminfo = TXFileGetLSItemInfo(txfile, 0, (OSErr *)&err);
-		if (noErr != err) {
-			fprintf(stderr, "Failed to LSCopyItemInfoForRef with error : %d\n", (int)err);
-			goto bail;
-		}			
-		
-		if (! (iteminfo->flags & kLSItemInfoIsPackage)) {
-			goto bail;
-		} 
-		if ((iteminfo->flags & kLSItemInfoIsApplication) ) {
-#if useLog
-			CFStringRef creator = UTCreateStringForOSType(iteminfo->creator);
-			CFShow(creator);
-#endif
-			result = ((iteminfo->creator == 'aplt') || (iteminfo->creator == 'dplt')); 
-			// if true, AppleScript Application
-			goto bail;
-		}
-		
-		if (kCFCompareEqualTo ==  CFStringCompare(iteminfo->extension, CFSTR("scptd"), 0)) {
-			result = true;
-			goto bail;
-		}
-	} else {
-		if (noErr != err) 
-			fprintf(stderr, "Faild to TXFileIsDirectory with error : %d\n", (int)err);
-	}
-	
-	err = LSCopyItemAttribute(TXFileGetFSRefPtr(txfile), kLSRolesAll, kLSItemContentType, (CFTypeRef *)&uti );
-	if (noErr != err) {
-		fprintf(stderr, "Failed to LSCopyItemAttribute with error : %d\n", (int)err);
-		goto bail;
-	}
-	
-	if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.script"))) ) {
-		goto bail;
-	}
-	
-	if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.text"))) ) {
-		goto bail;
-	}
+    CFErrorRef error = NULL;
+    if (! TXFileResolveAlias(txfile, &error) ) {
+        if (error) {
+            CFShow(error);
+        }
+        goto bail;
+    }
+    uti = TXFileCopyTypeIdentifier(txfile, &error);
+    if (error) {
+        CFShow(error);
+        goto bail;
+    }
+    if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.script-bundle"))) ) {
+        result = true;
+        goto bail;
+    }
+    
+    if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.script"))) ) {
+        result = true;
+        goto bail;
+    }
+    
+    if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.text"))) ) {
+        result = true;
+        goto bail;
+    }
+    
+    if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.application-bundle"))) ) {
+        CFBundleRef bundle = CFBundleCreate(kCFAllocatorDefault, TXFileGetURL(txfile));
+        CFDictionaryRef dict = CFBundleGetInfoDictionary(bundle);
+        CFStringRef creator = CFDictionaryGetValue(dict, CFSTR("CFBundleSignature"));
+
+        if ((kCFCompareEqualTo ==  CFStringCompare(creator, CFSTR("dplt"), 0))
+                || (kCFCompareEqualTo ==  CFStringCompare(creator, CFSTR("aplt"), 0))) {
+            result = true;
+        }
+        CFRelease(bundle);
+        goto bail;
+    }
+
 bail:
+    safeRelease(error);
 	safeRelease(uti);
 	return result;
 }
@@ -93,13 +83,12 @@ ModuleRef *ModuleRefCreate(TXFileRef txfile)
 	if (!isScript(txfile)) return NULL;
 	module_ref = malloc(sizeof(ModuleRef));
 	module_ref->fsref = *TXFileGetFSRefPtr(txfile);
+    module_ref->url = TXFileCopyURL(txfile);
 	module_ref->version = NULL;
 	module_ref->name = NULL;
-	OSErr err = noErr;
-	module_ref->is_package = TXFileIsPackage(txfile, &err);
-	if (noErr != err) {
-		fprintf(stderr, "Failed to TXFileIsPackage with error : %d\n", err);
-	}
+    CFErrorRef error = NULL;
+    module_ref->is_package = TXFileIsPackage(txfile, &error);
+    if (error) CFShow(error);
 bail:
 	return module_ref;
 }
@@ -110,9 +99,16 @@ void ShowModuleRef(ModuleRef *module_ref)
 					CFSTR("name : %@, version : %@"), module_ref->name, module_ref->version));
 }
 
-ModuleRef *ModuleRefCreateWithCondition(TXFileRef txfile, CFStringRef filename, ModuleCondition *module_condition)
+ModuleRef *ModuleRefCreateWithCondition(TXFileRef txfile, ModuleCondition *module_condition)
 {
-	CFArrayRef array = ModuleConditionParseName(module_condition, filename);
+    CFErrorRef error = NULL;
+    CFStringRef filename = NULL;
+    CFArrayRef array = NULL;
+    filename = TXFileCopyAttribute(txfile, kCFURLNameKey, &error);
+    if (error) {
+        CFShow(error); goto bail;
+    }
+    array = ModuleConditionParseName(module_condition, filename);
 #if useLog
 	CFShow(filename);
 	CFShow(array);
@@ -121,10 +117,10 @@ ModuleRef *ModuleRefCreateWithCondition(TXFileRef txfile, CFStringRef filename, 
 	if (!isScript(txfile)) return NULL;
 	ModuleRef *module_ref = malloc(sizeof(ModuleRef));
 	module_ref->fsref = *TXFileGetFSRefPtr(txfile);
-	OSErr err = noErr;
-	module_ref->is_package = TXFileIsPackage(txfile, &err);
-	if (noErr != err)
-		fprintf(stderr, "Failed to TXFileIsPackage with error : %d\n", err);
+	module_ref->is_package = TXFileIsPackage(txfile, &error);
+    if (error) {
+        CFShow(error); goto bail;
+    }
 	CFStringRef text = CFArrayGetValueAtIndex(array, 0);
 	module_ref->name = CFRetain(text);
 	CFStringRef version = CFArrayGetValueAtIndex(array, 2);
@@ -138,8 +134,10 @@ ModuleRef *ModuleRefCreateWithCondition(TXFileRef txfile, CFStringRef filename, 
 		ModuleRefFree(module_ref);
 		module_ref = NULL;
 	}
-	
-	CFRelease(array);
+bail:
+    safeRelease(array);
+    safeRelease(error);
+    safeRelease(filename);
 	return module_ref;	
 }
 

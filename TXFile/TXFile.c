@@ -10,7 +10,7 @@ typedef struct  {
 	FSRef fsref;
 	LSItemInfoRecord *lsInfo;
 	FSCatalogInfo *catInfo;
-    CFURLRef urlref;
+    CFURLRef url;
 } TXFileStruct;
 
 static void TXFileDeallocate(void *ptr, void *info)
@@ -25,8 +25,8 @@ static void TXFileDeallocate(void *ptr, void *info)
 	}
 	
 	free(txf_struct->catInfo);
-	free(txf_struct);
-    CFRelease(txf_struct->urlref);
+    if (txf_struct->url) CFRelease(txf_struct->url);
+    free(txf_struct);
 }
 
 static CFAllocatorRef CreateTXFileDeallocator(void) {
@@ -48,6 +48,30 @@ static CFAllocatorRef CreateTXFileDeallocator(void) {
     return allocator;
 }
 
+TXFileRef TXFileCreateWithURL(CFAllocatorRef allocator, CFURLRef url)
+{
+#if useLog
+    fputs("TXFileCreateWithURL\n", stderr);
+#endif
+    TXFileStruct *txf_struct = malloc(sizeof(TXFileStruct));
+    if (!txf_struct) return NULL;
+    if (url) {
+        CFRetain(url);
+        txf_struct->url = url;
+        if (! CFURLGetFSRef(url, &(txf_struct->fsref))) {
+            fprintf(stderr, "Faild to get FSRef from CFURL\n");
+        }
+        
+    }
+    txf_struct->lsInfo = NULL;
+    txf_struct->catInfo = NULL;
+    
+    CFAllocatorRef deallocator = CreateTXFileDeallocator();
+    TXFileRef txfile = CFDataCreateWithBytesNoCopy(allocator, (const UInt8 *)txf_struct,
+                                                   sizeof(TXFileStruct), deallocator);
+    return txfile;
+}
+
 TXFileRef TXFileCreate(CFAllocatorRef allocator, FSRef *fsref)
 {
 #if useLog
@@ -57,7 +81,7 @@ TXFileRef TXFileCreate(CFAllocatorRef allocator, FSRef *fsref)
 	if (!txf_struct) return NULL;
     if (fsref) {
         txf_struct->fsref = *fsref;
-        txf_struct->urlref = CFURLCreateFromFSRef(kCFAllocatorDefault, fsref);
+        txf_struct->url = CFURLCreateFromFSRef(kCFAllocatorDefault, fsref);
     }
 	txf_struct->lsInfo = NULL;
 	txf_struct->catInfo = NULL;
@@ -69,10 +93,17 @@ TXFileRef TXFileCreate(CFAllocatorRef allocator, FSRef *fsref)
 	return txfile;
 }
 
-CFURLRef CFURLGetFromTXFile(TXFileRef txfile)
+CFURLRef TXFileCopyURL(TXFileRef txfile)
 {
     TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-    return txf_struct->urlref;
+    CFRetain(txf_struct->url);
+    return txf_struct->url;
+}
+
+CFURLRef TXFileGetURL(TXFileRef txfile)
+{
+    TXFileStruct *txf_struct = TXFileGetStruct(txfile);
+    return txf_struct->url;
 }
 
 FSRef *TXFileGetFSRefPtr(TXFileRef txfile)
@@ -90,6 +121,7 @@ LSItemInfoRecord *TXFileAllocateLSItemInfo(TXFileRef txfile)
 	}
 	return txf_struct->lsInfo;
 }
+
 
 LSItemInfoRecord *TXFileGetLSItemInfo(TXFileRef txfile, Boolean refresh, OSErr *err)
 {
@@ -148,50 +180,96 @@ void TXFileReleaseInfo(TXFileRef txfile)
 	}
 }
 
-OSErr TXFileResolveAlias(TXFileRef txfile, Boolean *wasAliased)
+Boolean TXFileResolveAlias(TXFileRef txfile, CFErrorRef *error)
 {
-	OSErr err = noErr;
-	FSCatalogInfo *cat_info = TXFileGetFSCatalogInfo(txfile, kFSCatInfoFinderInfo|kFSCatInfoNodeFlags,
-													 false, &err);
-	if (noErr != err) goto bail;
-	
-	if (kIsAlias & ((FileInfo *)(&cat_info->finderInfo))->finderFlags) { // resolve alias
-		Boolean targetIsFolder;
-		err = FSResolveAliasFile(TXFileGetFSRefPtr(txfile), true, &targetIsFolder, wasAliased);
-		if (noErr != err) {
-			fprintf(stderr, "Failed to FSResolveAliasFile with error : %d\n", (int)err);
-			goto bail;
-		}
-		TXFileReleaseInfo(txfile);
-	}
-	
+    if (! TXFileIsAliasFile(txfile, error)) {
+        return true;
+    }
+    Boolean result = false;
+    TXFileStruct *txf_struct = TXFileGetStruct(txfile);
+    CFDataRef bookmark_data = NULL;
+    
+    
+    bookmark_data = CFURLCreateBookmarkDataFromFile(kCFAllocatorDefault,
+                                                    txf_struct->url,
+                                                    error);
+    if (error) {
+        goto bail;
+    }
+    Boolean is_stale;
+    CFURLRef new_url = CFURLCreateByResolvingBookmarkData(kCFAllocatorDefault,
+                                                          bookmark_data,
+                                                          kCFBookmarkResolutionWithoutUIMask,
+                                                          NULL,
+                                                          NULL,
+                                                          &is_stale,
+                                                          error);
+    if (error) {
+        SafeRelease(new_url);
+        goto bail;
+    }
+    
+    if (is_stale) {
+        SafeRelease(new_url);
+        CFShow(txf_struct->url);
+        fprintf(stderr, "The Alias file is slate.\n");
+        goto bail;
+    }
+    
+    result = true;
+    CFRelease(txf_struct->url);
+    txf_struct->url = new_url;	
 bail:
-	return err;
-}
-
-Boolean TXFileIsDirectory(TXFileRef txfile, OSErr *err)
-{
-	Boolean result = false;
-	FSCatalogInfo *cat_info = TXFileGetFSCatalogInfo(txfile,  kFSCatInfoFinderInfo|kFSCatInfoNodeFlags,
-													 0, err);
-	if (noErr != *err) {
-		fprintf(stderr, "Failed TXFileGetFSCatalogInfo with	error : %d\n", (int)*err);
-		goto bail;
-	}
-	
-	result = cat_info->nodeFlags & kFSNodeIsDirectoryMask;
-bail:
+    SafeRelease(bookmark_data);
 	return result;
 }
 
-Boolean TXFileIsPackage(TXFileRef txfile, OSErr *err)
+Boolean TXFileTest(TXFileRef txfile, CFStringRef key, CFErrorRef *error)
 {
-	Boolean result = false;
-	LSItemInfoRecord *iteminfo = TXFileGetLSItemInfo(txfile, 0, err);
-	if (noErr != *err) {
-		goto bail;
-	}
-	result = (iteminfo->flags & kLSItemInfoIsPackage);
-bail:
-	return result;	
+    TXFileStruct *txf_struct = TXFileGetStruct(txfile);
+    CFBooleanRef is_key = NULL;
+    Boolean result = false;
+    if (CFURLCopyResourcePropertyForKey(txf_struct->url,
+                                        key,
+                                        &is_key,
+                                        error)) {
+        if (is_key) {
+            result = CFBooleanGetValue(is_key);
+        }
+    }
+    SafeRelease(is_key);
+    return result;
+}
+
+Boolean TXFileIsAliasFile(TXFileRef txfile, CFErrorRef *error)
+{
+    return TXFileTest(txfile, kCFURLIsAliasFileKey, error);
+}
+
+Boolean TXFileIsDirectory(TXFileRef txfile, CFErrorRef *error)
+{
+    return TXFileTest(txfile, kCFURLIsDirectoryKey, error);
+}
+
+Boolean TXFileIsPackage(TXFileRef txfile, CFErrorRef *error)
+{
+    return TXFileTest(txfile, kCFURLIsPackageKey, error);
+}
+
+CFTypeRef TXFileCopyAttribute(TXFileRef txfile, CFStringRef key, CFErrorRef *error)
+{
+    TXFileStruct *txf_struct = TXFileGetStruct(txfile);
+    CFTypeRef attr = NULL;
+    if (CFURLCopyResourcePropertyForKey(txf_struct->url,
+                                        key,
+                                        &attr,
+                                        error)) {
+        return attr;
+    }
+    return NULL;
+}
+
+CFStringRef TXFileCopyTypeIdentifier(TXFileRef txfile, CFErrorRef *error)
+{
+    return TXFileCopyAttribute(txfile, kCFURLTypeIdentifierKey, error);
 }

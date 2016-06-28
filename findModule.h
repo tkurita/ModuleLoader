@@ -8,5 +8,5 @@ OSErr findModuleWithSubPath(FSRef *container_ref, ModuleCondition *module_condit
 OSErr FSMakeFSRefChild(FSRef *parentRef, CFStringRef childName, FSRef *newRef);
 OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, Boolean ignoreDefaultPaths,
 				 ModuleRef** moduleRef, CFMutableArrayRef* searchedPaths);
-OSErr pickupModuleAtFolder(FSRef *container_ref, ModuleCondition* module_condition, ModuleRef** out_module_ref);
+OSErr pickupModuleAtFolder(CFURLRef container_url, ModuleCondition* module_condition, ModuleRef** out_module_ref);
 
