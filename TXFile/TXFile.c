@@ -114,7 +114,7 @@ Boolean TXFileResolveAlias(TXFileRef txfile, CFErrorRef *error)
     bookmark_data = CFURLCreateBookmarkDataFromFile(kCFAllocatorDefault,
                                                     txf_struct->url,
                                                     error);
-    if (error) {
+    if (*error) {
         goto bail;
     }
     Boolean is_stale;
@@ -125,7 +125,7 @@ Boolean TXFileResolveAlias(TXFileRef txfile, CFErrorRef *error)
                                                           NULL,
                                                           &is_stale,
                                                           error);
-    if (error) {
+    if (*error) {
         SafeRelease(new_url);
         goto bail;
     }

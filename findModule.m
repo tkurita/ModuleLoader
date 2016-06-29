@@ -61,6 +61,9 @@ NSArray *copyDefaultModulePaths()
 OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
                  Boolean searchSubFolders, ModuleRef **outRef)
 {
+#if useLog
+    fprintf(stderr, "start scanFolder\n");
+#endif
 	OSErr err = kModuleIsNotFound;
 	
 	CFStringRef fname = NULL;
@@ -155,6 +158,9 @@ bail:
     safeRelease(subfolders);
 	safeRelease(fname);
 	safeRelease(txfile);
+#if useLog
+    fprintf(stderr, "end scanFolder\n");
+#endif
 	return err;
 }
 
