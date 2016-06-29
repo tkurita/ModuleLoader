@@ -61,7 +61,7 @@ NSArray *copyDefaultModulePaths()
 OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
                  Boolean searchSubFolders, ModuleRef **outRef)
 {
-	OSErr err = noErr;
+	OSErr err = kModuleIsNotFound;
 	
 	CFStringRef fname = NULL;
 	CFMutableArrayRef subfolders = NULL;
@@ -69,11 +69,7 @@ OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
 	ModuleRef *module_ref = NULL;
 	TXFileRef txfile = NULL;
     CFErrorRef error = NULL;
-#if useLog
-	UInt8 container_path[PATH_MAX];
-	FSRefMakePath(container_ref, container_path, PATH_MAX);
-	fprintf(stderr, "start scanFolder for : %s \n", (char *)container_path);
-#endif	
+
 	err = pickupModuleAtFolder(container_url, module_condition, outRef);
 	if (noErr == err) {
 		goto bail;
@@ -169,7 +165,7 @@ OSErr findModuleWithName(NSURL *container_url, ModuleCondition *module_condition
 
 OSErr pickupModuleAtFolder(CFURLRef container_url, ModuleCondition *module_condition, ModuleRef **out_module_ref)
 {
-	OSErr err = noErr;
+	OSErr err = kModuleIsNotFound;
 	CFMutableStringRef filename = NULL;
 	ModuleRef *module_ref = NULL;
 	CFStringRef module_name = module_condition->name;
@@ -186,17 +182,19 @@ OSErr pickupModuleAtFolder(CFURLRef container_url, ModuleCondition *module_condi
             txfile = TXFileCreateWithURL(kCFAllocatorDefault, candidaite_url);
             module_ref = ModuleRefCreate(txfile);
             if (module_ref) {
-                if (ModuleConditionVersionIsSatisfied(module_condition, module_ref)) break;
+                if (ModuleConditionVersionIsSatisfied(module_condition, module_ref)) {
+                    *out_module_ref=module_ref;
+                    err = noErr;
+                    break;
+                }
             }
             CFRelease(txfile); txfile = NULL;
             ModuleRefFree(module_ref);module_ref = NULL;
-            err = kModuleIsNotFound;
         }
         CFRelease(candidaite_url);candidaite_url = NULL;
 		CFRelease(filename);filename = NULL;
 	}
 	
-	if (module_ref) *out_module_ref=module_ref;
 bail:
 	safeRelease(filename);
 	safeRelease(txfile);
