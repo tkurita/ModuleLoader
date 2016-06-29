@@ -30,6 +30,8 @@
 		2C0B0CD01D234C3A006EEC1F /* LocalLoader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6110AD336100208505 /* LocalLoader.scpt */; };
 		2C0B0CD11D234C3D006EEC1F /* loader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6210AD336100208505 /* loader.scpt */; };
 		2C0B0CD31D2351A9006EEC1F /* InstallAE.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B2FE8417CDC02AAC07 /* InstallAE.m */; };
+		2C2455C51D23E2620088C7C7 /* OSAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBA3AE11D23AC1300F7F568 /* OSAKit.framework */; };
+		2C2455C61D23E2640088C7C7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0B0CA71D22CBAF006EEC1F /* Cocoa.framework */; };
 		2C525A0210C428D900497709 /* ExtractDependencies.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.c */; };
 		2C5B3B6D10B98242004396E4 /* LocalLoader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6110AD336100208505 /* LocalLoader.scpt */; };
 		2C5B3B6E10B98242004396E4 /* loader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6210AD336100208505 /* loader.scpt */; };
@@ -155,8 +157,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C2455C61D23E2640088C7C7 /* Cocoa.framework in Frameworks */,
 				2C5B3B7610B98242004396E4 /* Carbon.framework in Frameworks */,
 				2C72F2841347240E00531114 /* libicucore.dylib in Frameworks */,
+				2C2455C51D23E2620088C7C7 /* OSAKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,8 +10,6 @@
 
 #define useLog 0
 
-static ComponentInstance scriptingComponent = NULL;
-
 extern const char *MODULE_SPEC_LABEL;
 
 OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
@@ -197,7 +195,7 @@ bail:
 	return err;
 }
 
-OSErr setPropertyWithName(OSAID scriptID, const char *propertyName, AEDesc *inDesc)
+OSErr setPropertyWithName(ComponentInstance scriptingComponent, OSAID scriptID, const char *propertyName, AEDesc *inDesc)
 {
 	OSErr err = noErr;
 	AEDesc a_label;
@@ -228,69 +226,71 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	AECreateDesc(typeType, NULL, 0, &version_desc);
 	AEDesc result_desc;
 	AECreateDesc(typeNull, NULL, 0, &result_desc);
-	
-	ModuleRef* module_ref = NULL;
-	err = findModuleWithEvent(ev, reply, &module_ref);
-	if (err != noErr) goto bail;
-	
-	OSAError osa_err = noErr;
-    @autoreleasepool {
-        if (!scriptingComponent)
-            scriptingComponent = [[OSALanguageInstance languageInstanceWithLanguage:
-                                   [OSALanguage defaultLanguage]] componentInstance];
+	@autoreleasepool {
+        ModuleRef* module_ref = NULL;
+        err = findModuleWithEvent(ev, reply, &module_ref);
+        if (err != noErr) goto bail;
+        
+        OSAError osa_err = noErr;
+        
+        
+        ComponentInstance scriptingComponent = [[[OSALanguage defaultLanguage] sharedLanguageInstance]
+                                                componentInstance];
+       
+        
+        osa_err = OSALoadFile(scriptingComponent, &(module_ref->fsref), NULL, kOSAModeCompileIntoContext, &script_id);
+        if (osa_err != noErr) {
+            err = osa_err;
+            putStringToEvent(reply, keyErrorString, 
+                             CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
+            goto bail;
+        }
+        
+        err = AEDescCreateWithCFURL(module_ref->url, &furl_desc);
+        if (noErr != err) goto bail;
+        
+        err = extractDependencies(scriptingComponent, script_id, &dependencies);
+        if (noErr != err) goto bail;
+        
+        osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &script_desc);
+        if (osa_err != noErr) {
+            err = osa_err;
+            putStringToEvent(reply, keyErrorString, CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
+            goto bail;
+        }
+        
+        if (module_ref->version) {
+            AEDisposeDesc(&version_desc); // required to avoid memory leak. the reason is unknown.
+            err = AEDescCreateWithCFString(module_ref->version, kCFStringEncodingUTF8, &version_desc);
+            if (noErr != err) {
+                putStringToEvent(reply, keyErrorString, CFSTR("Fail to AEDescCreateWithCFString."), kCFStringEncodingUTF8);
+                goto bail;
+            }
+        } else {
+            AEDisposeDesc(&version_desc); // required to avoid memory leak. the reason is unknown.
+            err = AEDescCreateMissingValue(&version_desc);
+            if (noErr != err) {
+                putStringToEvent(reply, keyErrorString, CFSTR("Fail to AEDescCreateMissingValue."), kCFStringEncodingUTF8);
+                goto bail;
+            }		
+        }
+        
+        AEBuildError ae_err;
+        err = AEBuildDesc(&result_desc, &ae_err, "{file:@, scpt:@, DpIf:@, vers:@}",
+                                        &furl_desc, &script_desc, &dependencies, &version_desc);
+        if (noErr != err) goto bail;
+        
+        err = AEPutParamDesc(reply, keyAEResult, &result_desc);
+         
+    bail:
+        AEDisposeDesc(&result_desc);
+        AEDisposeDesc(&script_desc);
+        AEDisposeDesc(&version_desc);
+        AEDisposeDesc(&furl_desc);
+        AEDisposeDesc(&dependencies);
+        ModuleRefFree(module_ref);
+        OSADispose(scriptingComponent, script_id);
     }
-	
-	osa_err = OSALoadFile(scriptingComponent, &(module_ref->fsref), NULL, kOSAModeCompileIntoContext, &script_id);
-	if (osa_err != noErr) {
-		err = osa_err;
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
-		goto bail;
-	}
-	
-    err = AEDescCreateWithCFURL(module_ref->url, &furl_desc);
-    if (noErr != err) goto bail;
-    
-	err = extractDependencies(scriptingComponent, script_id, &dependencies);
-	if (noErr != err) goto bail;
-	
-	osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &script_desc);
-	if (osa_err != noErr) {
-		err = osa_err;
-		putStringToEvent(reply, keyErrorString, CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
-		goto bail;
-	}
-	
-	if (module_ref->version) {
-		AEDisposeDesc(&version_desc); // required to avoid memory leak. the reason is unknown.
-		err = AEDescCreateWithCFString(module_ref->version, kCFStringEncodingUTF8, &version_desc);
-		if (noErr != err) {
-			putStringToEvent(reply, keyErrorString, CFSTR("Fail to AEDescCreateWithCFString."), kCFStringEncodingUTF8);
-			goto bail;
-		}
-	} else {
-		AEDisposeDesc(&version_desc); // required to avoid memory leak. the reason is unknown.
-		err = AEDescCreateMissingValue(&version_desc);
-		if (noErr != err) {
-			putStringToEvent(reply, keyErrorString, CFSTR("Fail to AEDescCreateMissingValue."), kCFStringEncodingUTF8);
-			goto bail;
-		}		
-	}
-	
-	AEBuildError ae_err;
-	err = AEBuildDesc(&result_desc, &ae_err, "{file:@, scpt:@, DpIf:@, vers:@}",
-									&furl_desc, &script_desc, &dependencies, &version_desc);
-	if (noErr != err) goto bail;
-	
-	err = AEPutParamDesc(reply, keyAEResult, &result_desc);
-bail:
-	AEDisposeDesc(&result_desc);
-	AEDisposeDesc(&script_desc);
-	AEDisposeDesc(&version_desc);
-	AEDisposeDesc(&furl_desc);
-	AEDisposeDesc(&dependencies);
-	ModuleRefFree(module_ref);
-	OSADispose(scriptingComponent, script_id);
 	return err;	
 }
 
@@ -299,10 +299,10 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 #if useLog
 	fprintf(stderr, "start loadModuleHandler\n");
 #endif
-	OSErr err = noErr;
+    OSErr err = noErr;
 	ModuleRef *module_ref=NULL;
 	err = findModuleWithEvent(ev, reply, &module_ref);
-	if (err != noErr) goto bail;
+    if (err != noErr) goto bail;
     @autoreleasepool{
         NSAppleEventDescriptor *script_desc = [OSAScript scriptDataDescriptorWithContentsOfURL:(__bridge NSURL * _Nonnull)(module_ref->url)];
         if (! script_desc) {
@@ -371,27 +371,27 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCo
 	AEDescList dependencies;
 	AECreateDesc(typeNull, NULL, 0, &dependencies);
 	err = AEGetParamDesc(ev, keyDirectObject, typeScript, &script_data);
-	if (err != noErr) {
-		fprintf(stderr, "Faild to AEGetParamDesc in extractDependenciesHandler\n");
-		goto bail;
-	}
-    @autoreleasepool {
-        if (!scriptingComponent)
-            scriptingComponent = [[OSALanguageInstance languageInstanceWithLanguage:
-                                   [OSALanguage defaultLanguage]] componentInstance];
-    }
+	@autoreleasepool {
+        if (err != noErr) {
+            fprintf(stderr, "Faild to AEGetParamDesc in extractDependenciesHandler\n");
+            goto bail;
+        }
+    
+        ComponentInstance scriptingComponent = [[[OSALanguage defaultLanguage] sharedLanguageInstance]
+                                                componentInstance];
 	
-	OSAID script_id = kOSANullScript;
-	err = OSACoerceFromDesc(scriptingComponent, &script_data, kOSAModeNull, &script_id);
-	if (err != noErr) goto bail;
+        OSAID script_id = kOSANullScript;
+        err = OSACoerceFromDesc(scriptingComponent, &script_data, kOSAModeNull, &script_id);
+        if (err != noErr) goto bail;
 
-	err = extractDependencies(scriptingComponent, script_id, &dependencies);
-	if (noErr != err) goto bail;
-	err = AEPutParamDesc(reply, keyAEResult, &dependencies);
+        err = extractDependencies(scriptingComponent, script_id, &dependencies);
+        if (noErr != err) goto bail;
+        err = AEPutParamDesc(reply, keyAEResult, &dependencies);
 bail:
-	AEDisposeDesc(&script_data);
-	AEDisposeDesc(&dependencies);
-	OSADispose(scriptingComponent, script_id);
+        AEDisposeDesc(&script_data);
+        AEDisposeDesc(&dependencies);
+        OSADispose(scriptingComponent, script_id);
+    }
 	return err;
 }
 

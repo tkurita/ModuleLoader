@@ -72,7 +72,7 @@ OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
 	ModuleRef *module_ref = NULL;
 	TXFileRef txfile = NULL;
     CFErrorRef error = NULL;
-
+    CFURLEnumeratorRef enumerator = NULL;
 	err = pickupModuleAtFolder(container_url, module_condition, outRef);
 	if (noErr == err) {
 		goto bail;
@@ -86,7 +86,7 @@ OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
     CFArrayRef prefetch_info = CFArrayCreate(kCFAllocatorDefault,
                                              (const void **)keys,
                                               4, NULL);
-    CFURLEnumeratorRef enumerator = CFURLEnumeratorCreateForDirectoryURL(kCFAllocatorDefault,
+    enumerator = CFURLEnumeratorCreateForDirectoryURL(kCFAllocatorDefault,
                                                                          container_url, kCFURLEnumeratorSkipInvisibles, prefetch_info);
     CFURLRef child_url = NULL;
     CFURLEnumeratorResult enumerator_result;
@@ -154,7 +154,7 @@ bail:
 	fprintf(stderr, "scanFolder will end with err :%d.\n", err);
 #endif
     safeRelease(error);
-	CFRelease(enumerator);
+	safeRelease(enumerator);
     safeRelease(subfolders);
 	safeRelease(fname);
 	safeRelease(txfile);
