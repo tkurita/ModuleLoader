@@ -234,8 +234,11 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	if (err != noErr) goto bail;
 	
 	OSAError osa_err = noErr;
-	if (!scriptingComponent)
-		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+    @autoreleasepool {
+        if (!scriptingComponent)
+            scriptingComponent = [[OSALanguageInstance languageInstanceWithLanguage:
+                                   [OSALanguage defaultLanguage]] componentInstance];
+    }
 	
 	osa_err = OSALoadFile(scriptingComponent, &(module_ref->fsref), NULL, kOSAModeCompileIntoContext, &script_id);
 	if (osa_err != noErr) {
@@ -296,7 +299,7 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 #if useLog
 	fprintf(stderr, "start loadModuleHandler\n");
 #endif
-	OSErr err = noErr;	
+	OSErr err = noErr;
 	ModuleRef *module_ref=NULL;
 	err = findModuleWithEvent(ev, reply, &module_ref);
 	if (err != noErr) goto bail;
@@ -372,8 +375,11 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCo
 		fprintf(stderr, "Faild to AEGetParamDesc in extractDependenciesHandler\n");
 		goto bail;
 	}
-	if (!scriptingComponent)
-		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
+    @autoreleasepool {
+        if (!scriptingComponent)
+            scriptingComponent = [[OSALanguageInstance languageInstanceWithLanguage:
+                                   [OSALanguage defaultLanguage]] componentInstance];
+    }
 	
 	OSAID script_id = kOSANullScript;
 	err = OSACoerceFromDesc(scriptingComponent, &script_data, kOSAModeNull, &script_id);
