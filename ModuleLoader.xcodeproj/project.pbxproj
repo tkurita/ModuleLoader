@@ -46,6 +46,7 @@
 		2CAFFE1110C625C0002B217C /* ModuleLoader.r in Rez */ = {isa = PBXBuildFile; fileRef = 2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */; };
 		2CB5B4EC13434765006407F2 /* ModuleCondition.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */; };
 		2CB5B4F113434799006407F2 /* VersionCondition.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */; };
+		2CBA3AE21D23AC1300F7F568 /* OSAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBA3AE11D23AC1300F7F568 /* OSAKit.framework */; };
 		2CD67348143C106A0018E9F1 /* TXFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CD67346143C106A0018E9F1 /* TXFile.c */; };
 		2CD6734A143C106A0018E9F1 /* TXFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CD67346143C106A0018E9F1 /* TXFile.c */; };
 		2CD75DFD1D22B158007FB66D /* AppleEventExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD75DFC1D22B158007FB66D /* AppleEventExtra.m */; };
@@ -121,6 +122,7 @@
 		2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = ModuleLoader.r; sourceTree = "<group>"; };
 		2CB99C3F10AA6364002C5D32 /* AEUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AEUtils.c; sourceTree = "<group>"; };
 		2CB99C4010AA6364002C5D32 /* AEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEUtils.h; sourceTree = "<group>"; };
+		2CBA3AE11D23AC1300F7F568 /* OSAKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSAKit.framework; path = System/Library/Frameworks/OSAKit.framework; sourceTree = SDKROOT; };
 		2CD67345143C106A0018E9F1 /* TXFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXFile.h; path = TXFile/TXFile.h; sourceTree = "<group>"; };
 		2CD67346143C106A0018E9F1 /* TXFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = TXFile.c; path = TXFile/TXFile.c; sourceTree = "<group>"; };
 		2CD75DFB1D22B158007FB66D /* AppleEventExtra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleEventExtra.h; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CBA3AE21D23AC1300F7F568 /* OSAKit.framework in Frameworks */,
 				2C0B0CCD1D234515006EEC1F /* Cocoa.framework in Frameworks */,
 				2C0B0CCB1D2344ED006EEC1F /* Carbon.framework in Frameworks */,
 				2C0B0CCC1D2344EF006EEC1F /* libicucore.dylib in Frameworks */,
@@ -163,7 +166,6 @@
 		089C166AFE841209C02AAC07 /* LoadModule */ = {
 			isa = PBXGroup;
 			children = (
-				2C0B0CA71D22CBAF006EEC1F /* Cocoa.framework */,
 				2C813BD00B4CC5E6000FF2FE /* History.rtf */,
 				2C72F2DA13485DFE00531114 /* TXRegularExpression */,
 				2CD67353143C10860018E9F1 /* TXFile */,
@@ -183,6 +185,8 @@
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				2CBA3AE11D23AC1300F7F568 /* OSAKit.framework */,
+				2C0B0CA71D22CBAF006EEC1F /* Cocoa.framework */,
 				08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */,
 				2C72F2831347240E00531114 /* libicucore.dylib */,
 			);
@@ -772,6 +776,7 @@
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
 				INFOPLIST_FILE = Info_10_6.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
+				PRODUCT_BUNDLE_IDENTIFIER = Scriptfactory.osax.ModuleLoader;
 				PRODUCT_NAME = ModuleLoader;
 				SYMROOT = build;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -813,7 +818,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = TXRegularExpression;
-				OTHER_CFLAGS = "-DModuleLoader_VERSION=${PRODUCT_VERSION}";
+				OTHER_CFLAGS = (
+					"-DModuleLoader_VERSION=${PRODUCT_VERSION}",
+					"-DPRODUCT_BUNDLE_IDENTIFIER=${PRODUCT_BUNDLE_IDENTIFIER}",
+				);
 				PRODUCT_VERSION = 2.4b;
 				REZ_SHOW_DEBUG_OUTPUT = NO;
 				SDKROOT = macosx;
@@ -830,6 +838,7 @@
 				GCC_PREFIX_HEADER = ModuleLoader_Prefix.pch;
 				INFOPLIST_FILE = Info_10_6.plist;
 				INSTALL_PATH = /Library/ScriptingAdditions;
+				PRODUCT_BUNDLE_IDENTIFIER = Scriptfactory.osax.ModuleLoader;
 				PRODUCT_NAME = ModuleLoader;
 				SYMROOT = build;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -890,7 +899,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = TXRegularExpression;
-				OTHER_CFLAGS = "-DModuleLoader_VERSION=${PRODUCT_VERSION}";
+				OTHER_CFLAGS = (
+					"-DModuleLoader_VERSION=${PRODUCT_VERSION}",
+					"-DPRODUCT_BUNDLE_IDENTIFIER=${PRODUCT_BUNDLE_IDENTIFIER}",
+				);
 				PRODUCT_VERSION = 2.4b;
 				SDKROOT = macosx;
 			};
@@ -915,6 +927,7 @@
 				2C0B0CBF1D22E017006EEC1F /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2C5B3B7910B98242004396E4 /* Build configuration list for PBXNativeTarget "ModuleLoader" */ = {
 			isa = XCConfigurationList;

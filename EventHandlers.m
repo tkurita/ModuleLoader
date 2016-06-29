@@ -6,15 +6,13 @@
 #include "ModuleLoaderConstants.h"
 #include "ExtractDependencies.h"
 #import "AppleEventExtra.h"
+#import <OSAKit/OSAKit.h>
 
 #define useLog 0
 
 static ComponentInstance scriptingComponent = NULL;
 
 extern const char *MODULE_SPEC_LABEL;
-
-#define STR(s) _STR(s)
-#define _STR(s) #s 
 
 OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
@@ -66,59 +64,48 @@ bail:
 	return err;
 }
 
-
-OSErr loadBundleScript(CFStringRef name, OSAID *newIDPtr)
+NSAppleEventDescriptor *loadBundleScript(NSString *name)
 {
-	OSErr err = noErr;
-	if (*newIDPtr != kOSANullScript) goto bail;
-	
-	if (!scriptingComponent)
-		scriptingComponent = OpenDefaultComponent(kOSAComponentType, kAppleScriptSubtype);
-	CFBundleRef	bundle = CFBundleGetBundleWithIdentifier(BUNDLE_ID);
-	CFURLRef script_url = CFBundleCopyResourceURL(bundle, name, CFSTR("scpt"), NULL);
-	if (!script_url) {
-		fprintf(stderr, "Fail to load a script.\n");
-		err = 1802;
-		goto bail;
-	}
-	FSRef script_ref;
-	CFURLGetFSRef(script_url, &script_ref);
-	CFRelease(script_url);
-	err = OSALoadFile(scriptingComponent, &script_ref, NULL, kOSAModeNull, newIDPtr);
-	if (err != noErr) {
-		goto bail;
-	}
-
-bail:
-	return err;
+    NSBundle *bundle = [NSBundle bundleWithIdentifier:(__bridge NSString *)BUNDLE_ID];
+    if (! bundle) return nil;
+    NSURL *script_url = [bundle URLForResource:name withExtension:@"scpt"];
+    if (! script_url) return nil;
+    return [OSAScript scriptDataDescriptorWithContentsOfURL:script_url];
 }
 
 OSErr makeLocalLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
-	OSErr err = noErr;
-	OSAID loader_id = kOSANullScript;
-	
-	err = loadBundleScript(CFSTR("LocalLoader"), &loader_id);
-	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
-		goto bail;
-	}
-		
-	AEDesc result;
-	err = OSACoerceToDesc(scriptingComponent, loader_id, typeWildCard,kOSAModeNull, &result);
-	if (err != noErr) {
-		putStringToEvent(reply, keyErrorString, 
-						 CFSTR("Fail to OSACoerceToDesc."), kCFStringEncodingUTF8);
-		goto bail;
-	}
-	err = AEPutParamDesc(reply, keyAEResult, &result);
-	AEDisposeDesc(&result);
-bail:
-	OSADispose(scriptingComponent, loader_id);
-	return err;
+    OSErr err = noErr;
+    @autoreleasepool {
+        NSAppleEventDescriptor *script_desc = loadBundleScript(@"LocalLoader");
+        if (! script_desc) {
+            putStringToEvent(reply, keyErrorString,
+                             CFSTR("Fail to load a local loader script."), kCFStringEncodingUTF8);
+            err = 1802;
+        } else {
+            err = AEPutParamDesc(reply, keyAEResult, [script_desc aeDesc]);
+        }
+    }
+    return err;
 }
 
+OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
+{
+    OSErr err = noErr;
+    @autoreleasepool {
+        NSAppleEventDescriptor *script_desc = loadBundleScript(@"loader");
+        if (! script_desc) {
+            putStringToEvent(reply, keyErrorString,
+                             CFSTR("Fail to load a loader script."), kCFStringEncodingUTF8);
+            err = 1802;
+        } else {
+            err = AEPutParamDesc(reply, keyAEResult, [script_desc aeDesc]);
+        }
+    }
+    return err;
+}
+
+/*
 OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	OSErr err;
@@ -143,6 +130,7 @@ bail:
 	OSADispose(scriptingComponent, loader_id);
 	return err;
 }
+ */
 
 OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** moduleRefPtr)
 {

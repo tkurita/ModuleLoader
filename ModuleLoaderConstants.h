@@ -1,7 +1,10 @@
+#define STR(s) _STR(s)
+#define _STR(s) #s
+
 #define kModuleIsNotFound 1800
 #define kFailedToParseVersionCondition 1803
 
-#define BUNDLE_ID CFSTR("Scriptfactory.osax.ModuleLoader")
+#define BUNDLE_ID CFSTR(STR(PRODUCT_BUNDLE_IDENTIFIER))
 #define MODULE_PATHS_KEY CFSTR("AdditionalModulePaths")
 
 #define kInDirectoryParam 'inDr'

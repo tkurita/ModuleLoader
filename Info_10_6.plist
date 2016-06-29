@@ -9,7 +9,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>${PRODUCT_VERSION} copyright 2006-2016, Tetsuro KURITA</string>
 	<key>CFBundleIdentifier</key>
-	<string>Scriptfactory.osax.ModuleLoader</string>
+	<string>${PRPODUCT_BUNDLE_IDENTIFIER}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
