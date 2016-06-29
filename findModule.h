@@ -1,5 +1,7 @@
+#ifndef findModule_h
+#define findModule_h
+
 #include "ModuleCondition.h"
-#import <Cocoa/Cocoa.h>
 
 void setAdditionalModulePaths(CFArrayRef array);
 NSArray *additionalModulePaths();
@@ -10,3 +12,5 @@ OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, 
 				 ModuleRef** moduleRef, CFMutableArrayRef* searchedPaths);
 OSErr pickupModuleAtFolder(CFURLRef container_url, ModuleCondition* module_condition, ModuleRef** out_module_ref);
 
+
+#endif

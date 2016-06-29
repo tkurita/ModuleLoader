@@ -1,4 +1,5 @@
 #include <CoreFoundation/CoreFoundation.h>
+#include <CoreServices/CoreServices.h>
 #include "ModuleCondition.h"
 #include "AEUtils.h"
 

@@ -1,9 +1,10 @@
+#import <Cocoa/Cocoa.h>
+#include <Carbon/Carbon.h>
 #include "EventHandlers.h"
 #include "AEUtils.h"
 #include "findModule.h"
 #include "ModuleLoaderConstants.h"
 #include "ExtractDependencies.h"
-#import <Cocoa/Cocoa.h>
 #import "AppleEventExtra.h"
 
 #define useLog 0

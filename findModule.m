@@ -1,3 +1,4 @@
+#import <Cocoa/Cocoa.h>
 #include "ModuleLoaderConstants.h"
 #include "AEUtils.h"
 #include "findModule.h"
