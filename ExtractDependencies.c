@@ -8,6 +8,28 @@
 const char *MODULE_SPEC_LABEL = "__module_specifier__";
 const char *MODULE_DEPENDENCIES_LABEL = "__module_dependencies__";
 
+
+OSErr ConvertToModuleSpecifier(AEDesc *ae_desc, AEDesc *modspec, Boolean *ismodule)
+{
+    OSErr err;
+    AEKeyword desired_class;
+    AEDesc a_pname;
+    AECreateDesc(typeNull, NULL, 0, &a_pname);
+    *ismodule = false;
+    err = AEGetKeyPtr(ae_desc, keyAEDesiredClass, typeType, NULL, &desired_class, sizeof(desired_class), NULL);
+    if (noErr != err) goto bail;
+    if (desired_class != typeScript) goto bail;
+    err = AEGetKeyDesc(ae_desc, keyAEKeyData, typeUnicodeText, &a_pname);
+    if (noErr != err) goto bail;
+    AEBuildError ae_err;
+    err = AEBuildDesc(modspec, &ae_err, "MoSp{pnam:@}",&a_pname);
+    if (noErr != err) goto bail;
+    *ismodule = true;
+bail:
+    AEDisposeDesc(&a_pname);
+    return err;
+}
+
 OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescList *dependencies)
 {
 	OSErr err;
@@ -57,7 +79,9 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AECreateDesc(typeNull, NULL, 0, &dep_info);
 		AEDesc prop_desc;
 		AECreateDesc(typeNull, NULL, 0, &prop_desc);
-		
+        AEDesc modspec_desc;
+        AECreateDesc(typeNull, NULL, 0, &modspec_desc);
+        
 		err = AEGetNthDesc(&property_names, n, typeWildCard, &a_keyword, &a_pname);
 		if (err != noErr) goto loopbail;
 #if useLog
@@ -87,26 +111,37 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		} else {
 			err = OSACoerceToDesc(component, prop_value_id, typeWildCard, kOSAModeNull, &prop_desc);
 			if (err != noErr) goto loopbail;
-			if (prop_desc.descriptorType != typeModuleSpecifier) {
-				goto loopbail;
+            DescType type_code;
+            Size data_size = 0;
+            Boolean ismodule = false;
+            switch (prop_desc.descriptorType) {
+                case typeObjectSpecifier:
+                    err = ConvertToModuleSpecifier(&prop_desc, &modspec_desc, &ismodule);
+                    if (!ismodule) goto loopbail;
+                    err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@}",&a_pname, &modspec_desc);
+                    break;
+                case typeModuleSpecifier:
+                    err = AESizeOfKeyDesc(&prop_desc, keyAEName, &type_code, &data_size);
+                    if (!data_size) {
+                        err = AEPutKeyDesc(&prop_desc, keyAEName, &a_pname);
+                        if (noErr != err) goto loopbail;
+                    }
+                    err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@}",&a_pname, &prop_desc);
+                    break;
+                default:
+                    goto loopbail;
 			}
-			DescType type_code;
-			Size data_size = 0;
-			err = AESizeOfKeyDesc (&prop_desc, keyAEName, &type_code, &data_size);
-			if (!data_size) {
-				err = AEPutKeyDesc (&prop_desc, keyAEName, &a_pname);
-				if (noErr != err) goto loopbail;
-			}
+
 		}
 	
-		err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@}",&a_pname, &prop_desc);
-		if (err != noErr) goto loopbail;
+        if (err != noErr) goto loopbail;
 		AEPutDesc(dependencies, 0, &dep_info);
 		
 	loopbail:
 		AEDisposeDesc(&a_pname);
 		AEDisposeDesc(&prop_desc);
 		AEDisposeDesc(&dep_info);
+        AEDisposeDesc(&modspec_desc);
 		OSADispose(component, prop_value_id);
 		OSADispose(component, prop_value_id2);
 		if (noErr != err) goto bail;
