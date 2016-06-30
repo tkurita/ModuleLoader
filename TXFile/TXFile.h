@@ -7,7 +7,6 @@ Boolean TXFileTest(TXFileRef txfile, CFStringRef key, CFErrorRef *error);
 Boolean TXFileIsAliasFile(TXFileRef txfile, CFErrorRef *error);
 Boolean TXFileIsDirectory(TXFileRef txfile, CFErrorRef *error);
 Boolean TXFileIsPackage(TXFileRef txfile, CFErrorRef *error);
-FSRef *TXFileGetFSRefPtr(TXFileRef txfile);
 CFURLRef TXFileGetURL(TXFileRef txfile);
 CFURLRef TXFileCopyURL(TXFileRef txfile);
 CFTypeRef TXFileCopyAttribute(TXFileRef txfile, CFStringRef key, CFErrorRef *error);

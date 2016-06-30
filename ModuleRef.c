@@ -82,8 +82,10 @@ ModuleRef *ModuleRefCreate(TXFileRef txfile)
 	ModuleRef *module_ref = NULL;
 	if (!isScript(txfile)) return NULL;
 	module_ref = malloc(sizeof(ModuleRef));
-	module_ref->fsref = *TXFileGetFSRefPtr(txfile);
     module_ref->url = TXFileCopyURL(txfile);
+    if (! CFURLGetFSRef(module_ref->url, &(module_ref->fsref))) {
+        fprintf(stderr, "Faild to get FSRef from CFURL\n");
+    }
 	module_ref->version = NULL;
 	module_ref->name = NULL;
     CFErrorRef error = NULL;
@@ -115,12 +117,17 @@ ModuleRef *ModuleRefCreateWithCondition(TXFileRef txfile, ModuleCondition *modul
 #endif
 	if (!array) return NULL;
 	if (!isScript(txfile)) return NULL;
+    ModuleRef *module_ref = ModuleRefCreate(txfile);
+    if (! module_ref) goto bail;
+    /*
 	ModuleRef *module_ref = malloc(sizeof(ModuleRef));
+    module_ref->url
 	module_ref->fsref = *TXFileGetFSRefPtr(txfile);
 	module_ref->is_package = TXFileIsPackage(txfile, &error);
+     
     if (error) {
         CFShow(error); goto bail;
-    }
+    }*/
 	CFStringRef text = CFArrayGetValueAtIndex(array, 0);
 	module_ref->name = CFRetain(text);
 	CFStringRef version = CFArrayGetValueAtIndex(array, 2);

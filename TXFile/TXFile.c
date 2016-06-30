@@ -8,7 +8,6 @@
 #define TXFileGetStruct(x) (TXFileStruct *)CFDataGetBytePtr(x)
 
 typedef struct  {
-	FSRef fsref;
     CFURLRef url;
 } TXFileStruct;
 
@@ -52,10 +51,6 @@ TXFileRef TXFileCreateWithURL(CFAllocatorRef allocator, CFURLRef url)
     if (url) {
         CFRetain(url);
         txf_struct->url = url;
-        if (! CFURLGetFSRef(url, &(txf_struct->fsref))) {
-            fprintf(stderr, "Faild to get FSRef from CFURL\n");
-        }
-        
     }
     
     CFAllocatorRef deallocator = CreateTXFileDeallocator();
@@ -64,23 +59,6 @@ TXFileRef TXFileCreateWithURL(CFAllocatorRef allocator, CFURLRef url)
     return txfile;
 }
 
-TXFileRef TXFileCreate(CFAllocatorRef allocator, FSRef *fsref)
-{
-#if useLog
-	fputs("TXFileCreate\n", stderr);
-#endif		
-	TXFileStruct *txf_struct = malloc(sizeof(TXFileStruct));
-	if (!txf_struct) return NULL;
-    if (fsref) {
-        txf_struct->fsref = *fsref;
-        txf_struct->url = CFURLCreateFromFSRef(kCFAllocatorDefault, fsref);
-    }
-	
-	CFAllocatorRef deallocator = CreateTXFileDeallocator();
-	TXFileRef txfile = CFDataCreateWithBytesNoCopy(allocator, (const UInt8 *)txf_struct, 
-													sizeof(TXFileStruct), deallocator);
-	return txfile;
-}
 
 CFURLRef TXFileCopyURL(TXFileRef txfile)
 {
@@ -93,12 +71,6 @@ CFURLRef TXFileGetURL(TXFileRef txfile)
 {
     TXFileStruct *txf_struct = TXFileGetStruct(txfile);
     return txf_struct->url;
-}
-
-FSRef *TXFileGetFSRefPtr(TXFileRef txfile)
-{
-	TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-	return &(txf_struct->fsref);
 }
 
 Boolean TXFileResolveAlias(TXFileRef txfile, CFErrorRef *error)
