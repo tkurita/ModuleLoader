@@ -148,10 +148,9 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** m
 		err = kFailedToParseVersionCondition;
 		goto bail;
 	}
-    @autoreleasepool{
-        err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths,
+
+    err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths,
                          moduleRefPtr, &searched_paths);
-    }
 	if (err != noErr) {
 		CFStringRef pathlist = NULL;
 		if (searched_paths) {
@@ -186,12 +185,15 @@ OSErr findModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 	fprintf(stderr, "start findModuleHandler\n");
 #endif
 	OSErr err = noErr;
-	ModuleRef* module_ref = NULL;
-	err = findModuleWithEvent(ev, reply, &module_ref);
-	if (err != noErr) goto bail;
-    putFileURLToEvent(reply, keyAEResult, module_ref->url);
-	ModuleRefFree(module_ref);
-bail:
+	@autoreleasepool{
+        ModuleRef* module_ref = NULL;
+            err = findModuleWithEvent(ev, reply, &module_ref);
+        
+        if (err == noErr) {
+            putFileURLToEvent(reply, keyAEResult, module_ref->url);
+            ModuleRefFree(module_ref);
+        }
+    }
 	return err;
 }
 
@@ -300,21 +302,23 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 	fprintf(stderr, "start loadModuleHandler\n");
 #endif
     OSErr err = noErr;
-	ModuleRef *module_ref=NULL;
-	err = findModuleWithEvent(ev, reply, &module_ref);
-    if (err != noErr) goto bail;
-    @autoreleasepool{
-        NSAppleEventDescriptor *script_desc = [OSAScript scriptDataDescriptorWithContentsOfURL:(__bridge NSURL * _Nonnull)(module_ref->url)];
-        if (! script_desc) {
-            putStringToEvent(reply, keyErrorString,
+	@autoreleasepool{
+        ModuleRef *module_ref=NULL;
+        err = findModuleWithEvent(ev, reply, &module_ref);
+        if (noErr == err) {
+            NSAppleEventDescriptor *script_desc = [OSAScript scriptDataDescriptorWithContentsOfURL:(__bridge NSURL * _Nonnull)(module_ref->url)];
+            if (! script_desc) {
+                putStringToEvent(reply, keyErrorString,
                              CFSTR("Fail to load a script."), kCFStringEncodingUTF8);
-            err = kModuleLoaderInternalError;
-            goto bail;
+                err = kModuleLoaderInternalError;
+                goto bail;
+            }
+            err = AEPutParamDesc(reply, keyAEResult, [script_desc aeDesc]);
         }
-        err = AEPutParamDesc(reply, keyAEResult, [script_desc aeDesc]);
-    }
 bail:
-	ModuleRefFree(module_ref);
+        
+        ModuleRefFree(module_ref);
+    }
 	return err;
 }
 
