@@ -95,15 +95,16 @@ OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
         if (enumerator_result == kCFURLEnumeratorSuccess) {
             txfile = TXFileCreateWithURL(kCFAllocatorDefault, child_url);
             if (!TXFileResolveAlias(txfile, &error)) {
-                CFShow(error);
-                goto bail;
+                if (error) CFShow(error);
+                goto loopbail;
             }
             
-            Boolean is_folder = TXFileIsDirectory(txfile, &error) &&
-                                    TXFileIsPackage(txfile, &error);
+            Boolean is_folder = TXFileIsDirectory(txfile, &error)
+                                    && (! error)
+                                    && (! TXFileIsPackage(txfile, &error));
             if (error) {
                 CFShow(error);
-                goto bail;
+                goto loopbail;
             }
             
             if (is_folder) {
@@ -133,6 +134,9 @@ OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
         } else if (enumerator_result == kCFURLEnumeratorError) {
             // A possible enhancement would be to present error-based items to the user.
         }
+    loopbail:
+        safeRelease(txfile); txfile = NULL;
+        safeRelease(error); error = NULL;
     } while (enumerator_result != kCFURLEnumeratorEnd);
     
 	if (module_ref_candidate) {
