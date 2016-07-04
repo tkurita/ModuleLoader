@@ -51,7 +51,7 @@ NSArray *copyDefaultModulePaths()
 {
     __block NSMutableArray *array = [NSMutableArray arrayWithCapacity:6];
     traverseDefaultLocations(^(NSURL *url) {
-        [array addObject:url];
+        [array addObject:[url path]];
         return YES;
     });
     
