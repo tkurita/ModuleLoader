@@ -233,8 +233,8 @@ OSErr findModuleWithSubPath(NSURL *container_url, ModuleCondition *module_condit
 
 
 
-OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, Boolean ignoreDefaultPaths,
-				 ModuleRef** moduleRef, CFMutableArrayRef* searchedPaths)
+OSErr findModule(ModuleCondition *module_condition, NSArray *additionalPaths, Boolean ignoreDefaultPaths,
+				 ModuleRef** moduleRef, NSMutableArray** searchedPaths)
 {
 	OSErr (*findModuleAtFolder)(NSURL *container_url, ModuleCondition *module_condition, ModuleRef** moduleRef);
 #if useLog
@@ -250,7 +250,7 @@ OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, 
     __block NSMutableArray *path_list = [NSMutableArray arrayWithCapacity:6];
     
     if (additionalPaths) {
-        [path_list addObjectsFromArray:CFBridgingRelease(additionalPaths)];
+        [path_list addObjectsFromArray:additionalPaths];
 	}
 	
 	if (!ignoreDefaultPaths) {
@@ -292,7 +292,7 @@ OSErr findModule(ModuleCondition *module_condition, CFArrayRef additionalPaths, 
     });
     
 bail:
-    if ([path_list count] > 0) *searchedPaths = CFBridgingRetain(path_list);
+    if ([path_list count] > 0) *searchedPaths = path_list;
     *moduleRef = found_moduleref;
 	return err;
 }

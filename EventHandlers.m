@@ -106,12 +106,11 @@ OSErr makeLoaderHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** moduleRefPtr)
 {
 	OSErr err = noErr;
-	CFMutableArrayRef searched_paths = NULL;
-	CFMutableArrayRef path_array = NULL;
+	NSMutableArray *searched_paths = nil;
 	CFStringRef module_name = NULL;
 	CFStringRef required_version = NULL;
 	ModuleCondition *module_condition = NULL;
-	CFStringRef errmsg = NULL;
+	CFStringRef errmsg =  NULL;
 	AEDesc direct_object;
 	AECreateDesc(typeNull, NULL, 0, &direct_object);
 #if useLog
@@ -119,7 +118,8 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** m
 #endif
 	Boolean with_other_paths = true;
 	err = getBoolValue(ev, kOtherPathsParam, &with_other_paths);
-	path_array = CFMutableArrayCreatePOSIXPathsWithEvent(ev, kInDirectoryParam, &err);
+	NSMutableArray *path_array = CFBridgingRelease(
+                CFMutableArrayCreatePOSIXPathsWithEvent(ev, kInDirectoryParam, &err));
 	
 	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &direct_object);
 	if (noErr != err) goto bail;
@@ -149,32 +149,30 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** m
 		goto bail;
 	}
 
-    err = findModule(module_condition, (CFArrayRef)path_array, !with_other_paths,
+    err = findModule(module_condition, path_array, !with_other_paths,
                          moduleRefPtr, &searched_paths);
 	if (err != noErr) {
-		CFStringRef pathlist = NULL;
+        NSString *error_message;
+		NSString *pathlist = nil;
 		if (searched_paths) {
-			pathlist= CFStringCreateByCombiningStrings(NULL, searched_paths, CFSTR(":"));
+            pathlist = [searched_paths componentsJoinedByString:@":"];
 		}
 		
 		if (required_version) {
-			errmsg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@ (%@)\" can not be found in %@"),
-												   module_name,required_version, pathlist);
+            error_message = [NSString stringWithFormat:@"\"%@ (%@)\" can not be found in %@",
+                      module_name,required_version, pathlist];
 		} else {
-			errmsg = CFStringCreateWithFormat(NULL, NULL, CFSTR("\"%@\" can not be found in %@"),
-											  module_name, pathlist);
-		}			
-		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);
-		safeRelease(pathlist);
+            error_message = [NSString stringWithFormat:@"\"%@\" can not be found in %@",
+                      module_name, pathlist];
+		}
+        AEPutParamDesc(reply, keyErrorString, [[error_message appleEventDescriptor] aeDesc]);
 		goto bail;
 	}
 bail:
 	safeRelease(module_name);
-	safeRelease(path_array);
 	safeRelease(required_version);
-	safeRelease(searched_paths);
+    safeRelease(errmsg);
 	ModuleConditionFree(module_condition);
-	safeRelease(errmsg);
 	AEDisposeDesc(&direct_object);
 	return err;
 }
@@ -216,19 +214,20 @@ bail:
 OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	OSErr err = noErr;
-	OSAID script_id = kOSANullScript;
+    @autoreleasepool {
+        OSAID script_id = kOSANullScript;
 	
-	AEDescList dependencies;
-	AECreateDesc(typeNull, NULL, 0, &dependencies);
-	AEDesc furl_desc;
-	AECreateDesc(typeNull, NULL, 0, &furl_desc);
-	AEDesc script_desc;
-	AECreateDesc(typeNull, NULL, 0, &script_desc);
-	AEDesc version_desc;
-	AECreateDesc(typeType, NULL, 0, &version_desc);
-	AEDesc result_desc;
-	AECreateDesc(typeNull, NULL, 0, &result_desc);
-	@autoreleasepool {
+        AEDescList dependencies;
+        AECreateDesc(typeNull, NULL, 0, &dependencies);
+        AEDesc furl_desc;
+        AECreateDesc(typeNull, NULL, 0, &furl_desc);
+        AEDesc script_desc;
+        AECreateDesc(typeNull, NULL, 0, &script_desc);
+        AEDesc version_desc;
+        AECreateDesc(typeType, NULL, 0, &version_desc);
+        AEDesc result_desc;
+        AECreateDesc(typeNull, NULL, 0, &result_desc);
+	
         ModuleRef* module_ref = NULL;
         err = findModuleWithEvent(ev, reply, &module_ref);
         if (err != noErr) goto bail;
