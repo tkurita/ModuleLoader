@@ -30,7 +30,7 @@ NSArray *additionalModulePaths()
 	CFShow(MODULE_PATHS);
 #endif
 bail:
-	return CFBridgingRelease(MODULE_PATHS);
+	return (__bridge NSArray *)(MODULE_PATHS);
 }
 
 void traverseDefaultLocations(BOOL (^block)(NSURL *))
