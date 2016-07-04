@@ -312,6 +312,33 @@ OSErr loadModuleHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
                 err = kModuleLoaderInternalError;
                 goto bail;
             }
+            if ('scpt' != [script_desc descriptorType]) {
+                NSError *osaerr = nil;
+                OSALanguageInstance *langinst = [OSALanguageInstance languageInstanceWithLanguage:
+                                                 [OSALanguage languageForName:@"AppleScript"]];
+                OSAScript *scriptinst = [[OSAScript alloc] initWithScriptDataDescriptor:script_desc
+                 fromURL:(__bridge NSURL * _Nonnull)(module_ref->url)
+                                               languageInstance:langinst
+                                            usingStorageOptions:OSANull
+                                                          error:&osaerr];
+                if (osaerr) {
+                    NSLog(@"%@", osaerr);
+                    putStringToEvent(reply, keyErrorString,
+                                     CFSTR("Fail to initWithScriptDataDescriptor."), kCFStringEncodingUTF8);
+                    err = kModuleLoaderInternalError;
+                    goto bail;
+                }
+                NSDictionary *errdict = nil;
+                NSData *scptdata = [scriptinst compiledDataForType:@"osas" usingStorageOptions:OSANull error:&errdict];
+                if (errdict) {
+                    NSLog(@"%@", errdict);
+                    putStringToEvent(reply, keyErrorString,
+                                     CFSTR("Fail to compiledDataForType."), kCFStringEncodingUTF8);
+                    err = kModuleLoaderInternalError;
+                    goto bail;
+                }
+                script_desc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeScript data:scptdata];
+            }
             err = AEPutParamDesc(reply, keyAEResult, [script_desc aeDesc]);
         }
 bail:
