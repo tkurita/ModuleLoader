@@ -45,8 +45,29 @@ on setup_script(a_moduleinfo)
 			error msg number errno
 		end if
 	end try
+    trim_requied_import_items(a_script)
 	--log "end setup_script"
 end setup_script
+
+on trim_requied_import_items(a_script)
+    try
+        set reqimport_items to required import items of a_script
+        on error
+        return
+    end try
+    
+    set reduced_import_items to {}
+    repeat with an_item in reqimport_items
+        set is_scpt to false
+        try
+            set is_scpt to ((class of item of an_item) is script)
+        end try
+        if not is_scpt then
+            set end of reduced_import_items to (contents of an_item)
+        end if
+    end repeat
+    set required import items of a_script to reduced_import_items
+end trim_requied_import_items
 
 on raise_error(a_name, a_location)
 	set folder_path to quoted form of (a_location as Unicode text)
@@ -236,6 +257,7 @@ on boot loader for a_script
 	end try
 	--log "will set __module_dependencies__"
 	set __module_dependencies__ to dependencies
+    trim_requied_import_items(a_script)
 	return loader
 end boot
 
