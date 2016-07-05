@@ -141,15 +141,18 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** m
 	}
 	
 	required_version = CFStringCreateWithEvent(ev, kVersionParam, &err);	
-	
-	module_condition = ModuleConditionCreate(module_name, required_version, &errmsg);
+    Boolean from_use = false;
+    getBoolValue(ev, kFromUseParam,  &from_use);
+    
+	module_condition = ModuleConditionCreate(module_name, required_version, !from_use, &errmsg);
 	if (!module_condition) {
 		putStringToEvent(reply, keyErrorString, errmsg, kCFStringEncodingUTF8);
 		err = kFailedToParseVersionCondition;
 		goto bail;
 	}
 
-    err = findModule(module_condition, path_array, !with_other_paths,
+    err = findModule(module_condition, path_array,
+                     !from_use, !with_other_paths,
                          moduleRefPtr, &searched_paths);
 	if (err != noErr) {
         NSString *error_message;

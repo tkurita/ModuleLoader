@@ -26,6 +26,7 @@
 #define kExtractDependenciesEvent 'Exdp'
 #define kReloadingParam 'pRLo'
 #define kVersionParam 'vers'
+#define kFromUseParam 'fmUs'
 #define kConditionParam 'ConD'
 
 enum {

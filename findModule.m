@@ -168,9 +168,13 @@ bail:
 	return err;
 }
 
-OSErr findModuleWithName(NSURL *container_url, ModuleCondition *module_condition, ModuleRef** module_ref)
+OSErr findModuleWithName(NSURL *container_url,
+                         ModuleCondition *module_condition,
+                         Boolean searchSubFolders,
+                         ModuleRef** module_ref)
 {
-    return scanFolder((__bridge CFURLRef)(container_url), module_condition, true, module_ref);
+    return scanFolder((__bridge CFURLRef)(container_url),
+                      module_condition, searchSubFolders, module_ref);
 }
 
 OSErr pickupModuleAtFolder(CFURLRef container_url, ModuleCondition *module_condition, ModuleRef **out_module_ref)
@@ -211,7 +215,10 @@ bail:
 	return err;
 }
 
-OSErr findModuleWithSubPath(NSURL *container_url, ModuleCondition *module_condition, ModuleRef** module_ref)
+OSErr findModuleWithSubPath(NSURL *container_url,
+                            ModuleCondition *module_condition,
+                            Boolean searchSubFolders,
+                            ModuleRef** module_ref)
 {
 	OSErr err;
 	CFArrayRef path_comps = module_condition->subpath;
@@ -233,10 +240,12 @@ OSErr findModuleWithSubPath(NSURL *container_url, ModuleCondition *module_condit
 
 
 
-OSErr findModule(ModuleCondition *module_condition, NSArray *additionalPaths, Boolean ignoreDefaultPaths,
+OSErr findModule(ModuleCondition *module_condition, NSArray *additionalPaths,
+                 Boolean searchSubFolders, Boolean ignoreDefaultPaths,
 				 ModuleRef** moduleRef, NSMutableArray** searchedPaths)
 {
-	OSErr (*findModuleAtFolder)(NSURL *container_url, ModuleCondition *module_condition, ModuleRef** moduleRef);
+	OSErr (*findModuleAtFolder)(NSURL *container_url, ModuleCondition *module_condition,
+                                Boolean searchSubFolders, ModuleRef** moduleRef);
 #if useLog
 	fprintf(stderr, "ignoreDefaultPaths : %d\n", ignoreDefaultPaths);
 	CFShow(additionalPaths);
@@ -263,7 +272,8 @@ OSErr findModule(ModuleCondition *module_condition, NSArray *additionalPaths, Bo
     __block OSErr err = kModuleIsNotFound;
     for (NSString *path in path_list) {
         NSURL *url = [NSURL fileURLWithPath:path];
-        err = findModuleAtFolder(url, module_condition, &found_moduleref);
+        err = findModuleAtFolder(url, module_condition,
+                                 searchSubFolders, &found_moduleref);
 		if (err == noErr) {
 #if useLog			
 			fprintf(stderr, "Module is found\n");
@@ -278,7 +288,8 @@ OSErr findModule(ModuleCondition *module_condition, NSArray *additionalPaths, Bo
     
     traverseDefaultLocations(^(NSURL *url) {
         if ([url checkResourceIsReachableAndReturnError:NULL]) {
-            err = findModuleAtFolder(url, module_condition, &found_moduleref);
+            err = findModuleAtFolder(url, module_condition,
+                                     searchSubFolders, &found_moduleref);
         }
         [path_list addObject:[url path]];
         if (err == noErr) {

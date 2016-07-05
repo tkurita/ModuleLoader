@@ -292,6 +292,10 @@ resource 'aete' (0, "ModuleLoader Terminology") {
 
 				"version", 'vers', 'TEXT',
 				"Required version.",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12,
+
+				"from use", 'fmUs', 'bool',
+				"Obtained from use statement.",
 				reserved, singleItem, notEnumerated, readWrite, Reserved12
 			},
 			{

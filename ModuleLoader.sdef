@@ -7,6 +7,7 @@
 			<property name="name" code="pnam" description="Module name" type="text"/>
 			<property name="reloading" code="pRLo" description="Whether or not to load a module ignoring module chache." type="boolean"/>
 			<property name="version" code="vers" description="Required version." type="text"/>
+			<property name="from use" code="fmUs" description="Obtained from use statement." type="boolean"/>
 		</record-type>
 		<record-type name="dependency info" code="DpIf" description="Module dependency information">
 			<property name="name" code="pnam" description="A property name which a module is loaded." type="text"/>

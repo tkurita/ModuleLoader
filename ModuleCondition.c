@@ -35,35 +35,37 @@ bail:
 	return result;
 }
 
-ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef required_version, CFStringRef *errmsg)
+ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef required_version, Boolean hfs_style, CFStringRef *errmsg)
 {
 	CFStringRef escaped_name = NULL;
 	CFStringRef verpattern = NULL;
 	CFMutableArrayRef subpath = NULL;
 	ModuleCondition *module_condition = NULL;
 	
-	CFRange colon_range  = CFStringFind(module_name, CFSTR(":"), 0);
-	if (colon_range.location != kCFNotFound) {
-		CFArrayRef subpath_tmp = CFStringCreateArrayBySeparatingStrings(NULL, module_name, CFSTR(":"));
-		module_name = CFArrayGetValueAtIndex(subpath_tmp, CFArrayGetCount(subpath_tmp)-1);
-        // convert HFS to POSIX
-        subpath = CFArrayCreateMutableCopy(kCFAllocatorDefault, CFArrayGetCount(subpath_tmp), subpath_tmp);
-        for (CFIndex n = 0; n < CFArrayGetCount(subpath_tmp); n++) {
-            CFStringRef pathelem = CFArrayGetValueAtIndex(subpath_tmp, n);
-            CFIndex len =  CFStringGetLength(pathelem);
-            CFMutableStringRef pathelem_mutable = CFStringCreateMutableCopy(kCFAllocatorDefault,
-                                                                            len,
-                                                                            pathelem);
-            CFRange r = {0, len};
-            if (CFStringFindAndReplace(pathelem_mutable, CFSTR("/"), CFSTR(":"), r, 0)) {
-                CFArraySetValueAtIndex(subpath, n, pathelem_mutable);
-            } else {
-                CFRelease(pathelem_mutable);
+    if (hfs_style) {
+        CFRange colon_range  = CFStringFind(module_name, CFSTR(":"), 0);
+        if (colon_range.location != kCFNotFound) {
+            CFArrayRef subpath_tmp = CFStringCreateArrayBySeparatingStrings(NULL, module_name, CFSTR(":"));
+            module_name = CFArrayGetValueAtIndex(subpath_tmp, CFArrayGetCount(subpath_tmp)-1);
+            // convert HFS to POSIX
+            subpath = CFArrayCreateMutableCopy(kCFAllocatorDefault, CFArrayGetCount(subpath_tmp), subpath_tmp);
+            for (CFIndex n = 0; n < CFArrayGetCount(subpath_tmp); n++) {
+                CFStringRef pathelem = CFArrayGetValueAtIndex(subpath_tmp, n);
+                CFIndex len =  CFStringGetLength(pathelem);
+                CFMutableStringRef pathelem_mutable = CFStringCreateMutableCopy(kCFAllocatorDefault,
+                                                                                len,
+                                                                                pathelem);
+                CFRange r = {0, len};
+                if (CFStringFindAndReplace(pathelem_mutable, CFSTR("/"), CFSTR(":"), r, 0)) {
+                    CFArraySetValueAtIndex(subpath, n, pathelem_mutable);
+                } else {
+                    CFRelease(pathelem_mutable);
+                }
             }
+            CFRelease(subpath_tmp);
         }
-        CFRelease(subpath_tmp);
-	}
-	
+    }
+    
 	module_condition = malloc(sizeof(ModuleCondition));
 	if (!module_condition) {
 		fprintf(stderr, "Failed to allocate ModuleCondition.\n");

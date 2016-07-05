@@ -36,7 +36,8 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	
 	AEDescList property_names;
 	AECreateDesc(typeNull, NULL, 0, &property_names);	
-	
+    AEDesc true_desc;
+    AECreateDesc(typeTrue, NULL, 0, &true_desc);
 	AEDesc moduleSpecLabel;
 	err = AECreateDesc(typeChar, MODULE_SPEC_LABEL, strlen(MODULE_SPEC_LABEL), &moduleSpecLabel);
 	AEDesc moduleDependenciesLabel;
@@ -118,7 +119,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
                 case typeObjectSpecifier:
                     err = ConvertToModuleSpecifier(&prop_desc, &modspec_desc, &ismodule);
                     if (!ismodule) goto loopbail;
-                    err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@}",&a_pname, &modspec_desc);
+                    err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@, fmUs:@}",&a_pname, &modspec_desc, &true_desc);
                     break;
                 case typeModuleSpecifier:
                     err = AESizeOfKeyDesc(&prop_desc, keyAEName, &type_code, &data_size);
@@ -150,6 +151,7 @@ bail:
 	AEDisposeDesc(&property_names);
 	AEDisposeDesc(&moduleSpecLabel);
 	AEDisposeDesc(&moduleDependenciesLabel);
-	return err;				
+    AEDisposeDesc(&true_desc);
+    return err;
 }
 
