@@ -20,7 +20,7 @@
 		2C0B0CC41D2343F0006EEC1F /* VersionCondition.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */; };
 		2C0B0CC51D2343F5006EEC1F /* findModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C813B830B4CAC4F000FF2FE /* findModule.m */; };
 		2C0B0CC61D2343FB006EEC1F /* EventHandlers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB99B8110AA4801002C5D32 /* EventHandlers.m */; };
-		2C0B0CC71D234400006EEC1F /* ExtractDependencies.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.c */; };
+		2C0B0CC71D234400006EEC1F /* ExtractDependencies.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.m */; };
 		2C0B0CC81D234404006EEC1F /* AppleEventExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD75DFC1D22B158007FB66D /* AppleEventExtra.m */; };
 		2C0B0CC91D234407006EEC1F /* AEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB99C3F10AA6364002C5D32 /* AEUtils.c */; };
 		2C0B0CCA1D234421006EEC1F /* ModuleLoader.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */; };
@@ -32,7 +32,7 @@
 		2C0B0CD31D2351A9006EEC1F /* InstallAE.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B2FE8417CDC02AAC07 /* InstallAE.m */; };
 		2C2455C51D23E2620088C7C7 /* OSAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBA3AE11D23AC1300F7F568 /* OSAKit.framework */; };
 		2C2455C61D23E2640088C7C7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0B0CA71D22CBAF006EEC1F /* Cocoa.framework */; };
-		2C525A0210C428D900497709 /* ExtractDependencies.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.c */; };
+		2C525A0210C428D900497709 /* ExtractDependencies.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.m */; };
 		2C5B3B6D10B98242004396E4 /* LocalLoader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6110AD336100208505 /* LocalLoader.scpt */; };
 		2C5B3B6E10B98242004396E4 /* loader.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 2C706D6210AD336100208505 /* loader.scpt */; };
 		2C5B3B6F10B98242004396E4 /* ModuleLoader.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */; };
@@ -104,7 +104,7 @@
 		2C72F3D21349CC5200531114 /* ModuleRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleRef.h; sourceTree = "<group>"; };
 		2C72F3D31349CC5200531114 /* ModuleRef.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ModuleRef.c; sourceTree = "<group>"; };
 		2C7C4AEB10C3C14A00FFB0B1 /* ExtractDependencies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtractDependencies.h; sourceTree = "<group>"; };
-		2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ExtractDependencies.c; sourceTree = "<group>"; };
+		2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtractDependencies.m; sourceTree = "<group>"; };
 		2C813B820B4CAC4F000FF2FE /* findModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = findModule.h; sourceTree = "<group>"; };
 		2C813B830B4CAC4F000FF2FE /* findModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = findModule.m; sourceTree = "<group>"; };
 		2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = ModuleLoader.sdef; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 				2CB99B8110AA4801002C5D32 /* EventHandlers.m */,
 				2C1AD26310B04BBF004B9EDB /* ModuleLoaderConstants.h */,
 				2C7C4AEB10C3C14A00FFB0B1 /* ExtractDependencies.h */,
-				2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.c */,
+				2C7C4AEC10C3C14A00FFB0B1 /* ExtractDependencies.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -592,7 +592,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C0B0CC71D234400006EEC1F /* ExtractDependencies.c in Sources */,
+				2C0B0CC71D234400006EEC1F /* ExtractDependencies.m in Sources */,
 				2C0B0CC91D234407006EEC1F /* AEUtils.c in Sources */,
 				2C0B0CC41D2343F0006EEC1F /* VersionCondition.c in Sources */,
 				2C0B0CC01D2343D3006EEC1F /* TXRegularExpression.c in Sources */,
@@ -616,7 +616,7 @@
 				2C5B3B7310B98242004396E4 /* EventHandlers.m in Sources */,
 				2CD75DFD1D22B158007FB66D /* AppleEventExtra.m in Sources */,
 				2C5B3B7410B98242004396E4 /* AEUtils.c in Sources */,
-				2C525A0210C428D900497709 /* ExtractDependencies.c in Sources */,
+				2C525A0210C428D900497709 /* ExtractDependencies.m in Sources */,
 				2CB5B4EC13434765006407F2 /* ModuleCondition.c in Sources */,
 				2CB5B4F113434799006407F2 /* VersionCondition.c in Sources */,
 				2C72F2DF13485DFE00531114 /* TXRegularExpression.c in Sources */,

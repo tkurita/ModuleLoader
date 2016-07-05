@@ -1,7 +1,9 @@
+#import <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 #include "ModuleLoaderConstants.h"
 #include "ExtractDependencies.h"
 #include "AEUtils.h"
+
 
 #define useLog 0
 
@@ -9,24 +11,40 @@ const char *MODULE_SPEC_LABEL = "__module_specifier__";
 const char *MODULE_DEPENDENCIES_LABEL = "__module_dependencies__";
 
 
-OSErr ConvertToModuleSpecifier(AEDesc *ae_desc, AEDesc *modspec, Boolean *ismodule)
+OSErr ConvertToModuleSpecifier(AEDesc *ae_desc, AEDesc *modspec,
+                               NSAppleEventDescriptor *reqested_items, Boolean *ismodule)
 {
     OSErr err;
     AEKeyword desired_class;
     AEDesc a_pname;
     AECreateDesc(typeNull, NULL, 0, &a_pname);
+    NSAppleEventDescriptor *vers = nil;
+    NSString *libname = nil;
     *ismodule = false;
+    
     err = AEGetKeyPtr(ae_desc, keyAEDesiredClass, typeType, NULL, &desired_class, sizeof(desired_class), NULL);
     if (noErr != err) goto bail;
     if (desired_class != typeScript) goto bail;
     err = AEGetKeyDesc(ae_desc, keyAEKeyData, typeUnicodeText, &a_pname);
     if (noErr != err) goto bail;
+    libname = [[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&a_pname] stringValue];
+    for (NSInteger n = 1; n <= [reqested_items numberOfItems]; n++) {
+        NSAppleEventDescriptor *a_record = [reqested_items descriptorAtIndex:n];
+        if ([libname isEqualToString:[[[a_record descriptorForKeyword:cObject] descriptorForKeyword:keyAEKeyData] stringValue]]) {
+            vers = [a_record descriptorForKeyword: keyAEVersion];
+            break;
+        }
+    }
+
     AEBuildError ae_err;
-    err = AEBuildDesc(modspec, &ae_err, "MoSp{pnam:@}",&a_pname);
+    if (vers) {
+        err = AEBuildDesc(modspec, &ae_err, "MoSp{pnam:@, vers:@}",&a_pname, [vers aeDesc]);
+    } else {
+        err = AEBuildDesc(modspec, &ae_err, "MoSp{pnam:@}",&a_pname);
+    }
     if (noErr != err) goto bail;
     *ismodule = true;
 bail:
-    AEDisposeDesc(&a_pname);
     return err;
 }
 
@@ -38,6 +56,10 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	AECreateDesc(typeNull, NULL, 0, &property_names);	
     AEDesc true_desc;
     AECreateDesc(typeTrue, NULL, 0, &true_desc);
+    OSAID reqitems_id = kOSANullScript;
+    AEDescList reqitems_desc;
+    AECreateDesc(typeTrue, NULL, 0, &reqitems_desc);
+    NSAppleEventDescriptor *reqested_items = nil;
 	AEDesc moduleSpecLabel;
 	err = AECreateDesc(typeChar, MODULE_SPEC_LABEL, strlen(MODULE_SPEC_LABEL), &moduleSpecLabel);
 	AEDesc moduleDependenciesLabel;
@@ -89,8 +111,17 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		showAEDesc(&a_pname);
 #endif		
 		if (typeType == a_pname.descriptorType) {
-			// if a_pname is not user defined property, skip
-			goto loopbail;
+            OSType type_data;
+            err = AEGetDescData(&a_pname, &type_data, sizeof(type_data));
+            if (noErr != err) goto loopbail;
+            if (type_data != 'pimr') {
+                // if a_pname is not user defined property, skip
+                goto loopbail;
+            }
+            err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &reqitems_id);
+            err = OSACoerceToDesc(component, reqitems_id, typeWildCard, kOSAModeNull, &reqitems_desc);
+            reqested_items = [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&reqitems_desc];
+            
 		}
 		err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &prop_value_id);	
 		if (noErr != err) { 
@@ -117,7 +148,8 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
             Boolean ismodule = false;
             switch (prop_desc.descriptorType) {
                 case typeObjectSpecifier:
-                    err = ConvertToModuleSpecifier(&prop_desc, &modspec_desc, &ismodule);
+                    err = ConvertToModuleSpecifier(&prop_desc, &modspec_desc,
+                                                   reqested_items, &ismodule);
                     if (!ismodule) goto loopbail;
                     err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@, fmUs:@}",&a_pname, &modspec_desc, &true_desc);
                     break;
@@ -152,6 +184,7 @@ bail:
 	AEDisposeDesc(&moduleSpecLabel);
 	AEDisposeDesc(&moduleDependenciesLabel);
     AEDisposeDesc(&true_desc);
+    OSADispose(component, reqitems_id);
     return err;
 }
 

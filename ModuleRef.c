@@ -10,17 +10,11 @@ CFStringRef ModuleRefGetVersion(ModuleRef *module_ref)
 		return module_ref->version;
 	}
 	if (! module_ref->is_package) return NULL;
-	
-	CFURLRef url = module_ref->url;
-#if useLog
-	fputs("In ModuleRefGetVersion", stderr);
-	CFShow(url);
-#endif		
-	CFDictionaryRef dict = CFBundleCopyInfoDictionaryForURL(url);
+		
+	CFDictionaryRef dict = CFBundleCopyInfoDictionaryForURL(module_ref->url);
 	CFStringRef ver = CFDictionaryGetValue(dict, CFSTR("CFBundleShortVersionString"));
 	if (!ver) ver = CFDictionaryGetValue(dict, CFSTR("CFBundleVersion"));
 	if (ver) module_ref->version = CFRetain(ver);
-	CFRelease(url);
 	CFRelease(dict);
 	return ver;
 }

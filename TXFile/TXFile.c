@@ -49,8 +49,7 @@ TXFileRef TXFileCreateWithURL(CFAllocatorRef allocator, CFURLRef url)
     TXFileStruct *txf_struct = malloc(sizeof(TXFileStruct));
     if (!txf_struct) return NULL;
     if (url) {
-        CFRetain(url);
-        txf_struct->url = url;
+        txf_struct->url = CFRetain(url);
     }
     
     CFAllocatorRef deallocator = CreateTXFileDeallocator();
@@ -63,8 +62,7 @@ TXFileRef TXFileCreateWithURL(CFAllocatorRef allocator, CFURLRef url)
 CFURLRef TXFileCopyURL(TXFileRef txfile)
 {
     TXFileStruct *txf_struct = TXFileGetStruct(txfile);
-    CFRetain(txf_struct->url);
-    return txf_struct->url;
+    return CFRetain(txf_struct->url);
 }
 
 CFURLRef TXFileGetURL(TXFileRef txfile)
