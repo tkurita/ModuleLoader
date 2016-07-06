@@ -379,7 +379,6 @@
 				2C5B3B7110B98242004396E4 /* Sources */,
 				2C5B3B7510B98242004396E4 /* Frameworks */,
 				2C5B3B7710B98242004396E4 /* Rez */,
-				2CC81885153FA3E800DCA187 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -560,21 +559,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/bin/sdp -f a -o \"${SRCROOT}/ModuleLoader.r\" ModuleLoader.sdef";
-		};
-		2CC81885153FA3E800DCA187 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Info_10_5.plist",
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Info_10_5.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "plist=`cat \"${SCRIPT_INPUT_FILE_0}\"`\neval echo \\\"$plist\\\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -773,6 +757,7 @@
 		2C5B3B7B10B98242004396E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -835,6 +820,7 @@
 		2CAFFE3E10C63528002B217C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CURRENT_PROJECT_VERSION = 44;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
