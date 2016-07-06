@@ -119,9 +119,17 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
                 goto loopbail;
             }
             err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &reqitems_id);
+            if (noErr != err) {
+                fprintf(stderr, "Failed to OSAGetProperty for requested import items with error %d\n", err);
+                goto loopbail;
+            }
             err = OSACoerceToDesc(component, reqitems_id, typeWildCard, kOSAModeNull, &reqitems_desc);
+            if (noErr != err) {
+                fprintf(stderr, "Failed to OSACoerceToDesc for requested import items with error %d\n", err);
+                goto loopbail;
+            }
             reqested_items = [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&reqitems_desc];
-            
+            goto loopbail;
 		}
 		err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &prop_value_id);	
 		if (noErr != err) { 

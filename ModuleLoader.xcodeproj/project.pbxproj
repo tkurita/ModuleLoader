@@ -181,7 +181,6 @@
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				2C0B0CB01D22E017006EEC1F /* ModuleLoaderTest */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
-				2CAFFE0C10C6257C002B217C /* DummyDictionary-Info.plist */,
 			);
 			name = LoadModule;
 			sourceTree = "<group>";
@@ -200,6 +199,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2CAFFE0C10C6257C002B217C /* DummyDictionary-Info.plist */,
 				2CB99BCA10AA56AF002C5D32 /* ModuleLoader.r */,
 				2C813B910B4CADAA000FF2FE /* ModuleLoader.sdef */,
 				8D01CCD10486CAD60068D4B7 /* Info_10_5.plist */,
