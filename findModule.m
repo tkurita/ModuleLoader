@@ -205,7 +205,9 @@ OSErr pickupModuleAtFolder(CFURLRef container_url, ModuleCondition *module_condi
             CFRelease(txfile); txfile = NULL;
             ModuleRefFree(module_ref);module_ref = NULL;
         }
+#if useLog
         CFShow(candidaite_url);
+#endif
         CFRelease(candidaite_url);candidaite_url = NULL;
 		CFRelease(filename);filename = NULL;
 	}

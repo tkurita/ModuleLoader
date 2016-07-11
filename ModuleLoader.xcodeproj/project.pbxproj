@@ -811,7 +811,7 @@
 					"-DModuleLoader_VERSION=${PRODUCT_VERSION}",
 					"-DPRODUCT_BUNDLE_IDENTIFIER=${PRODUCT_BUNDLE_IDENTIFIER}",
 				);
-				PRODUCT_VERSION = 2.4b;
+				PRODUCT_VERSION = 3.0b;
 				REZ_SHOW_DEBUG_OUTPUT = NO;
 				SDKROOT = macosx;
 			};
@@ -893,7 +893,7 @@
 					"-DModuleLoader_VERSION=${PRODUCT_VERSION}",
 					"-DPRODUCT_BUNDLE_IDENTIFIER=${PRODUCT_BUNDLE_IDENTIFIER}",
 				);
-				PRODUCT_VERSION = 2.4b;
+				PRODUCT_VERSION = 3.0b;
 				SDKROOT = macosx;
 			};
 			name = Release;
