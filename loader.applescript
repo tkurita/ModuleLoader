@@ -52,7 +52,7 @@ end setup_script
 on trim_requied_import_items(a_script)
     try
         set reqimport_items to required import items of a_script
-        if (count reqimport_items) == 0 then
+        if (count reqimport_items) is 0 then
             return
         end if
     on error

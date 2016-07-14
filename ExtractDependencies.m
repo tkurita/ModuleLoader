@@ -97,7 +97,6 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AEDesc a_pname;
 		AECreateDesc(typeNull, NULL, 0, &a_pname);
 		OSAID prop_value_id = kOSANullScript;
-		OSAID prop_value_id2 = kOSANullScript;
 		AEDesc dep_info;
 		AECreateDesc(typeNull, NULL, 0, &dep_info);
 		AEDesc prop_desc;
@@ -141,13 +140,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		if (err != noErr) goto loopbail;
 		AEBuildError ae_err;
 		if (is_script) {
-			err = OSAGetProperty(component, kOSAModeNull, prop_value_id, &moduleSpecLabel, &prop_value_id2);
-			if (noErr != err) {
-				err = noErr;
-				goto loopbail;
-			}
-			err = OSACoerceToDesc(component, prop_value_id2, typeWildCard, kOSAModeNull, &prop_desc);
-			if (err != noErr) goto loopbail;			
+            goto loopbail;
 		} else {
 			err = OSACoerceToDesc(component, prop_value_id, typeWildCard, kOSAModeNull, &prop_desc);
 			if (err != noErr) goto loopbail;
@@ -184,7 +177,6 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AEDisposeDesc(&dep_info);
         AEDisposeDesc(&modspec_desc);
 		OSADispose(component, prop_value_id);
-		OSADispose(component, prop_value_id2);
 		if (noErr != err) goto bail;
 	}
 bail:
