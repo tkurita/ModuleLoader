@@ -16,8 +16,7 @@ OSErr ConvertToModuleSpecifier(AEDesc *ae_desc, AEDesc *modspec,
 {
     OSErr err;
     AEKeyword desired_class;
-    AEDesc a_pname;
-    AECreateDesc(typeNull, NULL, 0, &a_pname);
+    AEDesc a_pname = {typeNull, NULL};
     NSAppleEventDescriptor *vers = nil;
     NSString *libname = nil;
     *ismodule = false;
@@ -52,10 +51,8 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 {
 	OSErr err;
 	
-	AEDescList property_names;
-	AECreateDesc(typeNull, NULL, 0, &property_names);	
-    AEDesc true_desc;
-    AECreateDesc(typeTrue, NULL, 0, &true_desc);
+    AEDescList property_names = {typeNull, NULL};
+    AEDesc true_desc = {typeNull, NULL};
     OSAID reqitems_id = kOSANullScript;
     AEDescList reqitems_desc;
     AECreateDesc(typeTrue, NULL, 0, &reqitems_desc);
@@ -94,15 +91,11 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	
 	AEKeyword a_keyword;
 	for (long n = 1; n <= count; n++) {
-		AEDesc a_pname;
-		AECreateDesc(typeNull, NULL, 0, &a_pname);
+		AEDesc a_pname = {typeNull, NULL};
 		OSAID prop_value_id = kOSANullScript;
-		AEDesc dep_info;
-		AECreateDesc(typeNull, NULL, 0, &dep_info);
-		AEDesc prop_desc;
-		AECreateDesc(typeNull, NULL, 0, &prop_desc);
-        AEDesc modspec_desc;
-        AECreateDesc(typeNull, NULL, 0, &modspec_desc);
+		AEDesc dep_info = {typeNull, NULL};
+		AEDesc prop_desc = {typeNull, NULL};
+        AEDesc modspec_desc = {typeNull, NULL};
         
 		err = AEGetNthDesc(&property_names, n, typeWildCard, &a_keyword, &a_pname);
 		if (err != noErr) goto loopbail;

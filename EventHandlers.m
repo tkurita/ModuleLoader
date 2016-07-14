@@ -111,8 +111,7 @@ OSErr findModuleWithEvent(const AppleEvent *ev, AppleEvent *reply, ModuleRef** m
 	CFStringRef required_version = NULL;
 	ModuleCondition *module_condition = NULL;
 	CFStringRef errmsg =  NULL;
-	AEDesc direct_object;
-	AECreateDesc(typeNull, NULL, 0, &direct_object);
+    AEDesc direct_object = {typeNull, NULL};
 #if useLog
 	showAEDesc(ev);
 #endif
@@ -220,16 +219,11 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
     @autoreleasepool {
         OSAID script_id = kOSANullScript;
 	
-        AEDescList dependencies;
-        AECreateDesc(typeNull, NULL, 0, &dependencies);
-        AEDesc furl_desc;
-        AECreateDesc(typeNull, NULL, 0, &furl_desc);
-        AEDesc script_desc;
-        AECreateDesc(typeNull, NULL, 0, &script_desc);
-        AEDesc version_desc;
-        AECreateDesc(typeType, NULL, 0, &version_desc);
-        AEDesc result_desc;
-        AECreateDesc(typeNull, NULL, 0, &result_desc);
+        AEDescList dependencies = {typeNull, NULL};
+        AEDesc furl_desc = {typeNull, NULL};
+        AEDesc script_desc = {typeNull, NULL};
+        AEDesc version_desc = {typeNull, NULL};
+        AEDesc result_desc = {typeNull, NULL};
 	
         ModuleRef* module_ref = NULL;
         err = findModuleWithEvent(ev, reply, &module_ref);
@@ -354,14 +348,10 @@ bail:
 OSErr makeModuleSpecHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 	OSErr err;
-	AEDesc module_name;
-	AECreateDesc(typeNull, NULL, 0, &module_name);
-	AEDesc module_spec;
-	AECreateDesc(typeNull, NULL, 0, &module_spec);
-	AEDesc required_version;
-	AECreateDesc(typeNull, NULL, 0, &required_version);
-	AEDesc with_reloading;
-	AECreateDesc(typeFalse, NULL, 0, &with_reloading);
+	AEDesc module_name = {typeNull, NULL};
+	AEDesc module_spec = {typeNull, NULL};
+	AEDesc required_version = {typeNull, NULL};
+    AEDesc with_reloading = {typeFalse, NULL};
 	AEBuildError ae_err;
 	
 	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &module_name);
@@ -399,10 +389,8 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCo
 	fprintf(stderr, "start extractDependenciesHandler\n");
 #endif
 	OSErr err;
-	AEDesc script_data;
-	AECreateDesc(typeNull, NULL, 0, &script_data);
-	AEDescList dependencies;
-	AECreateDesc(typeNull, NULL, 0, &dependencies);
+	AEDesc script_data = {typeNull, NULL};
+	AEDescList dependencies = {typeNull, NULL};
 	err = AEGetParamDesc(ev, keyDirectObject, typeScript, &script_data);
 	@autoreleasepool {
         if (err != noErr) {
