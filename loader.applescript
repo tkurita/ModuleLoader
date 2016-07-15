@@ -312,9 +312,10 @@ on module_version_of(a_script)
 end module_version_of
 
 on try_collect(mspec, adpaths)
+    --log "start try_collect"
 	set a_record to _load module_ mspec additional paths adpaths
-	set a_source to file of a_record
-	set a_script to script of a_record
+    set {file:a_source, script:a_script} to a_record
+    set a_source to a_source as alias
 	set a_location to item 1 of adpaths
 	tell application "Finder"
 		set src_name to name of a_source
