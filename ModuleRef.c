@@ -64,6 +64,14 @@ Boolean isScript(TXFileRef txfile)
         CFRelease(bundle);
         goto bail;
     }
+    
+    if (TXFileIsPackage(txfile, &error)) {
+        CFStringRef ext = CFURLCopyPathExtension(TXFileGetURL(txfile));
+        if (kCFCompareEqualTo ==  CFStringCompare(ext, CFSTR("scptd"), 0)) {
+            result = true;
+        }
+        CFRelease(ext);
+    }
 
 bail:
     safeRelease(error);
