@@ -17,7 +17,8 @@ enum ModuleLoaderCommands {
     kSetAdditionalModulePathsEvent = 'adMp',
     kModulePathsEvent = 'gtPH',
     kMakeModuleSpecEvent = 'MkMs',
-    kVersionEvent = 'Vers'
+    kVersionEvent = 'Vers',
+    kMeetVersionEvent = 'MeVe'
 };
 
 enum HandlerLabels {

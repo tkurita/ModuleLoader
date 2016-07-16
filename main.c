@@ -33,7 +33,7 @@ const AEEventHandlerInfo gEventInfo[] = {
 { kModuleLoaderSuite, kVersionEvent, versionHandler},
 { kModuleLoaderSuite, kMakeModuleSpecEvent, makeModuleSpecHandler},
 { kModuleLoaderSuite, kExtractDependenciesEvent, extractDependenciesHandler},
-{ kModuleLoaderSuite, kExtractDependenciesEvent, meetVersionHandler}
+{ kModuleLoaderSuite, kMeetVersionEvent, meetVersionHandler}
 };
 
 const int kEventHandlerCount = (sizeof(gEventInfo) / sizeof(AEEventHandlerInfo));
