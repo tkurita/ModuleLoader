@@ -141,6 +141,7 @@ OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
     
 	if (module_ref_candidate) {
 		*outRef = module_ref_candidate;
+        err = noErr;
 		goto bail;
 	}
 	
