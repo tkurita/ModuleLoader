@@ -18,6 +18,11 @@ on module_script()
 	return my _script
 end module_script
 
+on set_module_script(a_script)
+    set my _script to a_script
+    return me
+end set_module_script
+
 on module_version()
 	return my _version
 end module_version

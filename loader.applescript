@@ -33,11 +33,10 @@ on setup_script(a_moduleinfo)
 	--log ("start setup_script" & " for " & name of a_script)
 	a_moduleinfo's set_setupped(true)
 	resolve_dependencies(a_moduleinfo, false)
-	set sucess_setup to false
 	try
 		--log "before module loaded : " & (name of a_script)
-		module loaded a_script by me
-		set sucess_setup to true
+		set a_script to module loaded a_script by me
+        a_moduleinfo's set_module_script(a_script)
 	on error msg number errno
 		-- 1800 : the module is not found
 		-- -1708 : handelr "module loaded" is not implemented
@@ -234,19 +233,14 @@ on boot loader for a_script
 		--log "not found __module_dependencies__"
 	end try
 	
-	set moduleinfo_list to {}
 	repeat with a_dep in dependencies
 		--log name of a_dep
 		set a_moduleinfo to load_module(module specifier of a_dep)
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
+        if a_moduleinfo's need_setup() then
+            setup_script(a_moduleinfo)
+        end if
 		an_accessor's set_value(a_script, a_moduleinfo's module_script())
-		set end of moduleinfo_list to a_moduleinfo
-	end repeat
-	
-	repeat with a_moduleinfo in moduleinfo_list
-		if a_moduleinfo's need_setup() then
-			setup_script(a_moduleinfo)
-		end if
 	end repeat
 	
 	try
