@@ -41,7 +41,10 @@ OSErr ConvertToModuleSpecifier(AEDesc *ae_desc, AEDesc *modspec,
     } else {
         err = AEBuildDesc(modspec, &ae_err, "MoSp{pnam:@}",&a_pname);
     }
-    if (noErr != err) goto bail;
+    if (noErr != err) {
+        NSLog(@"Failed to AEBuildDesc in ConvertToModuleSpecifier with error %d", err);
+        goto bail;
+    }
     *ismodule = true;
 bail:
     return err;
@@ -69,17 +72,17 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	err = OSAGetProperty(component, kOSAModeNull, scriptID, &moduleDependenciesLabel, &deplist_id);
 	if (noErr == err) {
 #if useLog
-		fprintf(stderr, "Found __module_dependencies__\n");
+		NSLog(@"%@", @"Found __module_dependencies__");
 #endif
 		err = OSACoerceToDesc(component, deplist_id, typeWildCard, kOSAModeNull, dependencies);
 		goto bail;
 	}
 #if useLog
-	fprintf(stderr, "Not Found __module_dependencies__\n");
+	NSLog(@"%@", @"Not Found __module_dependencies__");
 #endif	
 	err = OSAGetPropertyNames(component, kOSAModeNull, scriptID, &property_names);
 	if (err != noErr) {
-		fprintf(stderr, "Failed to OSAGetPropertyName in extractDependencies\n");
+        NSLog(@"%@", @"Failed to OSAGetPropertyName in extractDependencies");
 		goto bail;
 	}
 #if useLog
@@ -103,6 +106,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		showAEDesc(&a_pname);
 #endif		
 		if (typeType == a_pname.descriptorType) {
+            a_pname.descriptorType = typeProperty;
             OSType type_data;
             err = AEGetDescData(&a_pname, &type_data, sizeof(type_data));
             if (noErr != err) goto loopbail;
@@ -112,12 +116,12 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
             }
             err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &reqitems_id);
             if (noErr != err) {
-                fprintf(stderr, "Failed to OSAGetProperty for requested import items with error %d\n", err);
+                NSLog(@"Failed to OSAGetProperty for requested import items with error %d", err);
                 goto loopbail;
             }
             err = OSACoerceToDesc(component, reqitems_id, typeWildCard, kOSAModeNull, &reqitems_desc);
             if (noErr != err) {
-                fprintf(stderr, "Failed to OSACoerceToDesc for requested import items with error %d\n", err);
+                NSLog(@"Failed to OSACoerceToDesc for requested import items with error %d", err);
                 goto loopbail;
             }
             reqested_items = [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&reqitems_desc];
@@ -125,7 +129,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		}
 		err = OSAGetProperty(component, kOSAModeNull, scriptID, &a_pname, &prop_value_id);	
 		if (noErr != err) { 
-			fprintf(stderr, "Failed to OSAGetProperty in extractDependencies with error %d\n", err);
+			NSLog(@"Failed to OSAGetProperty in extractDependencies with error %d", err);
 			goto loopbail;
 		}
 		long is_script;
@@ -144,8 +148,14 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
                 case typeObjectSpecifier:
                     err = ConvertToModuleSpecifier(&prop_desc, &modspec_desc,
                                                    reqested_items, &ismodule);
+                    if (noErr != err) {
+                        NSLog(@"Failed to ConvertToModuleSpecifier with error %d", err);
+                    }
                     if (!ismodule) goto loopbail;
                     err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@, fmUs:@}",&a_pname, &modspec_desc, &true_desc);
+                    if (noErr != err) {
+                        NSLog(@"Failed to AEBuildDesc from typeObjectSpecifier with error %d", err);
+                    }
                     break;
                 case typeModuleSpecifier:
                     err = AESizeOfKeyDesc(&prop_desc, keyAEName, &type_code, &data_size);
@@ -154,6 +164,9 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
                         if (noErr != err) goto loopbail;
                     }
                     err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@}",&a_pname, &prop_desc);
+                    if (noErr != err) {
+                        NSLog(@"Failed to AEBuildDesc from typeModuleSpecifier with error %d", err);
+                    }
                     break;
                 default:
                     goto loopbail;

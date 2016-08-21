@@ -7,6 +7,7 @@
 #include "ExtractDependencies.h"
 #import "AppleEventExtra.h"
 #import <OSAKit/OSAKit.h>
+#include <syslog.h>
 
 #define useLog 0
 
@@ -386,7 +387,7 @@ bail:
 OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
 #if useLog
-	fprintf(stderr, "start extractDependenciesHandler\n");
+    syslog(LOG_NOTICE, "start extractDependenciesHandler");
 #endif
 	OSErr err;
 	AEDesc script_data = {typeNull, NULL};
@@ -394,7 +395,7 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCo
 	err = AEGetParamDesc(ev, keyDirectObject, typeScript, &script_data);
 	@autoreleasepool {
         if (err != noErr) {
-            fprintf(stderr, "Faild to AEGetParamDesc in extractDependenciesHandler\n");
+            NSLog(@"%@", @"Faild to AEGetParamDesc in extractDependenciesHandler");
             goto bail;
         }
     
