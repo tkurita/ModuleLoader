@@ -55,10 +55,9 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	OSErr err;
 	
     AEDescList property_names = {typeNull, NULL};
-    AEDesc true_desc = {typeNull, NULL};
+    AEDesc true_desc = {typeTrue, NULL};
     OSAID reqitems_id = kOSANullScript;
-    AEDescList reqitems_desc;
-    AECreateDesc(typeTrue, NULL, 0, &reqitems_desc);
+    AEDescList reqitems_desc = {typeNull, NULL};;
     NSAppleEventDescriptor *reqested_items = nil;
 	AEDesc moduleSpecLabel;
 	err = AECreateDesc(typeChar, MODULE_SPEC_LABEL, strlen(MODULE_SPEC_LABEL), &moduleSpecLabel);
