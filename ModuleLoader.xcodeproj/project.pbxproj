@@ -49,6 +49,7 @@
 		2CB5B4EC13434765006407F2 /* ModuleCondition.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB5B4EB13434765006407F2 /* ModuleCondition.c */; };
 		2CB5B4F113434799006407F2 /* VersionCondition.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CB5B4F013434799006407F2 /* VersionCondition.c */; };
 		2CBA3AE21D23AC1300F7F568 /* OSAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBA3AE11D23AC1300F7F568 /* OSAKit.framework */; };
+		2CBEBE0B1D6B2BC90070AC4D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2CBEBE0A1D6B2BC90070AC4D /* README.md */; };
 		2CD67348143C106A0018E9F1 /* TXFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CD67346143C106A0018E9F1 /* TXFile.c */; };
 		2CD6734A143C106A0018E9F1 /* TXFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 2CD67346143C106A0018E9F1 /* TXFile.c */; };
 		2CD75DFD1D22B158007FB66D /* AppleEventExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD75DFC1D22B158007FB66D /* AppleEventExtra.m */; };
@@ -125,6 +126,7 @@
 		2CB99C3F10AA6364002C5D32 /* AEUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AEUtils.c; sourceTree = "<group>"; };
 		2CB99C4010AA6364002C5D32 /* AEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEUtils.h; sourceTree = "<group>"; };
 		2CBA3AE11D23AC1300F7F568 /* OSAKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSAKit.framework; path = System/Library/Frameworks/OSAKit.framework; sourceTree = SDKROOT; };
+		2CBEBE0A1D6B2BC90070AC4D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2CD67345143C106A0018E9F1 /* TXFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TXFile.h; path = TXFile/TXFile.h; sourceTree = "<group>"; };
 		2CD67346143C106A0018E9F1 /* TXFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = TXFile.c; path = TXFile/TXFile.c; sourceTree = "<group>"; };
 		2CD75DFB1D22B158007FB66D /* AppleEventExtra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleEventExtra.h; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				2C0B0CB01D22E017006EEC1F /* ModuleLoaderTest */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
+				2CBEBE0A1D6B2BC90070AC4D /* README.md */,
 			);
 			name = LoadModule;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				2CB5B4F113434799006407F2 /* VersionCondition.c in Sources */,
 				2C72F2DF13485DFE00531114 /* TXRegularExpression.c in Sources */,
 				2C72F3D51349CC5200531114 /* ModuleRef.c in Sources */,
+				2CBEBE0B1D6B2BC90070AC4D /* README.md in Sources */,
 				2CD67348143C106A0018E9F1 /* TXFile.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
