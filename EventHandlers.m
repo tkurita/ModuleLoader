@@ -396,6 +396,7 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCo
 	@autoreleasepool {
         if (err != noErr) {
             NSLog(@"%@", @"Faild to AEGetParamDesc in extractDependenciesHandler");
+            showAEDesc(ev);
             goto bail;
         }
     

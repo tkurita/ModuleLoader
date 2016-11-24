@@ -55,7 +55,6 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 	OSErr err;
 	
     AEDescList property_names = {typeNull, NULL};
-    AEDesc true_desc = {typeTrue, NULL};
     OSAID reqitems_id = kOSANullScript;
     AEDescList reqitems_desc = {typeNull, NULL};;
     NSAppleEventDescriptor *reqested_items = nil;
@@ -98,6 +97,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AEDesc dep_info = {typeNull, NULL};
 		AEDesc prop_desc = {typeNull, NULL};
         AEDesc modspec_desc = {typeNull, NULL};
+        AEDesc true_desc = {typeNull, NULL};
         
 		err = AEGetNthDesc(&property_names, n, typeWildCard, &a_keyword, &a_pname);
 		if (err != noErr) goto loopbail;
@@ -151,6 +151,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
                         NSLog(@"Failed to ConvertToModuleSpecifier with error %d", err);
                     }
                     if (!ismodule) goto loopbail;
+                    AECreateDesc(typeTrue, NULL, 0, &true_desc);
                     err = AEBuildDesc(&dep_info, &ae_err, "DpIf{pnam:@, MoSp:@, fmUs:@}",&a_pname, &modspec_desc, &true_desc);
                     if (noErr != err) {
                         NSLog(@"Failed to AEBuildDesc from typeObjectSpecifier with error %d", err);
@@ -181,6 +182,7 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID, AEDescLis
 		AEDisposeDesc(&prop_desc);
 		AEDisposeDesc(&dep_info);
         AEDisposeDesc(&modspec_desc);
+        AEDisposeDesc(&true_desc);
 		OSADispose(component, prop_value_id);
 		if (noErr != err) goto bail;
 	}
@@ -188,7 +190,6 @@ bail:
 	AEDisposeDesc(&property_names);
 	AEDisposeDesc(&moduleSpecLabel);
 	AEDisposeDesc(&moduleDependenciesLabel);
-    AEDisposeDesc(&true_desc);
     OSADispose(component, reqitems_id);
     return err;
 }
