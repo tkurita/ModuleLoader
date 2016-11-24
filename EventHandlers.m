@@ -8,10 +8,13 @@
 #import "AppleEventExtra.h"
 #import <OSAKit/OSAKit.h>
 #include <syslog.h>
+#import "BAGenericObject.h"
 
 #define useLog 0
 
 extern const char *MODULE_SPEC_LABEL;
+
+OSErr extractDependenciesASObjC(AEDesc *script_data_ptr, AEDesc *dependencies);
 
 OSErr versionHandler(const AppleEvent *ev, AppleEvent *reply, SRefCon refcon)
 {
@@ -219,13 +222,13 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
 	OSErr err = noErr;
     @autoreleasepool {
         OSAID script_id = kOSANullScript;
-	
+        ComponentInstance scriptingComponent = NULL;
         AEDescList dependencies = {typeNull, NULL};
         AEDesc furl_desc = {typeNull, NULL};
         AEDesc script_desc = {typeNull, NULL};
         AEDesc version_desc = {typeNull, NULL};
         AEDesc result_desc = {typeNull, NULL};
-	
+        
         ModuleRef* module_ref = NULL;
         err = findModuleWithEvent(ev, reply, &module_ref);
         if (err != noErr) goto bail;
@@ -233,7 +236,7 @@ OSErr _loadModuleHandler_(const AppleEvent *ev, AppleEvent *reply, SRefCon refco
         OSAError osa_err = noErr;
         
         
-        ComponentInstance scriptingComponent = [[[OSALanguage defaultLanguage] sharedLanguageInstance]
+        scriptingComponent = [[[OSALanguage defaultLanguage] sharedLanguageInstance]
                                                 componentInstance];
        
         
@@ -388,32 +391,55 @@ OSErr extractDependenciesHandler(const AppleEvent *ev, AppleEvent *reply, SRefCo
 {
 #if useLog
     syslog(LOG_NOTICE, "start extractDependenciesHandler");
+    showAEDesc(ev);
 #endif
 	OSErr err;
 	AEDesc script_data = {typeNull, NULL};
 	AEDescList dependencies = {typeNull, NULL};
-	err = AEGetParamDesc(ev, keyDirectObject, typeScript, &script_data);
-	@autoreleasepool {
+	err = AEGetParamDesc(ev, keyDirectObject, typeWildCard, &script_data);
+    if (noErr != err ) {
+        NSLog(@"%@", @"Faild to AEGetParamDesc in extractDependenciesHandler");
+        return err;
+    }
+    AEKeyword desired_class;
+    OSAID script_id = kOSANullScript;
+    ComponentInstance scriptingComponent = NULL;
+    @autoreleasepool {
+        switch (script_data.descriptorType) {
+            case typeScript:
+                scriptingComponent = [[[OSALanguage defaultLanguage] sharedLanguageInstance]
+                                      componentInstance];
+                
+                err = OSACoerceFromDesc(scriptingComponent, &script_data, kOSAModeNull, &script_id);
+                if (err != noErr) goto bail;
+                break;
+            case typeObjectSpecifier:
+                err = AEGetKeyPtr(&script_data, keyAEDesiredClass, typeType, NULL, &desired_class, sizeof(desired_class), NULL);
+                if (desired_class != 'ocid') {
+                    err = 1804;
+                    break;
+                }
+                err = extractDependenciesASObjC(&script_data, &dependencies);
+                if (noErr != err) goto bail;
+                goto putparam;
+                break;
+            default:
+                err = 1804;
+        }
         if (err != noErr) {
             NSLog(@"%@", @"Faild to AEGetParamDesc in extractDependenciesHandler");
             showAEDesc(ev);
             goto bail;
         }
-    
-        ComponentInstance scriptingComponent = [[[OSALanguage defaultLanguage] sharedLanguageInstance]
-                                                componentInstance];
-	
-        OSAID script_id = kOSANullScript;
-        err = OSACoerceFromDesc(scriptingComponent, &script_data, kOSAModeNull, &script_id);
-        if (err != noErr) goto bail;
 
         err = extractDependencies(scriptingComponent, script_id, &dependencies);
         if (noErr != err) goto bail;
+putparam:
         err = AEPutParamDesc(reply, keyAEResult, &dependencies);
 bail:
+        OSADispose(scriptingComponent, script_id);
         AEDisposeDesc(&script_data);
         AEDisposeDesc(&dependencies);
-        OSADispose(scriptingComponent, script_id);
     }
 	return err;
 }
