@@ -107,6 +107,10 @@ end load
 
 on current_location()
 	set a_path to path to me
+    if (POSIX path of a_path starts with "/private/var/folders/") then
+        error "This local loader applet does not allow to access own location. Recreate the local loader applet."¬
+                number 1805
+    end if
 	tell application "Finder"
 		set a_folder to container of a_path as alias
 	end tell
