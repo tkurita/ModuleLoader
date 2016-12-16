@@ -108,6 +108,7 @@ ModuleRef *ModuleRefCreateWithCondition(TXFileRef txfile, ModuleCondition *modul
     CFErrorRef error = NULL;
     CFStringRef filename = NULL;
     CFArrayRef array = NULL;
+    ModuleRef *module_ref = NULL;
     filename = TXFileCopyAttribute(txfile, kCFURLNameKey, &error);
     if (error) {
         CFShow(error); goto bail;
@@ -119,7 +120,7 @@ ModuleRef *ModuleRefCreateWithCondition(TXFileRef txfile, ModuleCondition *modul
 #endif
 	if (!array) return NULL;
 	if (!isScript(txfile)) return NULL;
-    ModuleRef *module_ref = ModuleRefCreate(txfile);
+    module_ref = ModuleRefCreate(txfile);
     if (! module_ref) goto bail;
     
 	CFStringRef text = CFArrayGetValueAtIndex(array, 0);

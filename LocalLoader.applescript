@@ -6,8 +6,9 @@ property _only_local : false
 property _collecting : false
 
 on load(a_name)
-	set a_loader to make_loader()
-	return a_loader's load(a_name)
+	tell make_loader()
+        return load(a_name)
+    end tell
 end load
 
 on load module a_name
@@ -33,12 +34,13 @@ on collecting_modules(a_flag)
 end collecting_modules
 
 on make_loader()
-	set a_loader to _module loader_
-	a_loader's set_local(true)
-	a_loader's set_localonly(my _only_local)
-	a_loader's set_additional_paths({a_loader's current_location()})
-	a_loader's collecting_modules(my _collecting)
-	return a_loader
+	tell _module loader_
+        set_local(true)
+        set_localonly(my _only_local)
+        set_additional_paths({current_location()})
+        collecting_modules(my _collecting)
+        return it
+    end tell
 end make_loader
 
 on set_opts(opts)
