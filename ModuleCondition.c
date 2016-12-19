@@ -12,7 +12,8 @@ CFStringRef CFStringCreateWithEscapingRegex(CFStringRef text, CFStringRef *errms
 	UErrorCode status = U_ZERO_ERROR;
 	if (!regexp) {
 		UParseError parse_error;
-		regexp = TXRegexCreate(kCFAllocatorDefault, CFSTR("([\\.\\+\\(\\)\\*\\?\\[\\]\\^\\$\\\\])"), 0, &parse_error, &status);
+		regexp = TXRegexCreate(kCFAllocatorDefault, CFSTR("([\\.\\+\\(\\)\\*\\?\\[\\]\\^\\$\\\\])"),
+                               0, &parse_error, &status);
 		if (U_ZERO_ERROR != status) {
 			CFStringRef parse_error_msg = CFStringCreateWithFormattingParseError(&parse_error);
 			*errmsg = CFStringCreateWithFormat(kCFAllocatorDefault, NULL,
@@ -35,7 +36,8 @@ bail:
 	return result;
 }
 
-ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef required_version, Boolean hfs_style, CFStringRef *errmsg)
+ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef required_version,
+                                       Boolean hfs_style, CFStringRef *errmsg)
 {
 	CFStringRef escaped_name = NULL;
 	CFStringRef verpattern = NULL;
@@ -90,10 +92,11 @@ ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef requ
 	}
 	
 	verpattern = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, 
-								CFSTR("%@(-([0-9\\.]*\\d[a-z]?))?(\\.(scptd|scpt|applescript|app))?$"), escaped_name);
+								CFSTR("^%@(-([0-9\\.]*\\d[a-z]?))?(\\.(scptd|scpt|applescript|app))?$"), escaped_name);
 	UParseError parse_error;
 	UErrorCode status = U_ZERO_ERROR;
-	module_condition->pattern = TXRegexCreate(kCFAllocatorDefault, verpattern, UREGEX_CASE_INSENSITIVE, &parse_error, &status);
+	module_condition->pattern = TXRegexCreate(kCFAllocatorDefault,
+                                              verpattern, UREGEX_CASE_INSENSITIVE, &parse_error, &status);
 	if (U_ZERO_ERROR != status) {
 		ModuleConditionFree(module_condition);module_condition = NULL;
 	}

@@ -87,7 +87,7 @@ OSErr scanFolder(CFURLRef container_url, ModuleCondition *module_condition,
                                              (const void **)keys,
                                               4, NULL);
     enumerator = CFURLEnumeratorCreateForDirectoryURL(kCFAllocatorDefault,
-                                                                         container_url, kCFURLEnumeratorSkipInvisibles, prefetch_info);
+                                            container_url, kCFURLEnumeratorSkipInvisibles, prefetch_info);
     CFURLRef child_url = NULL;
     CFURLEnumeratorResult enumerator_result;
     do {
