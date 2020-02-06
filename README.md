@@ -1,6 +1,11 @@
 ModuleLoader
 ===============
 
+ModuleLoader 3.x which is implemented as a scripting addtion is deprecated.
+Becasue scripting addtions don't works under macOS 10.14 or later.
+For macOS 10.4 or later, ModuleLoader is reimplemented as an AppleScript library and a helpr application.
+https://github.com/tkurita/ModuleLoader4
+
 ModuleLoader is a system for managing and loading libraries(modules) of AppleScript.
 
 In OS X 10.9, built-in support of libraries was introduced to AppleScript, which called as "AppleScript Libraries". ModuleLoader is a yet another library system, which has been developed from 2006 before release of OS X 10.9, and has been maintained without interruption until now.
@@ -15,10 +20,10 @@ ModuleLoader have a similar function to "AppleScript Libraries" as follows.
 
 ## Usage
 English :
-* http://www.script-factory.net/software/OSAX/ModuleLoader/en/index.html
+* https://www.script-factory.net/XModules/ModuleLoader/en/index.html
 
 Japanese :
-* http://www.script-factory.net/software/OSAX/ModuleLoader/index.html
+* https://www.script-factory.net/XModules/ModuleLoader/index.html
 
 ## Building
 Reqirements :
